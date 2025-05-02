@@ -6,6 +6,6 @@ illico.org - new webiste
 
 ```
 npm i
-cd packages/webgl && npm post:install &&`
+cd packages/webgl && npm post:install`
 npm run dev
 ```
