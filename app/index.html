@@ -8,36 +8,35 @@
 		<title>ilico</title>
 	</head>
 	<body class="relative">
-		<canvas
-			id="canvas"
-			class="absolute top-0 left-0 -z-1 h-screen w-full bg-amber-100"
-		></canvas>
-		<header class="min-h-screen flex flex-col justify-start items-start">
-			<nav class="shrink w-full inline-flex flex-nowrap justify-between items-center p-6">
-				<a href="/" target="_self">
-					<h1 class="font-extrabold text-xl uppercase">ilico.org</h1>
-					<p class="text-xs">Association Internet Libre en Corrèze</p>
-				</a>
-				<div class="inline-flex justify-end gap-6 items-center text-sm">
-					<ul>
-						<li>
-							<a href="#join"> Adhérer </a>
-						</li>
-					</ul>
-					<ul>
-						<li>
-							<a href="#services"> Services et offres </a>
-						</li>
-					</ul>
-					<ul>
-						<li>
-							<a href="#about"> À propos </a>
-						</li>
-					</ul>
-				</div>
-			</nav>
-			<div class="grow-1 flex flex-col justify-center container mx-auto">
-				<div class="p-4 flex flex-col items-start">
+		<canvas id="canvas" class="fixed top-0 left-0 -z-1 h-screen w-full bg-amber-100"></canvas>
+		<nav
+			class="z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between items-center p-6"
+		>
+			<a href="/" target="_self">
+				<h1 class="font-extrabold text-xl uppercase">ilico.org</h1>
+				<p class="text-xs">Association Internet Libre en Corrèze</p>
+			</a>
+			<div class="inline-flex justify-end gap-6 items-center text-sm">
+				<ul>
+					<li>
+						<a href="#join"> Adhérer </a>
+					</li>
+				</ul>
+				<ul>
+					<li>
+						<a href="#services"> Services et offres </a>
+					</li>
+				</ul>
+				<ul>
+					<li>
+						<a href="#about"> À propos </a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<header class="min-h-screen flex flex-col justify-start items-start container mx-auto">
+			<div class="grow-1 flex flex-col justify-center">
+				<div class="flex flex-col items-start">
 					<typewriter-auto>
 						<h2
 							delay="500"
@@ -55,6 +54,17 @@
 				</div>
 			</div>
 		</header>
+		<main class="container mx-auto">
+			<section id="services" class="min-h-screen sticky top-0 left-0 pt-24">
+				<h3>Servies et offres</h3>
+			</section>
+			<section id="about" class="min-h-screen sticky top-0 left-0 pt-24">
+				<h3>À propos</h3>
+			</section>
+			<section id="join" class="min-h-screen sticky top-0 left-0 pt-24">
+				<h3>Adhérer</h3>
+			</section>
+		</main>
 
 		<script type="module" src="/src/main.ts"></script>
 	</body>

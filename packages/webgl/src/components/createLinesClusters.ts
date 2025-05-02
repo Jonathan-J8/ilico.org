@@ -59,7 +59,7 @@ const createLinesClusters = ({
 		dispose: () => {
 			group.clear();
 			l0.dispose();
-			l1.dispose();
+			// l1.dispose();
 		},
 	};
 };
