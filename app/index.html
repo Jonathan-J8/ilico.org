@@ -5,10 +5,54 @@
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>illico</title>
+		<title>ilico</title>
 	</head>
-	<body>
-		<canvas id="canvas" class="absolute top-0 left-0 z-1 h-screen w-full bg-amber-100"></canvas>
+	<body class="relative">
+		<canvas
+			id="canvas"
+			class="absolute top-0 left-0 -z-1 h-screen w-full bg-amber-100"
+		></canvas>
+		<header class="min-h-screen flex flex-col justify-start items-start">
+			<nav class="shrink w-full inline-flex flex-nowrap justify-between items-center p-6">
+				<a href="/" target="_self">
+					<h1 class="font-extrabold text-xl uppercase">ilico.org</h1>
+					<p class="text-xs">Association Internet Libre en Corrèze</p>
+				</a>
+				<div class="inline-flex justify-end gap-6 items-center text-sm">
+					<ul>
+						<li>
+							<a href="#join"> Adhérer </a>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<a href="#services"> Services et offres </a>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<a href="#about"> À propos </a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div class="grow-1 flex flex-col justify-center container mx-auto">
+				<div class="p-4 flex flex-col items-start">
+					<h2
+						class="text-7xl tracking-wide text-justify uppercase mb-2 float-left typewriter"
+						style="--step: 10"
+					>
+						Pour un<br />Internet<br />Libre
+					</h2>
+					<button
+						class="px-6 tracking-wide py-4 text-2xl h-full bg-blue-300 rounded-xl uppercase"
+					>
+						Adhérer
+					</button>
+				</div>
+			</div>
+		</header>
+
 		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>

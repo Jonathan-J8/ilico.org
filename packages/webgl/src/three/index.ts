@@ -62,7 +62,7 @@ export const initThree = ({
 	browserName?: string;
 }) => {
 	if (debug) gui.show();
-	else gui.close();
+	else gui.destroy();
 
 	Cache.enabled = true;
 	ColorManagement.enabled = true;
