@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"module": "ESNext",
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"skipLibCheck": true,
+
+		/* index.d.ts file */
+		// "declaration": true, // ✅ generate .d.ts files
+		// "emitDeclarationOnly": true, // ❗ no .js output
+		// "outDir": "dist", // where to place .d.ts files
+		// "rootDir": "src", // root of your source files
+
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
+	},
+	"include": ["src"]
+}
