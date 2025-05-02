@@ -1,4 +1,7 @@
 import './style.css';
+import Typewriter from './Typewriter';
+
+customElements.define(Typewriter.name, Typewriter);
 
 (async () => {
 	// const debug = import.meta.env.DEV;
