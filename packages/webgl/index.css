@@ -1,0 +1,12 @@
+canvas {
+	position: fixed;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	height: 100dvh;
+	width: 100%;
+}
+
+#fake-content {
+	min-height: 500vh;
+}

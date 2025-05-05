@@ -3,6 +3,7 @@
 uniform float uTime;
 uniform vec3 uMousePositionLerp;
 uniform vec2 uMouseVelocityLerp;
+uniform vec2 uScroll;
 
 in vec3 offset;
 

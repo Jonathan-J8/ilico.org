@@ -3,58 +3,27 @@ import { frames, gui, renderer, scene } from '../three';
 import { uniforms } from '../uniforms';
 import ThreeComponent from './ThreeComponent';
 
+import { mapLinear } from 'three/src/math/MathUtils.js';
 import createBloomFx from './createBloomFx';
 import createCubeTexture from './createCubeTexture';
-import createLinesClusters from './createLinesClusters';
+import createLines from './createLines';
 import createSky from './createSky';
-// import createLines3 from "./createLines3";
-import { mapLinear } from 'three/src/math/MathUtils.js';
 import initScenes from './initScenes';
 
 export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasElement }) => {
 	const cubeTexture = createCubeTexture();
 	const sky = createSky({ uniforms });
 	const bloom = createBloomFx({ uniforms });
+	const lines = createLines({
+		name: 'lines0',
+		uniforms,
+		envMap: cubeTexture.texture,
+		count: 50,
+		height: 10,
+		width: 2,
+	});
 
-	const lines = createLinesClusters({ uniforms, envMap: cubeTexture.texture });
-	// const lines = createLines3({
-	//   uniforms,
-	//   envMap: cubeTexture.texture,
-	//   count: 50,
-	//   height: 10,
-	//   width: 2,
-	// });
-	// const cylinders = createCylinders({ envMap: cubeTexture.texture, uniforms });
-	// const meshTest = createMesh({ envMap: cubeTexture.texture });
-	// const clouds = createClouds();
-
-	// clouds.mesh.visible = false;
-	// cylinders.mesh.visible = false;
-	// meshTest.mesh.visible = false;
-
-	// const dt = debugTexture(() => waterGpgpu.texture);
-	// dt.mesh.position.z = 7;
-	// scene.add(dt.mesh)
-	// bin.add(dt.dispose)
-
-	// const g = new SphereGeometry();
-	// g.center();
-	// const m = new Mesh(g, new MeshBasicMaterial({ color: 0xff }));
-	// m.visible = false;
-	// scene.add(m);
-
-	const update = ({}: { time: number; deltaTime: number }) => {
-		// controls.update(deltaTime);
-
-		// const { position, velocity } = mouse;
-		// m.position.x = position.x;
-		// m.position.y = position.y;
-		// m.position.z = position.z;
-		// m.scale.setScalar(velocity.x);
-
-		// lines.uniforms.uMousePositionLerp.value.copy(position);
-		// lines.uniforms.uMouseVelocityLerp.value.copy(velocity);
-
+	const update = () => {
 		if (!renderer.instance) return;
 		cubeTexture.update({ renderer: renderer.instance, scene });
 	};
@@ -64,11 +33,11 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 	ThreeComponent.add(sky);
 	ThreeComponent.add(bloom);
 	ThreeComponent.add(lines);
-	// ThreeComponent.add(lines3);
 	ThreeComponent.add({ fx: new ShaderPass(FXAAShader) });
 	ThreeComponent.add({ fx: new OutputPass() });
 
 	initScenes({ debug, sky, bloom });
+
 	/**
 	 *
 	 *

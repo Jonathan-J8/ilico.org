@@ -18,11 +18,11 @@ const createMaterial = ({ uniforms, envMap }: Props) => {
 		envMapIntensity: 1,
 		// envMapRotation: new Euler(Math.PI, 1, 0),
 		transparent: true,
-		// color: 0x000000,
 		metalness: 1,
 		roughness: 0.2,
 		opacity: 1,
 		fog: true,
+		// color: 0x000000,
 		// wireframe: true,
 	});
 	material.customProgramCacheKey = () => `CustomStandardLines2`;
@@ -33,7 +33,7 @@ const createMaterial = ({ uniforms, envMap }: Props) => {
 		shader.vertexShader = shader.vertexShader.replace(
 			'#include <common>',
 			`${vert_include}
-      #include <common>`
+      		#include <common>`
 		);
 		shader.vertexShader = shader.vertexShader.replace(
 			'#include <project_vertex>',
@@ -43,7 +43,7 @@ const createMaterial = ({ uniforms, envMap }: Props) => {
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <common>',
 			`${frag_include}
-      #include <common>`
+      		#include <common>`
 		);
 		shader.fragmentShader = shader.fragmentShader.replace(
 			'#include <opaque_fragment>',
@@ -60,21 +60,3 @@ const createMaterial = ({ uniforms, envMap }: Props) => {
 };
 
 export default createMaterial;
-
-// const material = new ShaderMaterial({
-//   glslVersion: GLSL3,
-//   side: DoubleSide,
-//   transparent: true,
-//   // wireframe: true,
-//   vertexShader,
-//   fragmentShader,
-
-//   uniforms: {
-//     // count: { value: COUNT },
-//     // scrollY: { value: 0 },
-//     ...uniforms,
-//     uMousePositionLerp: { value: new Vector3() },
-//     uMouseVelocityLerp: { value: new Vector2() },
-//     displacementMap: { value: null },
-//   },
-// });
