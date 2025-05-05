@@ -9,8 +9,8 @@ import updateScroll from './updateScroll';
 import updateTime from './updateTime';
 
 const initGlobalUniforms = () => {
-	frames.add(mouseLerp.update);
-	frames.add(updateTime);
+	frames.add(updateTime, mouseLerp.update);
+
 	const pointermove = (e: PointerEvent) => {
 		mouseLerp.reset();
 		updateMouseVelocity(e);
@@ -26,7 +26,7 @@ const initGlobalUniforms = () => {
 	window.addEventListener('scroll', updateScroll, false);
 
 	const dispose = () => {
-		frames.remove(mouseLerp.update, updateTime);
+		frames.remove(updateTime, mouseLerp.update);
 		window.removeEventListener('pointermove', pointermove, false);
 		window.removeEventListener('pointerdown', updateMousePress, false);
 		window.removeEventListener('pointerup', updateMousePress, false);

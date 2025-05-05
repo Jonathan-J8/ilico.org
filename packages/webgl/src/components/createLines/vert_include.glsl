@@ -1,7 +1,7 @@
 #include /lygia/generative/pnoise
 
 uniform float uTime;
-uniform vec3 uMousePositionLerp;
+uniform vec3 uMouseWorldPositionLerp;
 uniform vec2 uMouseVelocityLerp;
 uniform vec2 uScroll;
 

@@ -31,17 +31,18 @@ vec4 mvPosition = vec4( transformed, 1.0 );
 
 // Mouse interaction
 mvPosition = modelMatrix * mvPosition;
-vec3 mousePos = uMousePositionLerp;
+vec3 mousePos = uMouseWorldPositionLerp;
 vec2 mouseVel = uMouseVelocityLerp;
-float dist = distance(mvPosition.xyz, mousePos.xyz);
-float r = clamp(distance(cameraPosition, mvPosition.xyz) * 0.5 , 0.5, 100.) ;
-float influence = smoothstep(5., .0, dist );
-mvPosition.x += influence * mousePos.x * mouseVel.x;
-mvPosition.z += influence * mousePos.z * mouseVel.y;
+float dist = distance( mvPosition.xy, mousePos.xy );
+float r = clamp(distance( cameraPosition, mvPosition.xyz ) * 0.5 , 0.5, 100. ) ;
+float influence = smoothstep( 5., .0, dist );
+mvPosition.x += mousePos.x ;
+mvPosition.z += mousePos.z ;
+// mvPosition.x += influence * mousePos.x * mouseVel.x;
+// mvPosition.z += influence * mousePos.z * mouseVel.y;
 
 vPosition2 = mvPosition.xyz;
 vUv2 = uv;
 vId2 = gl_VertexID;
 
-mvPosition = viewMatrix * mvPosition;
-gl_Position = projectionMatrix * mvPosition;
+gl_Position = projectionMatrix * viewMatrix * mvPosition;
