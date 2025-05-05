@@ -18,7 +18,7 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 		name: 'lines0',
 		uniforms,
 		envMap: cubeTexture.texture,
-		count: 50,
+		count: 128,
 		height: 10,
 		width: 2,
 	});
@@ -53,9 +53,7 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 
 	{
 		const folder = gui.addFolder('BLOOM');
-		// folder.close();
 		const params = bloom.params;
-		bloom.fx.enabled = false;
 		folder.add(bloom.fx, 'enabled').onChange((b: boolean) => {
 			bloom.fx.enabled = b;
 		});

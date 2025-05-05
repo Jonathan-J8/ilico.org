@@ -49,5 +49,5 @@ mvPosition.z += influence * mousePos.z * mouseVel.y;
 // End
 vPosition2 = mvPosition.xyz;
 vUv2 = uv;
-vId2 = gl_VertexID;
+vIndex = index;
 gl_Position = projectionMatrix * viewMatrix * mvPosition;

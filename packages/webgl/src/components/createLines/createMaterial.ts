@@ -9,9 +9,10 @@ import vert_main from './vert_main.glsl';
 type Props = {
 	uniforms: GlobalUniforms;
 	envMap: CubeTexture;
+	count: number;
 };
 
-const createMaterial = ({ uniforms, envMap }: Props) => {
+const createMaterial = ({ uniforms, envMap, count }: Props) => {
 	const material = new MeshStandardMaterial({
 		side: FrontSide,
 		envMap,
@@ -19,9 +20,12 @@ const createMaterial = ({ uniforms, envMap }: Props) => {
 		// envMapRotation: new Euler(Math.PI, 1, 0),
 		transparent: true,
 		metalness: 1,
-		roughness: 0.2,
+		roughness: 0.07,
 		opacity: 1,
 		fog: true,
+		defines: {
+			COUNT: count,
+		},
 		// color: 0x000000,
 		// wireframe: true,
 	});
