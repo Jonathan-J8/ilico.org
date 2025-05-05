@@ -24,6 +24,10 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 	});
 
 	const update = () => {
+		const { uScroll } = uniforms;
+		const y = mapLinear(uScroll.value.y, 0, 1, 0, 0.5);
+		sky.params.horizonOffset.value = -0.9 + y;
+		sky.updateHorizonOffset();
 		if (!renderer.instance) return;
 		cubeTexture.update({ renderer: renderer.instance, scene });
 	};

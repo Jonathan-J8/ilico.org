@@ -24,6 +24,7 @@ const initGlobalUniforms = () => {
 	window.addEventListener('pointerup', updateMousePress, false);
 	window.addEventListener('pointerout', updateMousePress, false);
 	window.addEventListener('scroll', updateScroll, false);
+	window.addEventListener('scrollend', updateScroll, false);
 
 	const dispose = () => {
 		frames.remove(updateTime, mouseLerp.update);
@@ -32,6 +33,7 @@ const initGlobalUniforms = () => {
 		window.removeEventListener('pointerup', updateMousePress, false);
 		window.removeEventListener('pointerout', updateMousePress, false);
 		window.removeEventListener('scroll', updateScroll, false);
+		window.removeEventListener('scrollend', updateScroll, false);
 	};
 
 	return dispose;

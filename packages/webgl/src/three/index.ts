@@ -56,10 +56,12 @@ export const initThree = ({
 	debug,
 	canvas,
 	browserName,
+	controls = true,
 }: {
 	debug: boolean;
 	canvas: HTMLCanvasElement;
 	browserName?: string;
+	controls: boolean;
 }) => {
 	if (debug) gui.show();
 	else gui.destroy();
@@ -71,6 +73,7 @@ export const initThree = ({
 	scene.fog = new Fog(0xb2cdd8, 0.1, 100);
 	scene.add(camera);
 	camera.initControls(canvas);
+	camera.controls = controls;
 
 	resizer.add(renderer.resize);
 	resizer.add(camera.resize);
