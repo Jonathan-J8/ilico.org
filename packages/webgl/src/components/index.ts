@@ -1,5 +1,5 @@
 import { FXAAShader, OutputPass, ShaderPass } from 'three/examples/jsm/Addons.js';
-import { frames, gui, renderer, scene } from '../three';
+import { camera, frames, gui, renderer, scene } from '../three';
 import { uniforms } from '../uniforms';
 import ThreeComponent from './ThreeComponent';
 
@@ -11,6 +11,7 @@ import createSky from './createSky';
 import initScenes from './initScenes';
 
 export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasElement }) => {
+	const HEIGHT_SCENE = 50;
 	const cubeTexture = createCubeTexture();
 	const sky = createSky({ uniforms });
 	const bloom = createBloomFx({ uniforms });
@@ -19,8 +20,8 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 		uniforms,
 		envMap: cubeTexture.texture,
 		count: 128,
-		height: 10,
-		width: 2,
+		height: HEIGHT_SCENE,
+		width: 15,
 	});
 
 	const update = () => {
@@ -28,6 +29,8 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 		const y = mapLinear(uScroll.value.y, 0, 1, 0, 0.5);
 		sky.params.horizonOffset.value = -0.9 + y;
 		sky.updateHorizonOffset();
+
+		if (!camera.controls) camera.position.y = uScroll.value.y * -HEIGHT_SCENE;
 
 		if (!renderer.instance) return;
 		cubeTexture.update({ renderer: renderer.instance, scene });
@@ -70,6 +73,7 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 		const folder = gui.addFolder('SKY');
 		// folder.close();
 		const params = sky.params;
+		folder.add(sky.mesh, 'visible');
 		folder.add(params.turbidity, 'value', 0, 20).name('turbidity');
 		folder.add(params.rayleigh, 'value', 0, 1).name('rayleigh');
 		folder.add(params.mieCoefficient, 'value', 0.001, 0.01).name('mieCoefficient');

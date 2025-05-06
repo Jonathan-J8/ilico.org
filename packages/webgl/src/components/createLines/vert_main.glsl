@@ -1,12 +1,18 @@
  // Displacement
-float time = uTime;
-float amp = 1.1;
-float freq = .15;
-float speed = .0001;
 vec3 displaced = transformed;
-float phase = uScroll.y * 5.;
-displaced.x += pnoise(vec2(displaced.x, displaced.y * freq + time * speed + phase ), vec2(1.2, 4.2));
-displaced.z += pnoise(vec2(displaced.z, displaced.y * freq + time * speed ), vec2(3.5, 2.3));
+
+float time = uTime;
+float freq = .1;
+float speed = .0001;
+
+float amp = clamp(1.- uScrollVelocityLerp.y * 10., 0.,1.) ;
+displaced.x += pnoise(vec2(transformed.x, transformed.y * freq + time * speed ), vec2(.587, .138)) * 2. ;
+displaced.z += pnoise(vec2(transformed.z, transformed.y * freq + time * speed ), vec2(3.5, 2.3)) * 5.;
+
+float height = float(HEIGHT);
+float scroll = 1.- distance( transformed.y, cameraPosition.y ) / height ;
+
+// displaced.y +=  amp * scroll ;
 transformed += displaced;
 
 
@@ -39,10 +45,10 @@ mvPosition = modelMatrix * mvPosition;
 vec3 mousePos = uMouseWorldPositionLerp;
 vec2 mouseVel = clamp(uMouseVelocityLerp, -.2, .2);
 float dist = distance( mvPosition.xy, mousePos.xy );
-float r = clamp(distance( cameraPosition, mvPosition.xyz ) * 0.5 , 0.5, 100. ) ;
-float influence = smoothstep( 5., .0, dist );
-mvPosition.x += influence * mousePos.x * mouseVel.x;
-mvPosition.z += influence * mousePos.z * mouseVel.y;
+// float r = clamp(distance( cameraPosition, mvPosition.xyz ) * 0.5 , 0.5, 100. ) ;
+float influence = smoothstep( 7., .0, dist );
+mvPosition.x +=  mousePos.x * influence ;
+mvPosition.z +=  mousePos.z * influence ;
 
 
 

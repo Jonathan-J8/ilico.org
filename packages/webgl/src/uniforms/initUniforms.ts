@@ -1,5 +1,5 @@
 import { frames } from '../three';
-import interpolateValues from './interpolateValues';
+import onFramesUpdate from './onFramesUpdate';
 import updateMousePosition from './updateMousePosition';
 import updateMousePress from './updateMousePress';
 import updateMouseVelocity from './updateMouseVelocity';
@@ -8,10 +8,10 @@ import updateScroll from './updateScroll';
 import updateTime from './updateTime';
 
 const initGlobalUniforms = () => {
-	frames.add(updateTime, interpolateValues.update);
+	frames.add(updateTime, onFramesUpdate.update);
 
 	const pointermove = (e: PointerEvent) => {
-		interpolateValues.reset();
+		onFramesUpdate.reset();
 		updateMousePosition(e);
 		updateMouseWorldPosition();
 		updateMouseVelocity(e);
@@ -25,7 +25,7 @@ const initGlobalUniforms = () => {
 	window.addEventListener('scrollend', updateScroll, false);
 
 	const dispose = () => {
-		frames.remove(updateTime, interpolateValues.update);
+		frames.remove(updateTime, onFramesUpdate.update);
 		window.removeEventListener('pointermove', pointermove, false);
 		window.removeEventListener('pointerdown', updateMousePress, false);
 		window.removeEventListener('pointerup', updateMousePress, false);

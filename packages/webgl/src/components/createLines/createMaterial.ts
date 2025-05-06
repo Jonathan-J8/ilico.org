@@ -1,4 +1,4 @@
-import { CubeTexture, FrontSide, MeshStandardMaterial } from 'three';
+import { CubeTexture, DoubleSide, MeshStandardMaterial } from 'three';
 
 import type { GlobalUniforms } from '../../uniforms';
 import frag_include from './frag_include.glsl';
@@ -10,11 +10,12 @@ type Props = {
 	uniforms: GlobalUniforms;
 	envMap: CubeTexture;
 	count: number;
+	height: number;
 };
 
-const createMaterial = ({ uniforms, envMap, count }: Props) => {
+const createMaterial = ({ uniforms, envMap, count, height }: Props) => {
 	const material = new MeshStandardMaterial({
-		side: FrontSide,
+		side: DoubleSide,
 		envMap,
 		envMapIntensity: 1,
 		// envMapRotation: new Euler(Math.PI, 1, 0),
@@ -25,6 +26,7 @@ const createMaterial = ({ uniforms, envMap, count }: Props) => {
 		fog: true,
 		defines: {
 			COUNT: count,
+			HEIGHT: height,
 		},
 		// color: 0x000000,
 		// wireframe: true,

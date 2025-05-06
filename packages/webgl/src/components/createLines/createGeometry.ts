@@ -41,9 +41,12 @@ type Props = {
 
 const createGeometry = ({ count, width = 1, height = 1 }: Props) => {
 	const geometry = new InstancedBufferGeometry();
-	let temp: BufferGeometry | undefined = new PlaneGeometry(0.05, 10, 1, 25);
+	let temp: BufferGeometry | undefined = new PlaneGeometry(0.05, height, 1, height * 10);
+	temp.translate(0, height / -2, 0);
+
 	geometry.index = temp.index;
 	geometry.attributes = temp.attributes;
+
 	temp.dispose();
 	temp = undefined;
 

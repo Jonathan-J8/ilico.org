@@ -1,9 +1,12 @@
 #include /lygia/generative/pnoise
+#include /lygia/math/map
 
 uniform float uTime;
 uniform vec3 uMouseWorldPositionLerp;
 uniform vec2 uMouseVelocityLerp;
 uniform vec2 uScroll;
+uniform vec2 uScrollVelocity;
+uniform vec2 uScrollVelocityLerp;
 
 in vec3 offset;
 in float index;

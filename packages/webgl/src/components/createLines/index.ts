@@ -13,7 +13,7 @@ type Props = {
 };
 
 const createLines = ({ name, uniforms, envMap, count, width = 1, height = 1 }: Props) => {
-	const material = createMaterial({ uniforms, envMap, count });
+	const material = createMaterial({ uniforms, envMap, count, height });
 	const geometry = createGeometry({ count, width, height });
 	const mesh = new InstancedMesh(geometry, material, count);
 	mesh.name = name;

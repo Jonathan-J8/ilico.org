@@ -1,7 +1,7 @@
 import { lerp } from 'three/src/math/MathUtils.js';
 
 const damp2 = (x: number, y: number, lambda: number, dt: number, threshold = 0.0001) => {
-	if (x <= y + threshold && x >= y - threshold) return y;
+	if (x <= y + threshold && x >= y - threshold) return x;
 	return lerp(x, y, 1 - Math.exp(-lambda * dt));
 };
 
