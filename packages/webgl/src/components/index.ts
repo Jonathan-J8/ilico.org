@@ -21,19 +21,20 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 		envMap: cubeTexture.texture,
 		count: 128,
 		height: HEIGHT_SCENE,
-		width: 15,
+		width: 50,
 	});
 
 	const update = () => {
+		if (!renderer.instance) return;
+		cubeTexture.update({ renderer: renderer.instance, scene });
+		sky.mesh.rotation.x = uniforms.uTime.value * 0.0003;
+		sky.mesh.rotation.y = uniforms.uTime.value * -0.0002;
+		if (camera.controls) return;
 		const { uScroll } = uniforms;
+		camera.position.y = uScroll.value.y * -HEIGHT_SCENE;
 		const y = mapLinear(uScroll.value.y, 0, 1, 0, 0.5);
 		sky.params.horizonOffset.value = -0.9 + y;
 		sky.updateHorizonOffset();
-
-		if (!camera.controls) camera.position.y = uScroll.value.y * -HEIGHT_SCENE;
-
-		if (!renderer.instance) return;
-		cubeTexture.update({ renderer: renderer.instance, scene });
 	};
 
 	frames.add(update);
@@ -80,11 +81,11 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 		folder.add(params.mieDirectionalG, 'value', 0, 1).name('mieDirectionalG');
 		folder.add(params.sunOpacity, 'value', 0, 1).name('sunOpacity');
 		folder
-			.add(params.horizonOffset, 'value', -2, 2)
+			.add(params.horizonOffset, 'value', -1, 2, 0.0001)
 			.name('horizonOffset')
 			.onChange(sky.updateHorizonOffset);
 		folder
-			.add(params.elevation, 'value', 0, 90)
+			.add(params.elevation, 'value', -2, 90)
 			.name('elevation')
 			.onChange(sky.updateSunPosition)
 			.listen();

@@ -28,7 +28,7 @@ const createSky = ({ uniforms: globalUni }: { uniforms: GlobalUniforms }) => {
 				depthWrite: false,
 			});
 			//@ts-ignore
-			this.geometry = new SphereGeometry();
+			this.geometry = new SphereGeometry(1, 50, 50);
 		}
 	}
 	//@ts-ignore
@@ -40,7 +40,7 @@ const createSky = ({ uniforms: globalUni }: { uniforms: GlobalUniforms }) => {
 	mesh.material.uniforms = { ...globalUni, ...mesh.material.uniforms };
 	const uniforms = mesh.material.uniforms;
 	const datas = {
-		horizonOffset: { value: -0.6 },
+		horizonOffset: { value: -0.9 },
 		elevation: { value: 0 },
 		azimuth: { value: 180 },
 	};

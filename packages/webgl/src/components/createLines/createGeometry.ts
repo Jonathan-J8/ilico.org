@@ -11,7 +11,7 @@ const createOffsets = ({ count, width = 1 }: { count: number; width: number; hei
 	for (let i = 0; i < count; ++i) {
 		const inc = i * 3;
 		const theta = Math.random() * Math.PI * 2; // Random angle around the cylinder
-		const r = Math.sqrt(Math.random()) * width; // Random radius (using square root for uniform distribution)
+		const r = Math.sqrt(Math.random()) * width + 20; // Random radius (using square root for uniform distribution)
 		// const y = Math.random() * height; // Random height within the cylinder
 
 		// Convert cylindrical coordinates to Cartesian coordinates
