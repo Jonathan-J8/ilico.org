@@ -7,6 +7,7 @@ const uniforms = {
 	uCameraDirection: { value: new Vector3() },
 	uScroll: { value: new Vector2() },
 	uScrollVelocity: { value: new Vector2() },
+	uScrollVelocityLerp: { value: new Vector2() },
 	uMousePress: { value: 0 },
 	uMousePosition: { value: new Vector2() },
 	uMouseWorldPosition: { value: new Vector3() },

@@ -16,7 +16,7 @@ export const updateMouseVelocity = (event: PointerEvent) => {
 
 	if (typeof timeoutId === 'number') clearTimeout(timeoutId);
 	timeoutId = setTimeout(() => {
-		uMouseVelocity.value.setScalar(0);
+		uMouseVelocity.value.set(0, 0);
 	}, 200);
 };
 

@@ -1,22 +1,20 @@
 import { frames } from '../three';
-import mouseLerp from './mouseLerp';
+import interpolateValues from './interpolateValues';
 import updateMousePosition from './updateMousePosition';
 import updateMousePress from './updateMousePress';
 import updateMouseVelocity from './updateMouseVelocity';
-import updateMouseVelocityLerp from './updateMouseVelocityLerp';
 import updateMouseWorldPosition from './updateMouseWorldPosition';
 import updateScroll from './updateScroll';
 import updateTime from './updateTime';
 
 const initGlobalUniforms = () => {
-	frames.add(updateTime, mouseLerp.update);
+	frames.add(updateTime, interpolateValues.update);
 
 	const pointermove = (e: PointerEvent) => {
-		mouseLerp.reset();
-		updateMouseVelocity(e);
-		updateMouseVelocityLerp();
+		interpolateValues.reset();
 		updateMousePosition(e);
 		updateMouseWorldPosition();
+		updateMouseVelocity(e);
 	};
 
 	window.addEventListener('pointermove', pointermove, false);
@@ -27,7 +25,7 @@ const initGlobalUniforms = () => {
 	window.addEventListener('scrollend', updateScroll, false);
 
 	const dispose = () => {
-		frames.remove(updateTime, mouseLerp.update);
+		frames.remove(updateTime, interpolateValues.update);
 		window.removeEventListener('pointermove', pointermove, false);
 		window.removeEventListener('pointerdown', updateMousePress, false);
 		window.removeEventListener('pointerup', updateMousePress, false);
