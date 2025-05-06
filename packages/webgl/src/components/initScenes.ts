@@ -1,33 +1,24 @@
-import { damp, mapLinear } from 'three/src/math/MathUtils.js';
 import type createBloomFx from '../components/createBloomFx';
 import type createSky from '../components/createSky';
 import { frames, gui } from '../three';
+import type createLines from './createLines';
 
 export const initScenes = (o: {
 	debug: boolean;
 	sky: ReturnType<typeof createSky>;
 	bloom: ReturnType<typeof createBloomFx>;
+	lines: ReturnType<typeof createLines>;
 }) => {
 	const { debug, sky } = o;
 
-	const scene1 = () =>
-		frames.interpolate({
-			from: 0,
-			to: 3,
-			onStart: () => {
-				sky.params.horizonOffset.value = -2;
-				sky.updateHorizonOffset();
-			},
+	const scene1 = () => {
+		sky.params.horizonOffset.value = -0.96;
+		sky.updateHorizonOffset();
 
-			onUpdate: ({ value, deltaTime }) => {
-				const v = mapLinear(value, 0, 3, -2, 0);
+		// gui.load(presets);
+	};
 
-				const prev = sky.params.horizonOffset.value;
-				sky.params.horizonOffset.value = damp(prev, v, 0.01, deltaTime * 1000);
-				sky.updateHorizonOffset();
-			},
-		});
-
+	scene1();
 	const scene2 = () =>
 		frames.interpolate({
 			from: 0,
@@ -53,19 +44,16 @@ export const initScenes = (o: {
 	if (!debug) return;
 
 	{
-		const folder = gui.addFolder('SCENES');
-		folder
-			.add({ scenes: 'default' }, 'scenes', ['default', 'scene1', 'scene2'])
-			.onChange((s: string) => {
-				switch (s) {
-					case 'scene1':
-						scene1();
-						break;
-					case 'scene2':
-						scene2();
-						break;
-				}
-			});
+		gui.add({ scenes: 'scene1' }, 'scenes', ['scene1', 'scene2']).onChange((s: string) => {
+			switch (s) {
+				case 'scene1':
+					scene1();
+					break;
+				case 'scene2':
+					scene2();
+					break;
+			}
+		});
 	}
 };
 

@@ -1,21 +1,21 @@
-import { PerspectiveCamera } from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 type UserData = {
 	controls: OrbitControls | undefined;
+	direction: Vector3;
 };
 
 class Camera extends PerspectiveCamera {
 	userData: UserData = {
 		controls: undefined,
+		direction: new Vector3(),
 	};
 
 	constructor(fov = 60, aspect = 16 / 9, near = 0.1, far = 1000) {
 		super(fov, aspect, near, far);
 		this.position.z = 20;
 	}
-
-	// head = new Vector3();
 
 	set controls(b: boolean) {
 		const { controls } = this.userData;
@@ -29,6 +29,9 @@ class Camera extends PerspectiveCamera {
 
 	initControls = (canvas: HTMLCanvasElement) => {
 		this.userData.controls = new OrbitControls(this, canvas);
+		this.userData.controls.addEventListener('change', () => {
+			this.getWorldDirection(this.userData.direction);
+		});
 	};
 
 	disposeControls = () => {

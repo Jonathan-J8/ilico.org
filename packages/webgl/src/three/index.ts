@@ -1,12 +1,10 @@
 import {
 	ACESFilmicToneMapping,
 	AgXToneMapping,
-	AmbientLight,
 	AxesHelper,
 	Cache,
 	CineonToneMapping,
 	ColorManagement,
-	DirectionalLight,
 	Fog,
 	GridHelper,
 	LinearToneMapping,
@@ -95,6 +93,22 @@ export const initThree = ({
 	grid.visible = debug;
 	frames.debug = debug;
 	scene.add(axis, grid);
+
+	gui.add(
+		{
+			save: () => {
+				const json = gui.save(true);
+				const file = document.createElement('a');
+				file.setAttribute(
+					'href',
+					'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(json))
+				);
+				file.setAttribute('download', 'joeat-presets.json');
+				file.click();
+			},
+		},
+		'save'
+	).name('save presets');
 	gui.add({ helpers: debug }, 'helpers').onChange((b: boolean) => {
 		frames.debug = b;
 		axis.visible = b;
@@ -106,7 +120,6 @@ export const initThree = ({
 		if (b) frames.pause();
 		else frames.play();
 	});
-	gui.add(camera, 'controls');
 	gui.add(resizer, 'maxSize', 0, 7680).name('max resolution');
 	gui.add(resizer, 'resolutionFactor', 0.0, 1).name('resolution factor');
 	gui.add(renderer, 'toneMapping', {
@@ -119,22 +132,46 @@ export const initThree = ({
 		NeutralToneMapping: NeutralToneMapping,
 	}).name('tone mapping');
 	gui.add(renderer, 'toneMappingExposure', 0, 1).name('tone mapping exposure');
+	gui.add(camera, 'controls').name('camera controls');
+	gui.add(camera.position, 'x', -10, 10).name('camera position x').listen();
+	gui.add(camera.position, 'y', -10, 10).name('camera position y').listen();
+	gui.add(camera.position, 'z', -10, 10).name('camera position z').listen();
+	const PI = Math.PI;
+	const dir = camera.userData.direction;
+	gui.add(dir, 'x', -PI, PI)
+		.name('camera direction x')
+		.onChange(() => {
+			camera.lookAt(dir);
+		})
+		.listen();
+	gui.add(dir, 'y', -PI, PI)
+		.name('camera direction y')
+		.onChange(() => {
+			camera.lookAt(dir);
+		})
+		.listen();
+	gui.add(dir, 'z', -PI, PI)
+		.name('camera direction z')
+		.onChange(() => {
+			camera.lookAt(dir);
+		})
+		.listen();
 
-	const ambient = new AmbientLight(0xffffff);
-	const directional = new DirectionalLight(0xc5d1ff);
-	scene.add(ambient, directional);
+	// const ambient = new AmbientLight(0xffffff);
+	// const directional = new DirectionalLight(0xc5d1ff);
+	// scene.add(ambient, directional);
 
-	const f = gui.addFolder('LIGHTS');
-	f.close();
-	f.add(ambient, 'visible').name('ambient light');
-	f.add(ambient, 'intensity', 0, 10).name('ambient intensity');
-	f.addColor(ambient, 'color').name('ambient color');
-	f.add(directional, 'visible').name('directional light');
-	f.add(directional, 'intensity', 0, 10).name('directional intensity');
-	f.addColor(directional, 'color').name('directional color');
-	bin.add(() => {
-		f.destroy();
-	});
+	// const f = gui.addFolder('LIGHTS');
+	// f.close();
+	// f.add(ambient, 'visible').name('ambient light');
+	// f.add(ambient, 'intensity', 0, 10).name('ambient intensity');
+	// f.addColor(ambient, 'color').name('ambient color');
+	// f.add(directional, 'visible').name('directional light');
+	// f.add(directional, 'intensity', 0, 10).name('directional intensity');
+	// f.addColor(directional, 'color').name('directional color');
+	// bin.add(() => {
+	// 	f.destroy();
+	// });
 
 	return dispose;
 };

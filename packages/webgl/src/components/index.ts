@@ -1,5 +1,5 @@
 import { FXAAShader, OutputPass, ShaderPass } from 'three/examples/jsm/Addons.js';
-import { camera, frames, gui, renderer, scene } from '../three';
+import { frames, gui, renderer, scene } from '../three';
 import { uniforms } from '../uniforms';
 import ThreeComponent from './ThreeComponent';
 
@@ -27,14 +27,14 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 	const update = () => {
 		if (!renderer.instance) return;
 		cubeTexture.update({ renderer: renderer.instance, scene });
-		sky.mesh.rotation.x = uniforms.uTime.value * 0.0003;
-		sky.mesh.rotation.y = uniforms.uTime.value * -0.0002;
-		if (camera.controls) return;
-		const { uScroll } = uniforms;
-		camera.position.y = uScroll.value.y * -HEIGHT_SCENE;
-		const y = mapLinear(uScroll.value.y, 0, 1, 0, 0.5);
-		sky.params.horizonOffset.value = -0.9 + y;
-		sky.updateHorizonOffset();
+		sky.mesh.rotation.x = uniforms.uTime.value * 0.0001;
+		sky.mesh.rotation.y = uniforms.uTime.value * -0.00015;
+		// if (camera.controls) return;
+		// const { uScroll } = uniforms;
+		// camera.position.y = uScroll.value.y * -HEIGHT_SCENE;
+		// const y = mapLinear(uScroll.value.y, 0, 1, 0, 0.5);
+		// sky.params.horizonOffset.value = -0.9 + y;
+		// sky.updateHorizonOffset();
 	};
 
 	frames.add(update);
@@ -45,7 +45,7 @@ export const initComponents = ({ debug }: { debug: boolean; canvas: HTMLCanvasEl
 	ThreeComponent.add({ fx: new ShaderPass(FXAAShader) });
 	ThreeComponent.add({ fx: new OutputPass() });
 
-	initScenes({ debug, sky, bloom });
+	initScenes({ debug, sky, bloom, lines });
 
 	/**
 	 *
