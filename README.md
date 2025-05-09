@@ -6,6 +6,8 @@ illico.org - new webiste
 
 ```
 npm i
-cd packages/webgl && npm post:install`
-npm run dev
+npm run dev // dev for webgl workspace
+npm start // dev for webgl & app workspaces
+npm run build
+npm run preview
 ```
