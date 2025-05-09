@@ -18,6 +18,7 @@ class Typewriter extends HTMLElement {
 		if (!el || !(el instanceof HTMLElement)) return;
 		const delay = parseInt(el.getAttribute('delay') || '10');
 		const text = el.innerText; //.split('');
+		el.innerText = '';
 		let inc = 0;
 		// let text2 = '';
 		// const total = characters.length;
@@ -30,9 +31,8 @@ class Typewriter extends HTMLElement {
 		await new Promise((res) => setTimeout(res, delay));
 		let id = setInterval(() => {
 			let char = text[inc];
-			// if (char === ' ') el.innerHTML += '&nbsp;';
-			// else
-			el.innerText += char;
+			if (char === ' ') el.innerHTML += '&nbsp;';
+			else el.innerText += char;
 			inc += 1;
 			if (inc > text.length - 1) clearInterval(id);
 		}, 40);
