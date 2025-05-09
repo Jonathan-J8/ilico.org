@@ -133,24 +133,23 @@ export const initThree = ({
 	}).name('tone mapping');
 	gui.add(renderer, 'toneMappingExposure', 0, 1).name('tone mapping exposure');
 	gui.add(camera, 'controls').name('camera controls');
-	gui.add(camera.position, 'x', -10, 10).name('camera position x').listen();
-	gui.add(camera.position, 'y', -10, 10).name('camera position y').listen();
-	gui.add(camera.position, 'z', -10, 10).name('camera position z').listen();
-	const PI = Math.PI;
+	gui.add(camera.position, 'x').name('camera position x').listen();
+	gui.add(camera.position, 'y').name('camera position y').listen();
+	gui.add(camera.position, 'z').name('camera position z').listen();
 	const dir = camera.userData.direction;
-	gui.add(dir, 'x', -PI, PI)
+	gui.add(dir, 'x')
 		.name('camera direction x')
 		.onChange(() => {
 			camera.lookAt(dir);
 		})
 		.listen();
-	gui.add(dir, 'y', -PI, PI)
+	gui.add(dir, 'y')
 		.name('camera direction y')
 		.onChange(() => {
 			camera.lookAt(dir);
 		})
 		.listen();
-	gui.add(dir, 'z', -PI, PI)
+	gui.add(dir, 'z')
 		.name('camera direction z')
 		.onChange(() => {
 			camera.lookAt(dir);

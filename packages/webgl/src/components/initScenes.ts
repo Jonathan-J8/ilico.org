@@ -1,6 +1,6 @@
 import type createBloomFx from '../components/createBloomFx';
 import type createSky from '../components/createSky';
-import { frames, gui } from '../three';
+import { camera, frames, gui } from '../three';
 import type createLines from './createLines';
 
 export const initScenes = (o: {
@@ -12,7 +12,8 @@ export const initScenes = (o: {
 	const { debug, sky } = o;
 
 	const scene1 = () => {
-		sky.params.horizonOffset.value = -0.96;
+		camera.position.y = -50;
+		sky.params.horizonOffset.value = -0.56;
 		sky.updateHorizonOffset();
 
 		// gui.load(presets);

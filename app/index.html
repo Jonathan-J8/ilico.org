@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" data-theme="light">
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -10,7 +10,7 @@
 	<body class="relative">
 		<canvas id="canvas" class="fixed top-0 left-0 -z-1 h-screen w-full"></canvas>
 		<nav
-			class="z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between : items-center p-6"
+			class="bg-base-100 z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between items-center p-6"
 		>
 			<a href="/" target="_self">
 				<h1 class="font-extrabold text-xl uppercase">ilico.org</h1>
@@ -34,13 +34,13 @@
 				</ul>
 			</div>
 		</nav>
-		<header class="min-h-screen flex flex-col justify-start items-start container mx-auto px-4">
+		<header class="mb-6 mt-24 flex flex-col justify-start items-start container mx-auto px-4">
 			<div class="grow-1 flex flex-col justify-center">
-				<div class="flex flex-col items-start gap-4">
+				<div class="flex flex-col items-start gap-4 card bg-base-100 p-6 w-96 rounded-2xl">
 					<typewriter-auto>
 						<h2
 							delay="500"
-							class="text-7xl tracking-wide text-justify uppercase typewriter mix-blend-soft-light"
+							class="text-6xl tracking-wide text-justify uppercase typewriter"
 							style="--delay: 200"
 						>
 							Pour un<br />Internet<br />Libre
@@ -53,15 +53,99 @@
 							Internet libre et de défendre sa neutralité.
 						</p>
 					</typewriter-auto>
-					<button class="btn btn-primary btn-xl">Adhérer</button>
+					<button class="btn btn-primary w-full">Adhérer</button>
 				</div>
 			</div>
 		</header>
 		<main class="container mx-auto px-4">
-			<section id="services" class="min-h-screen pt-24">
+			<section id="services" class="p-6 card w-96 bg-base-300 rounded-2xl gap-4 mb-6">
 				<h3>Services et offres</h3>
 
-				<ul class="list-none grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
+				<div class="card w-full bg-base-100 shadow-sm">
+					<div class="card-body">
+						<span class="badge badge-xs badge-warning">Pour tout nos adhérents</span>
+						<div class="flex justify-between">
+							<h2 class="text-3xl font-bold">Nuage + Email</h2>
+							<span class="text-xl">$libre</span>
+						</div>
+						<ul class="mt-6 flex flex-col gap-2 text-xs">
+							<li>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="size-4 me-2 inline-block text-success"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M5 13l4 4L19 7"
+									/>
+								</svg>
+								<span>1to de stockage en ligne</span>
+							</li>
+							<li>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="size-4 me-2 inline-block text-success"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M5 13l4 4L19 7"
+									/>
+								</svg>
+								<span>1 addresse mail ilico.org</span>
+							</li>
+						</ul>
+						<div class="mt-6">
+							<button class="btn btn-primary btn-block">Adhérer</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="card w-full bg-base-100 shadow-sm">
+					<div class="card-body">
+						<div class="flex justify-between">
+							<h2 class="text-3xl font-bold">Fibre</h2>
+							<span class="text-xl">30$/mois</span>
+						</div>
+
+						<div class="mt-6">
+							<button class="btn btn-warning btn-block">
+								Vérifier votre éligibiliter
+							</button>
+						</div>
+						<div class="mt-6">
+							<button class="btn btn-primary btn-block">Souscrire</button>
+						</div>
+					</div>
+				</div>
+				<div class="card w-full bg-base-100 shadow-sm">
+					<div class="card-body">
+						<div class="flex justify-between">
+							<h2 class="text-3xl font-bold">Adsl</h2>
+							<span class="text-xl">30$/mois</span>
+						</div>
+
+						<div class="mt-6">
+							<button class="btn btn-warning btn-block">
+								Vérifier votre éligibiliter
+							</button>
+						</div>
+						<div class="mt-6">
+							<button class="btn btn-primary btn-block">Souscrire</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- <ul class="list-none grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
 					<li class="outline-black outline-4 -outline-offset-4 rounded-2xl px-6 py-4">
 						<svg
 							class="w-full h-auto"
@@ -135,9 +219,9 @@
 					<li class="col-span-2">
 						<button class="btn btn-primary btn-xl w-full">Souscrire</button>
 					</li>
-				</ul>
+				</ul> -->
 			</section>
-			<section id="about" class="min-h-screen mt-24">
+			<section id="about" class="card bg-base-200 p-6 mb-6 w-96 rounded-2xl">
 				<h3>À propos</h3>
 
 				<p class="text-justify">
@@ -177,10 +261,12 @@
 					<br />
 				</p>
 			</section>
-			<section id="join" class="min-h-screen pt-24">
+			<section id="join" class="card bg-base-300 p-6 mb-6 w-96">
 				<h3 class="h3">Adhérer</h3>
 
-				<form class="flex flex-col justify-start items-center w-sm gap-4">
+				<form
+					class="card bg-base-100 rounded-2xl p-6 flex flex-col justify-start items-center w-full gap-4"
+				>
 					<input type="text" placeholder="email" class="input input-neutral w-full" />
 					<select class="select w-full select-neutral">
 						<option disabled selected>Choissez votre offre</option>
