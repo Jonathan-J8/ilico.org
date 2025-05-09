@@ -5,7 +5,9 @@ customElements.define(Typewriter.name, Typewriter);
 
 (async () => {
 	// const debug = import.meta.env.DEV;
-	const debug = false;
+
+	const url = new URL(window.location.href);
+	const debug = url.searchParams.has('debug') ? true : false;
 	const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
 	const webgl = (await import('webgl')).default;

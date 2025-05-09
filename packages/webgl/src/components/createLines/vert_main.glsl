@@ -46,7 +46,7 @@ vec3 mousePos = uMouseWorldPositionLerp;
 vec2 mouseVel = clamp(uMouseVelocityLerp, -.2, .2);
 float dist = distance( mvPosition.xy, mousePos.xy );
 // float r = clamp(distance( cameraPosition, mvPosition.xyz ) * 0.5 , 0.5, 100. ) ;
-float influence = smoothstep( 7., .0, dist );
+float influence = smoothstep( 15., .0, dist );
 mvPosition.x +=  mousePos.x * influence ;
 mvPosition.z +=  mousePos.z * influence ;
 
