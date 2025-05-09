@@ -1,6 +1,6 @@
-# illico.org
+# ilico.org
 
-illico.org - new webiste
+ilico.org - new webiste made with typescript + vite + threejs + tailwindcss.
 
 ## scripts
 
