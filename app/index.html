@@ -34,7 +34,24 @@
 				</ul>
 			</div>
 		</nav>
-		<header class="mb-6 mt-24 flex flex-col justify-start items-start container mx-auto px-4">
+		<header class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-48">
+			<h2
+				id="js-h2"
+				class="min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-between mb-6"
+			>
+				<scramble-text id="js-h2-top"></scramble-text>
+				<div class="p-6 relative overflow-hidden">
+					<div class="absolute top-0 left-0 bg-primary w-full h-full"></div>
+					<scramble-text id="js-h2-bottom" class="relative"></scramble-text>
+				</div>
+			</h2>
+			<scramble-text delay="1000">
+				Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet de
+				promouvoir l’utilisation et le développement d'un réseau Internet libre et de
+				défendre sa neutralité.
+			</scramble-text>
+		</header>
+		<!-- <header class="mb-6 mt-24 flex flex-col justify-start items-start container mx-auto px-4">
 			<div class="grow-1 flex flex-col justify-center">
 				<div class="flex flex-col items-start gap-4 card bg-base-100 p-6 w-96 rounded-2xl">
 					<typewriter-auto>
@@ -56,10 +73,12 @@
 					<button class="btn btn-primary w-full">Adhérer</button>
 				</div>
 			</div>
-		</header>
+		</header> -->
 		<main class="container mx-auto px-4">
 			<section id="services" class="p-6 card w-96 bg-base-300 rounded-2xl gap-4 mb-6">
-				<h3>Services et offres</h3>
+				<h3>
+					<scramble-text intersection="true"> Services et offres </scramble-text>
+				</h3>
 
 				<div class="card w-full bg-base-100 shadow-sm">
 					<div class="card-body">
@@ -222,7 +241,9 @@
 				</ul> -->
 			</section>
 			<section id="about" class="card bg-base-200 p-6 mb-6 w-96 rounded-2xl">
-				<h3>À propos</h3>
+				<h3>
+					<scramble-text intersection="true"> À propos </scramble-text>
+				</h3>
 
 				<p class="text-justify">
 					Ilico est un Fournisseur d’Accès à Internet. En effet nous pensons que le
@@ -262,7 +283,9 @@
 				</p>
 			</section>
 			<section id="join" class="card bg-base-300 p-6 mb-6 w-96">
-				<h3 class="h3">Adhérer</h3>
+				<h3>
+					<scramble-text intersection="true"> Adhérer </scramble-text>
+				</h3>
 
 				<form
 					class="card bg-base-100 rounded-2xl p-6 flex flex-col justify-start items-center w-full gap-4"

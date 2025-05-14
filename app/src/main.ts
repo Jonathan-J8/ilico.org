@@ -1,18 +1,21 @@
+// import { gsap } from 'gsap';
+// import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
+// import { SplitText } from 'gsap/SplitText';
+// gsap.registerPlugin(ScrambleTextPlugin, SplitText);
+import animateHeader from './animateHeader';
+import ScrambleText from './ScrambleText/ScrambleText';
 import './style.css';
-import Typewriter from './Typewriter';
 
-customElements.define(Typewriter.name, Typewriter);
+customElements.define(ScrambleText.name, ScrambleText);
 
 (async () => {
-	// const debug = import.meta.env.DEV;
-
 	const url = new URL(window.location.href);
 	const debug = url.searchParams.has('debug') ? true : false;
 	const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-
 	const webgl = (await import('webgl')).default;
 	const dispose = webgl({ canvas, debug, controls: false });
 
+	animateHeader();
 	import.meta.hot?.dispose(() => {
 		dispose();
 	});

@@ -1,0 +1,38 @@
+[
+	{
+		"question": "Et le vôtre ?",
+		"value": "Mon FAI n'espionne pas mes communication."
+	},
+	{
+		"question": "Et vous ?",
+		"value": "Mon accès à internet n'est pas filtré."
+	},
+	{
+		"question": "Et le vôtre ?",
+		"value": "Mon FAI me garantit un accès à un internet neutre."
+	},
+	{
+		"question": "Et vous ?",
+		"value": "Je bois des coups avec le président de mon FAI."
+	},
+	{
+		"question": "Et le vôtre ?",
+		"value": "Mon FAI défend mes libertés sur internet."
+	},
+	{
+		"question": "Et vous ?",
+		"value": "J'élis les dirigeants de mon FAI et ils me rendent des comptes."
+	},
+	{
+		"question": "Et le vôtre ?",
+		"value": "Mon FAI ne lit pas mon courrier électronique."
+	},
+	{
+		"question": "Et vous ?",
+		"value": "Pour joindre les techniciens de mon FAI j'appelle mes amis."
+	},
+	{
+		"question": "Et vous ?",
+		"value": "Je suis libre de quitter mon FAI quand je le souhaite."
+	}
+]

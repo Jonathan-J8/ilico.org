@@ -46,3 +46,8 @@ main {
 	scroll-snap-type: y mandatory;
 
 }
+
+.grid-stack {
+	grid-area: 1/1;
+}
+
