@@ -19,7 +19,7 @@ class ScrambleText extends HTMLElement {
 			text,
 			delay,
 			onComplete: () => {
-				this.innerText = text;
+				// this.innerText = text;
 			},
 		});
 		this.animationsKiller.add(...kills);

@@ -23,15 +23,22 @@ const animate = ({
 		const isRemove = from && !to;
 
 		let delay = 0;
+		let duration = 400;
+		let steps = 10;
 		if (isRemove) delay = ((len - i) / len) * 100 + offsetDelay;
 		else {
-			const factor = i % 10 ? 1 : 0;
-			delay = Math.random() * 1000 * factor + offsetDelay;
+			// const factor = i % 10 ? 1 : 0;
+			delay = Math.random() * 1000 * (i / len) + offsetDelay;
+		}
+		if (to === ' ') {
+			delay = offsetDelay;
+			steps = 2;
+			duration = 100;
 		}
 
 		const kill = frames.transition({
-			steps: Math.floor(Math.random() * 10) + 1,
-			duration: 200,
+			steps,
+			duration,
 			delay,
 			onUpdate: () => {
 				const char = getRandomAsciiChar();

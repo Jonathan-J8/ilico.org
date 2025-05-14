@@ -14,7 +14,7 @@
 		>
 			<a href="/" target="_self">
 				<h1 class="font-extrabold text-xl uppercase">ilico.org</h1>
-				<p class="text-xs">Association Internet Libre en Corrèze</p>
+				<p class="text-xs"><b>I</b>nternet <b>Li</b>bre en <b>Co</b>rrèze</p>
 			</a>
 			<div class="inline-flex justify-end gap-6 items-center text-sm">
 				<ul>
@@ -36,13 +36,18 @@
 		</nav>
 		<header class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-48">
 			<h2
+				aria-label="Mon FAI n'espionne pas mes communication. Et le vôtre ?"
 				id="js-h2"
 				class="min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-between mb-6"
 			>
-				<scramble-text id="js-h2-top"></scramble-text>
+				<scramble-text id="js-h2-top"
+					>Mon FAI n'espionne pas mes communication.</scramble-text
+				>
 				<div class="p-6 relative overflow-hidden">
 					<div class="absolute top-0 left-0 bg-primary w-full h-full"></div>
-					<scramble-text id="js-h2-bottom" class="relative"></scramble-text>
+					<scramble-text id="js-h2-bottom" class="relative">
+						Et le vôtre ?
+					</scramble-text>
 				</div>
 			</h2>
 			<scramble-text delay="1000">

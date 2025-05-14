@@ -3,7 +3,7 @@ import ScrambleText from '../ScrambleText/ScrambleText';
 import headerTexts from './texts.json';
 
 const animateHeader = () => {
-	let inc = 0;
+	let inc = 1;
 	let id: undefined | ReturnType<typeof setInterval>;
 
 	const h2 = document.getElementById('js-h2') as HTMLElement;
@@ -21,21 +21,22 @@ const animateHeader = () => {
 		++inc;
 		inc = inc % headerTexts.length;
 	};
+	// anim();
+	id = setInterval(anim, 6000);
+	// const observer = new IntersectionObserver(
+	// 	(entries) => {
+	// 		const { intersectionRatio } = entries[0];
+	// 		if (intersectionRatio === 0) {
+	// 			if (typeof id === 'number') clearInterval(id);
+	// 		} else {
+	// 			anim();
+	// 			id = setInterval(anim, 6000);
+	// 		}
+	// 	},
+	// 	{ threshold: 0 }
+	// );
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			const { intersectionRatio } = entries[0];
-			if (intersectionRatio === 0) {
-				if (typeof id === 'number') clearInterval(id);
-			} else {
-				anim();
-				id = setInterval(anim, 6000);
-			}
-		},
-		{ threshold: 0 }
-	);
-
-	observer.observe(h2);
+	// observer.observe(h2);
 };
 
 export default animateHeader;

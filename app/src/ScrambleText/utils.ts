@@ -25,6 +25,7 @@ export const prepareText = (el: HTMLElement, text: string) => {
 			el.innerText = replaceCharAtIndex(el.innerText, ' ', index);
 			continue;
 		}
+
 		if (!from && to) el.innerText += ' '; // add space immediatly
 
 		animations.push({ index, from, to }); // save the future replacement
