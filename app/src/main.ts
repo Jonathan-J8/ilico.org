@@ -7,16 +7,15 @@ import ScrambleText from './ScrambleText/ScrambleText';
 import './style.css';
 
 customElements.define(ScrambleText.name, ScrambleText);
+animateHeader();
 
 (async () => {
-	const url = new URL(window.location.href);
-	const debug = url.searchParams.has('debug') ? true : false;
-	const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-	const webgl = (await import('webgl')).default;
-	const dispose = webgl({ canvas, debug, controls: false });
-
-	animateHeader();
-	import.meta.hot?.dispose(() => {
-		dispose();
-	});
+	// const url = new URL(window.location.href);
+	// const debug = url.searchParams.has('debug') ? true : false;
+	// const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+	// const webgl = (await import('webgl')).default;
+	// const dispose = webgl({ canvas, debug, controls: false });
+	// import.meta.hot?.dispose(() => {
+	// 	dispose();
+	// });
 })();
