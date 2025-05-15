@@ -7,19 +7,20 @@ class ScrambleText extends HTMLElement {
 
 	private animationsKiller = new BatchFunction();
 
+	delay = 0;
+
 	constructor() {
 		super();
 	}
 
 	private scramble = async (text = '') => {
-		const delay = parseInt(this.getAttribute('delay') || '0');
-
+		this.animationsKiller.run();
+		this.animationsKiller.dispose();
 		const kills = animate({
 			element: this,
 			text,
-			delay,
 			onComplete: () => {
-				// this.innerText = text;
+				if (this.innerText !== text) this.innerText = text;
 			},
 		});
 		this.animationsKiller.add(...kills);
@@ -33,6 +34,7 @@ class ScrambleText extends HTMLElement {
 
 	connectedCallback() {
 		this.animationsKiller.run();
+		this.animationsKiller.dispose();
 
 		if (!this.innerText) return;
 
@@ -41,12 +43,10 @@ class ScrambleText extends HTMLElement {
 			this.firstScramble();
 			return;
 		}
-
 		const observer = new IntersectionObserver(
 			(entries) => {
 				const { intersectionRatio } = entries[0];
 				if (intersectionRatio !== 1) return; // nothing to animate
-
 				this.firstScramble();
 				observer.unobserve(this);
 				observer.disconnect();
@@ -58,8 +58,11 @@ class ScrambleText extends HTMLElement {
 
 	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
 		if (name === 'value') {
-			this.animationsKiller.run();
 			this.scramble(newValue);
+			return;
+		}
+		if (name === 'delay') {
+			this.delay = parseInt(newValue || '0');
 			return;
 		}
 	}

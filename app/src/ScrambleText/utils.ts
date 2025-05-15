@@ -9,26 +9,34 @@ export const replaceCharAtIndex = (str: string, char: string, index: number) => 
 	return str.substring(0, index) + char + str.substring(index + 1);
 };
 
-export const prepareText = (el: HTMLElement, text: string) => {
+export const prepareAnimation = (el: HTMLElement, text: string) => {
 	const arr = el.innerText.split('');
 	const nextArr = text.split('');
-	const len = arr.length > nextArr.length ? arr.length : nextArr.length;
+	const isNextBigger = arr.length < nextArr.length;
+	const len = isNextBigger ? nextArr.length : arr.length;
+	const factor = 1000;
 	const animations = [];
 
 	for (let index = 0; index < len; index++) {
-		const from = arr[index];
-		const to = nextArr[index];
+		let from = arr[index];
+		let to = nextArr[index];
 
-		if (from === to) continue; // do nothing
-		if (from && to === ' ') {
-			// replace char to space immediatly
-			el.innerText = replaceCharAtIndex(el.innerText, ' ', index);
-			continue;
+		// do nothing
+		if (from === to) continue;
+
+		let delay = isNextBigger
+			? (index / len + 0.1) * factor
+			: ((len - index) / len + 0.1) * factor;
+		let steps = 8;
+		let duration = 500;
+
+		if (to === ' ' || !to) {
+			delay *= 0.8;
+			steps *= 0.8;
+			duration *= 0.8;
 		}
 
-		if (!from && to) el.innerText += ' '; // add space immediatly
-
-		animations.push({ index, from, to }); // save the future replacement
+		animations.push({ index, from, to, delay, duration, steps });
 	}
 
 	return animations;

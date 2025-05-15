@@ -1,54 +1,42 @@
 import frames from '../frames';
-import { getRandomAsciiChar, prepareText, replaceCharAtIndex } from './utils';
+import type ScrambleText from './ScrambleText';
+import { getRandomAsciiChar, prepareAnimation } from './utils';
 
 const animate = ({
 	element,
 	text,
 	onComplete,
-	delay,
 }: {
-	element: HTMLElement;
+	element: ScrambleText;
 	text: string;
 	onComplete: () => void;
-	delay?: number;
 }) => {
-	const animation = prepareText(element, text);
+	const animation = prepareAnimation(element, text);
 	const kills = [];
-
-	const offsetDelay = delay || 0;
-
+	const offsetDelay = element.delay;
+	let current = element.innerText.split('');
 	let inc = 0;
-	for (let i = 0, len = animation.length; i < len; i++) {
-		const { from, to, index } = animation[i];
-		const isRemove = from && !to;
 
-		let delay = 0;
-		let duration = 400;
-		let steps = 10;
-		if (isRemove) delay = ((len - i) / len) * 100 + offsetDelay;
-		else {
-			// const factor = i % 10 ? 1 : 0;
-			delay = Math.random() * 1000 * (i / len) + offsetDelay;
-		}
-		if (to === ' ') {
-			delay = offsetDelay;
-			steps = 2;
-			duration = 100;
-		}
+	for (let i = 0, len = animation.length; i < len; ++i) {
+		const { from, to, index, delay, steps, duration } = animation[i];
+		const charToRemove = from && !to;
+		const newDelay = delay + offsetDelay;
 
-		const kill = frames.transition({
+		const kill = frames.animation({
 			steps,
 			duration,
-			delay,
+			delay: newDelay,
 			onUpdate: () => {
 				const char = getRandomAsciiChar();
-				element.innerText = replaceCharAtIndex(element.innerText, char, index);
+				current[index] = char;
+				element.innerText = current.join('');
 			},
 			onComplete: () => {
-				if (isRemove) element.innerText = element.innerText.substring(0, index);
-				else element.innerText = replaceCharAtIndex(element.innerText, to, index);
-				++inc;
-				if (inc === len - 1) onComplete();
+				if (charToRemove) current.pop();
+				else current[index] = to;
+				element.innerText = current.join('');
+
+				if (++inc === len) onComplete();
 			},
 		});
 		kills.push(kill);

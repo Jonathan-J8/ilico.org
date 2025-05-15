@@ -44,7 +44,7 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 
 	wait = (delay = 0) => new Promise((res) => setTimeout(res, delay));
 
-	animate = ({
+	animation = ({
 		steps = 0,
 		duration = 400,
 		delay = 0,
@@ -103,6 +103,8 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		if (typeof id === 'number') clearTimeout(id);
 		if (delay > 0) id = setTimeout(start, delay);
 		else start();
+
+		return () => this.remove(tick);
 	};
 	transition = ({
 		steps = 0,
@@ -126,20 +128,18 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		const tick = ({ time }: { time: number; deltaTime: number }) => {
 			const elapsed = time - startTime;
 
-			if (elapsed >= duration) {
-				this.remove(tick);
-				execute(onComplete);
-				return;
-			}
 			if (steps > 0) {
 				const step = Math.min(Math.floor((elapsed / duration) * steps), steps - 1);
 				if (step !== currentStep) {
 					currentStep = step;
 					execute(onUpdate);
 				}
-				return;
+			} else execute(onUpdate);
+
+			if (elapsed >= duration) {
+				this.remove(tick);
+				execute(onComplete);
 			}
-			execute(onUpdate);
 		};
 
 		const start = () => {
