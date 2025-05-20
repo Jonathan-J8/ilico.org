@@ -1,8 +1,10 @@
 import { initComponents } from './components';
 import { initThree } from './three';
 import { initUniforms } from './uniforms';
+export { frames } from './three';
+export { default as VideoPixelate } from './VideoPixelate';
 
-const webgl = ({
+export const initWebglApp = ({
 	canvas,
 	debug,
 	controls,
@@ -20,5 +22,3 @@ const webgl = ({
 		disposeUni();
 	};
 };
-
-export default webgl;

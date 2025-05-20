@@ -1,7 +1,7 @@
 import './index.css';
 
 (async () => {
-	const module = (await import('./src')).default;
+	const { initWebglApp } = await import('./src');
 	const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-	module({ canvas, debug: true, controls: false });
+	initWebglApp({ canvas, debug: true, controls: false });
 })();

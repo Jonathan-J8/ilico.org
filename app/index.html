@@ -36,21 +36,24 @@
 				</ul>
 			</div>
 		</nav>
-		<header class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-48">
+		<header
+			class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-48 relative"
+		>
 			<h2
 				id="js-h2"
-				aria-label="Mon FAI n'espionne pas mes communication. Et le vôtre ?"
-				class="mb-30 min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-between"
+				aria-label="Fournisseur d'Accès à Internet libre et associatif en Corrèze."
+				class="relative mb-30 min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-between"
 			>
 				<scramble-text id="js-h2-top" delay="600"
-					>Mon FAI n'espionne pas mes communication.</scramble-text
+					>Fournisseur d'Accès à Internet libre et associatif en Corrèze.</scramble-text
 				>
 				<div class="p-6 relative overflow-hidden">
 					<div class="absolute top-0 left-0 bg-primary w-full h-full"></div>
-					<scramble-text id="js-h2-bottom" class="relative" delay="900">
-						Et le vôtre ?
-					</scramble-text>
+					<scramble-text id="js-h2-bottom" class="relative" delay="900"> </scramble-text>
 				</div>
+				<video-pixelate class="absolute right-0 bottom-0">
+					<video src="/video_512.mp4" muted playsinline autoplay loop></video>
+				</video-pixelate>
 			</h2>
 			<scramble-text delay="1200">
 				Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet de
