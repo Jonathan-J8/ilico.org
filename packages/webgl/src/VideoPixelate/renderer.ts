@@ -62,8 +62,6 @@ const renderer = ({ canvas, video }: { canvas: HTMLCanvasElement; video: HTMLVid
 	scene.add(camera, mesh);
 
 	const animate = () => {
-		// if (!gl || video.readyState < video.HAVE_CURRENT_DATA) return;
-
 		renderer.render(scene, camera);
 	};
 	renderer.setAnimationLoop(animate);
