@@ -1,25 +1,7 @@
 {
-	"name": "webgl",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"main": "dist/index.umd.js",
-	"module": "dist/index.es.js",
-	"types": "dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.umd.js"
-		}
-	},
-	"scripts": {
-		"post:install": "mkdir ./lygia  && npx degit https://github.com/patriciogonzalezvivo/lygia.git ./lygia",
-		"dev": "vite",
-		"dev:build": "tsc && vite build --watch",
-		"build": "tsc && vite build",
-		"tsc": "tsc",
-		"preview": "vite preview"
+	"dependencies": {
+		"three": "^0.175.0",
+		"vite-plugin-glsl": "^1.4.0"
 	},
 	"devDependencies": {
 		"@types/node": "^22.15.3",
@@ -28,8 +10,26 @@
 		"vite": "^6.3.1",
 		"vite-plugin-dts": "^4.5.3"
 	},
-	"dependencies": {
-		"three": "^0.175.0",
-		"vite-plugin-glsl": "^1.4.0"
-	}
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.umd.js"
+		}
+	},
+	"main": "dist/index.umd.js",
+	"module": "dist/index.es.js",
+	"name": "webgl",
+	"private": true,
+	"scripts": {
+		"build": "tsc && vite build",
+		"dev": "vite",
+		"dev:build": "tsc && NODE_ENV=development vite build --mode development --watch",
+		"post:install": "mkdir ./lygia  && npx degit https://github.com/patriciogonzalezvivo/lygia.git ./lygia",
+		"preview": "vite preview",
+		"tsc": "tsc"
+	},
+	"type": "module",
+	"types": "dist/index.d.ts",
+	"version": "0.0.0"
 }

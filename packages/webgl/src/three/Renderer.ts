@@ -1,4 +1,5 @@
 import {
+	Camera,
 	NoToneMapping,
 	PerspectiveCamera,
 	WebGLRenderer,
@@ -101,7 +102,7 @@ class Renderer {
 		this.composer.addPass(renderPass);
 	};
 
-	update = (scene: Scene, camera: PerspectiveCamera, delta: number) => {
+	update = (scene: Scene, camera: Camera, delta = 0.16) => {
 		if (!this.instance) return;
 
 		if (this.composer) this.composer.render(delta);

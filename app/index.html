@@ -9,6 +9,7 @@
 	</head>
 	<body class="relative">
 		<canvas id="canvas" class="fixed top-0 left-0 -z-1 h-screen w-full"></canvas>
+		<!-- NAVIGATION -->
 		<nav
 			class="bg-base-100 z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between items-center p-6"
 		>
@@ -36,6 +37,7 @@
 				</ul>
 			</div>
 		</nav>
+		<!-- HEADER -->
 		<header
 			class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-48 relative"
 		>
@@ -44,46 +46,38 @@
 				aria-label="Fournisseur d'Accès à Internet libre et associatif en Corrèze."
 				class="relative mb-30 min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-between"
 			>
-				<video-pixelate class="absolute right-0 -bottom-32 opacity-55">
-					<video src="/video_512.mp4" muted playsinline autoplay loop></video>
-				</video-pixelate>
 				<scramble-text id="js-h2-top" delay="600" class="relative"
 					>Fournisseur d'Accès à Internet libre et associatif en Corrèze.</scramble-text
 				>
+
+				<video-pixelate class="absolute right-0 -bottom-32">
+					<video
+						src="/video_512.mp4"
+						muted
+						playsinline
+						autoplay
+						loop
+						class="invisible"
+					></video>
+				</video-pixelate>
 				<div class="p-6 relative overflow-hidden">
-					<div class="absolute top-0 left-0 bg-primary w-full h-full"></div>
-					<scramble-text id="js-h2-bottom" class="relative" delay="900"> </scramble-text>
+					<div class="absolute top-0 left-0 bg-primary h-full w-full"></div>
+					<p>
+						<scramble-text id="js-h2-bottom" class="relative" delay="900">
+						</scramble-text>
+					</p>
 				</div>
 			</h2>
-			<scramble-text delay="1200">
-				Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet de
-				promouvoir l’utilisation et le développement d'un réseau Internet libre et de
-				défendre sa neutralité.
-			</scramble-text>
+
+			<p>
+				<scramble-text delay="1200">
+					Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet
+					de promouvoir l’utilisation et le développement d'un réseau Internet libre et de
+					défendre sa neutralité.
+				</scramble-text>
+			</p>
 		</header>
-		<!-- <header class="mb-6 mt-24 flex flex-col justify-start items-start container mx-auto px-4">
-			<div class="grow-1 flex flex-col justify-center">
-				<div class="flex flex-col items-start gap-4 card bg-base-100 p-6 w-96 rounded-2xl">
-					<typewriter-auto>
-						<h2
-							delay="500"
-							class="text-6xl tracking-wide text-justify uppercase typewriter"
-							style="--delay: 200"
-						>
-							Pour un<br />Internet<br />Libre
-						</h2>
-					</typewriter-auto>
-					<typewriter-auto>
-						<p class="max-w-xl text-justify wrap-normal mb-1">
-							Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour
-							objet de promouvoir l’utilisation et le développement d'un réseau
-							Internet libre et de défendre sa neutralité.
-						</p>
-					</typewriter-auto>
-					<button class="btn btn-primary w-full">Adhérer</button>
-				</div>
-			</div>
-		</header> -->
+
 		<main class="container mx-auto px-4">
 			<section id="services" class="p-6 card w-96 bg-base-300 rounded-2xl gap-4 mb-6">
 				<h3>

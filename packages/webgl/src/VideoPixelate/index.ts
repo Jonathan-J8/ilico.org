@@ -39,8 +39,8 @@ class VideoPixelate extends HTMLElement {
 		if (!(video instanceof HTMLVideoElement))
 			throw new Error('<video-pixelate/> must have a <video/> at first child');
 
-		canvas.width = video.videoWidth;
-		canvas.height = video.videoHeight;
+		// canvas.width = video.videoWidth;
+		// canvas.height = video.videoHeight;
 		try {
 			renderer({ canvas, video });
 		} catch (e) {
