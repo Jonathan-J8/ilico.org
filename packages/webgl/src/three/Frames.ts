@@ -1,11 +1,15 @@
 import { Clock, type WebGLRenderer } from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import BatchFunction from '../utils/BatchFunction';
+import now from '../utils/now';
+
+const execute = (fn?: () => void) => fn && fn();
 
 class Frames extends BatchFunction<
 	[{ time: number; deltaTime: number; renderer: WebGLRenderer | undefined }]
 > {
-	#paused = false;
+	#rafID: undefined | number = undefined;
+	#paused = true;
 	#clock = new Clock();
 	#stats = new Stats();
 	#renderer: WebGLRenderer | undefined;
@@ -37,18 +41,36 @@ class Frames extends BatchFunction<
 	};
 
 	play = () => {
-		if (!this.#renderer) throw new Error('Frames could not start: : No WebGLRenderer attached');
+		if (!this.#paused) return;
 		this.#paused = false;
 		this.#clock.start();
-		this.#renderer.setAnimationLoop(this.tick);
+		if (this.#renderer) this.#renderer.setAnimationLoop(this.tick);
+		else this.#rafID = requestAnimationFrame(this.tick);
 	};
 
 	pause = () => {
-		if (!this.#renderer) throw new Error('Frames could not pause: : No WebGLRenderer attached');
 		this.#paused = true;
 		this.#clock.stop();
-		this.#renderer.setAnimationLoop(null);
+		if (this.#renderer) this.#renderer.setAnimationLoop(null);
+		if (typeof this.#rafID === 'number') cancelAnimationFrame(this.#rafID);
 	};
+
+	add(
+		...callbacks: ((
+			...args: [{ time: number; deltaTime: number; renderer: WebGLRenderer | undefined }]
+		) => void)[]
+	) {
+		super.add(...callbacks);
+		if (this.size > 0) this.play();
+	}
+	remove(
+		...callbacks: ((
+			...args: [{ time: number; deltaTime: number; renderer: WebGLRenderer | undefined }]
+		) => void)[]
+	) {
+		super.remove(...callbacks);
+		if (this.size === 0) this.pause();
+	}
 
 	interpolate = ({
 		from = 0,
@@ -81,6 +103,71 @@ class Frames extends BatchFunction<
 			if (typeof onStart === 'function') onStart({ value, time: 0, deltaTime: 0.08 });
 			this.add(tick);
 		});
+	};
+
+	wait = (delay = 0) => new Promise((res) => setTimeout(res, delay));
+
+	animation = ({
+		steps = 0,
+		duration = 400,
+		delay = 0,
+		iterations = 0,
+		onStart,
+		onUpdate,
+		onComplete,
+	}: {
+		steps?: number;
+		duration?: number;
+		delay?: number;
+		iterations?: number;
+		onStart?: () => void;
+		onUpdate?: () => void;
+		onComplete?: () => void;
+	}) => {
+		let id: ReturnType<typeof setTimeout> | undefined;
+		let startTime = 0;
+		let currentStep = 0;
+		let currentIteration = 0;
+
+		const tick = ({ time }: { time: number; deltaTime: number }) => {
+			const elapsed = time - startTime;
+			if (steps > 0) {
+				const step = Math.min(Math.floor((elapsed / duration) * steps), steps - 1);
+				if (step !== currentStep) {
+					currentStep = step;
+					execute(onUpdate);
+				}
+			} else execute(onUpdate);
+
+			if (elapsed >= duration) {
+				this.remove(tick);
+				execute(onComplete);
+
+				currentIteration++;
+				if (iterations < 0 || iterations === Infinity || currentIteration < iterations) {
+					if (typeof id === 'number') clearTimeout(id);
+					if (delay > 0)
+						id = setTimeout(() => {
+							startTime = now();
+							execute(onStart);
+							this.add(tick);
+						}, delay);
+					else start();
+				}
+			}
+		};
+
+		const start = () => {
+			startTime = now();
+			execute(onStart);
+			this.add(tick);
+		};
+
+		if (typeof id === 'number') clearTimeout(id);
+		if (delay > 0) id = setTimeout(start, delay);
+		else start();
+
+		return () => this.remove(tick);
 	};
 }
 

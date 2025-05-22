@@ -57,9 +57,9 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		duration?: number;
 		delay?: number;
 		iterations?: number;
-		onStart?: InterpolateCallback;
-		onUpdate?: InterpolateCallback;
-		onComplete?: InterpolateCallback;
+		onStart?: () => void;
+		onUpdate?: () => void;
+		onComplete?: () => void;
 	}) => {
 		let id: ReturnType<typeof setTimeout> | undefined;
 		let startTime = 0;
@@ -106,56 +106,6 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 
 		return () => this.remove(tick);
 	};
-	transition = ({
-		steps = 0,
-		duration = 400,
-		delay = 0,
-		onStart,
-		onUpdate,
-		onComplete,
-	}: {
-		steps?: number;
-		duration?: number;
-		delay?: number;
-		onStart?: InterpolateCallback;
-		onUpdate?: InterpolateCallback;
-		onComplete?: InterpolateCallback;
-	}) => {
-		let id: ReturnType<typeof setTimeout> | undefined;
-		let startTime = 0;
-		let currentStep = 0;
-
-		const tick = ({ time }: { time: number; deltaTime: number }) => {
-			const elapsed = time - startTime;
-
-			if (steps > 0) {
-				const step = Math.min(Math.floor((elapsed / duration) * steps), steps - 1);
-				if (step !== currentStep) {
-					currentStep = step;
-					execute(onUpdate);
-				}
-			} else execute(onUpdate);
-
-			if (elapsed >= duration) {
-				this.remove(tick);
-				execute(onComplete);
-			}
-		};
-
-		const start = () => {
-			startTime = now();
-			execute(onStart);
-			this.add(tick);
-		};
-
-		if (typeof id === 'number') clearTimeout(id);
-		if (delay > 0) id = setTimeout(start, delay);
-		else start();
-
-		return () => this.remove(tick);
-	};
 }
-
-type InterpolateCallback = () => void;
 
 export default Frames;
