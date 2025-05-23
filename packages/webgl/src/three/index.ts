@@ -36,7 +36,7 @@ const update = ({ deltaTime }: { time: number; deltaTime: number }) => {
 };
 
 const dispose = () => {
-	frames.pause();
+	frames.pause(renderer.instance);
 	gui.destroy();
 	bin.run();
 	frames.remove(update);
@@ -84,8 +84,8 @@ export const initThree = ({
 	renderer.instance.compile(scene, camera);
 
 	frames.add(update);
-	frames.attachRenderer(renderer.instance);
-	frames.play();
+	// frames.attachRenderer(renderer.instance);
+	frames.play(renderer.instance);
 
 	const axis = new AxesHelper(100);
 	const grid = new GridHelper(1);
@@ -117,8 +117,8 @@ export const initThree = ({
 
 	gui.add({ paused: frames.paused }, 'paused').onChange((b: boolean) => {
 		if (!renderer.instance) return;
-		if (b) frames.pause();
-		else frames.play();
+		if (b) frames.pause(renderer.instance);
+		else frames.play(renderer.instance);
 	});
 	gui.add(resizer, 'maxSize', 0, 7680).name('max resolution');
 	gui.add(resizer, 'resolutionFactor', 0.0, 1).name('resolution factor');

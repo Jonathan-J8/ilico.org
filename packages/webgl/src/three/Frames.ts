@@ -5,14 +5,12 @@ import now from '../utils/now';
 
 const execute = (fn?: () => void) => fn && fn();
 
-class Frames extends BatchFunction<
-	[{ time: number; deltaTime: number; renderer: WebGLRenderer | undefined }]
-> {
+class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 	#rafID: undefined | number = undefined;
 	#paused = true;
 	#clock = new Clock();
 	#stats = new Stats();
-	#renderer: WebGLRenderer | undefined;
+	// #renderer: WebGLRenderer | undefined;
 	debug = false;
 
 	constructor() {
@@ -33,44 +31,45 @@ class Frames extends BatchFunction<
 		if (this.debug) this.#stats.update();
 
 		const deltaTime = this.#clock.getDelta() * 1000;
-		super.run({ time, deltaTime, renderer: this.#renderer });
+		super.run({ time, deltaTime });
+		if (typeof this.#rafID === 'number') this.#rafID = requestAnimationFrame(this.tick);
 	};
 
-	attachRenderer = (renderer: WebGLRenderer) => {
-		this.#renderer = renderer;
-	};
+	// attachRenderer = (renderer: WebGLRenderer) => {
+	// 	this.#renderer = renderer;
+	// };
 
-	play = () => {
+	play = (renderer?: WebGLRenderer) => {
 		if (!this.#paused) return;
 		this.#paused = false;
 		this.#clock.start();
-		if (this.#renderer) this.#renderer.setAnimationLoop(this.tick);
+		if (renderer) renderer.setAnimationLoop(this.tick);
 		else this.#rafID = requestAnimationFrame(this.tick);
 	};
 
-	pause = () => {
+	pause = (renderer?: WebGLRenderer) => {
 		this.#paused = true;
 		this.#clock.stop();
-		if (this.#renderer) this.#renderer.setAnimationLoop(null);
+		if (renderer) renderer.setAnimationLoop(null);
 		if (typeof this.#rafID === 'number') cancelAnimationFrame(this.#rafID);
 	};
 
-	add(
-		...callbacks: ((
-			...args: [{ time: number; deltaTime: number; renderer: WebGLRenderer | undefined }]
-		) => void)[]
-	) {
-		super.add(...callbacks);
-		if (this.size > 0) this.play();
-	}
-	remove(
-		...callbacks: ((
-			...args: [{ time: number; deltaTime: number; renderer: WebGLRenderer | undefined }]
-		) => void)[]
-	) {
-		super.remove(...callbacks);
-		if (this.size === 0) this.pause();
-	}
+	// add(
+	// 	...callbacks: ((
+	// 		...args: [{ time: number; deltaTime: number;}]
+	// 	) => void)[]
+	// ) {
+	// 	super.add(...callbacks);
+	// 	if (this.size > 0) this.play();
+	// }
+	// remove(
+	// 	...callbacks: ((
+	// 		...args: [{ time: number; deltaTime: number; }]
+	// 	) => void)[]
+	// ) {
+	// 	super.remove(...callbacks);
+	// 	if (this.size === 0) this.pause();
+	// }
 
 	interpolate = ({
 		from = 0,

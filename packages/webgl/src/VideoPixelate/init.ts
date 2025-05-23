@@ -1,4 +1,5 @@
 import { GLSL3, Mesh, OrthographicCamera, PlaneGeometry, ShaderMaterial } from 'three';
+import Frames from '../three/Frames';
 import Renderer from '../three/Renderer';
 import Scene from '../three/Scene';
 import { _isDev } from '../utils/env';
@@ -43,31 +44,13 @@ const fragmentShader = /*glsl*/ `
      }
 `;
 
-const renderer = ({ canvas, uniforms }: { canvas: HTMLCanvasElement; uniforms: any }) => {
-	const { width, height } = canvas;
-	const pixelRatio = Math.min(window.devicePixelRatio, 2);
+export const init = ({ uniforms }: { uniforms: any }) => {
 	const renderer = new Renderer();
-	renderer.init(canvas, _isDev);
 
-	// const texture = new VideoTexture(video);
 	const scene = new Scene();
-	const aspect = width / height;
-	const frustum = 2;
 
-	const camera = new OrthographicCamera(
-		(frustum * aspect) / -2,
-		(frustum * aspect) / 2,
-		frustum / 2,
-		frustum / -2,
-		0,
-		1
-	);
-	camera.updateProjectionMatrix();
-	renderer.resize({
-		width,
-		height,
-		pixelRatio,
-	});
+	const camera = new OrthographicCamera(-2, 2, 2, -2, 0, 1);
+
 	const material = new ShaderMaterial({
 		glslVersion: GLSL3,
 		vertexShader,
@@ -75,8 +58,8 @@ const renderer = ({ canvas, uniforms }: { canvas: HTMLCanvasElement; uniforms: a
 		uniforms,
 	});
 
-	const ratio = width / height;
-	const geometry = new PlaneGeometry(ratio * 2, 2, 1, 1);
+	// const geometry = new PlaneGeometry(ratio * 2, 2, 1, 1);
+	const geometry = new PlaneGeometry(2, 2, 1, 1);
 	const mesh = new Mesh(geometry, material);
 
 	scene.add(camera, mesh);
@@ -86,9 +69,38 @@ const renderer = ({ canvas, uniforms }: { canvas: HTMLCanvasElement; uniforms: a
 		// material.uniforms.u_pixel_size.value = Math.sin(time * 0.001) * 100;
 		renderer.update(scene, camera);
 	};
-	renderer.instance?.setAnimationLoop(animate);
+	const frames = new Frames();
+	frames.play(renderer.instance);
+	frames.add(animate);
 
-	return { camera, scene, material, renderer };
+	return { camera, scene, material, renderer, frames };
 };
 
-export default renderer;
+export const setCanvas = ({
+	renderer,
+	camera,
+	canvas,
+}: {
+	renderer: Renderer;
+	camera: OrthographicCamera;
+	canvas: HTMLCanvasElement;
+}) => {
+	const { width, height } = canvas;
+
+	const pixelRatio = Math.min(window.devicePixelRatio, 2);
+	const aspect = width / height;
+	const frustum = 2;
+
+	renderer.init(canvas, _isDev);
+	camera.left = (frustum * aspect) / -2;
+	camera.right = (frustum * aspect) / 2;
+	camera.top = frustum / 2;
+	camera.bottom = frustum / -2;
+
+	renderer.resize({
+		width,
+		height,
+		pixelRatio,
+	});
+	camera.updateProjectionMatrix();
+};
