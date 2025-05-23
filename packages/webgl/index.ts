@@ -8,8 +8,8 @@ import { VideoPixelate } from './src';
 
 	const videopixelate = document.querySelector(VideoPixelate.name) as VideoPixelate;
 
-	if (!videopixelate) return;
-	setInterval(() => {
-		videopixelate.next();
-	}, 3000);
+	// if (!videopixelate) return;
+	// setInterval(() => {
+	// 	videopixelate.next();
+	// }, 3000);
 })();

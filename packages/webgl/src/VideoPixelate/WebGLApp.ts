@@ -1,9 +1,3 @@
-type Uniform = {
-	value: any;
-	readonly location: WebGLUniformLocation;
-	readonly name: string;
-};
-
 type Texture = {
 	readonly location: WebGLTexture;
 	readonly index: number;
@@ -11,28 +5,36 @@ type Texture = {
 	value: HTMLVideoElement | null;
 };
 
-const vertexShaderSource = `#version 300 es
-in vec2 a_position;
-in vec2 a_texCoord;
-out vec2 v_texCoord;
-void main() {
-    gl_Position = vec4(a_position, 0, 1);
-    v_texCoord = a_texCoord;
-}
-`;
+const vertexShaderSource = /*glsl*/ `#version 300 es
+in vec2 position; in vec2 uv; out vec2 v_uv;
+void main() { gl_Position = vec4(position, 0, 1); v_uv = uv;}`;
 
-const fragmentShaderSource = `#version 300 es
-precision mediump float;
-uniform sampler2D u_texture_a;
-uniform sampler2D u_texture_b;
-uniform float u_blend;
-in vec2 v_texCoord;
+const fragmentShaderSource = /*glsl*/ `#version 300 es
+precision lowp float;
+
+uniform sampler2D textureA;
+uniform sampler2D textureB;
+uniform vec2 resolution;
+uniform float pixelSize;
+uniform float blend;
+
+in vec2 v_uv;
 out vec4 outColor;
 
 void main() {
-    vec4 colorA = texture(u_texture_a, v_texCoord);
-    vec4 colorB = texture(u_texture_b, v_texCoord);
-    outColor = mix(colorA, colorB, u_blend); // blend both textures for demonstration
+
+	vec2 uv = v_uv  * resolution;
+
+	// Shift origin to center before flooring
+	vec2 centered = uv - 0.5 * resolution;
+	centered = floor(centered / pixelSize) * pixelSize + 0.5 * pixelSize;
+
+	// Shift back
+	uv = ( centered + 0.5 * resolution ) / resolution;
+    vec4 colorA = texture(textureA, uv);
+    vec4 colorB = texture(textureB, uv);
+
+    outColor = mix(colorA, colorB, blend);
 }
 `;
 
@@ -50,51 +52,59 @@ class WebGLApp {
 	gl: WebGL2RenderingContext;
 	canvas: HTMLCanvasElement;
 	textures: Record<Texture['name'], Texture> = {};
-	uniforms: Record<Uniform['name'], Uniform> = {};
+
+	uniforms = {
+		textureA: (v: HTMLVideoElement) => {},
+		textureB: (v: HTMLVideoElement) => {},
+		resolution: (x: number, y: number) => {},
+		blend: (v: number) => {},
+		pixelSize: (v: number) => {},
+	};
 
 	constructor(canvas: HTMLCanvasElement) {
 		const gl = canvas.getContext('webgl2') as WebGL2RenderingContext;
-		if (!gl) throw new Error('[VideoPixelate]: WebGL2RenderingContext not found');
+		if (!gl) throw new Error('WebGLApp: WebGL2RenderingContext not found');
 		this.gl = gl;
 		this.canvas = canvas;
+
 		const vertexShader = compileShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
 		const fragmentShader = compileShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
-
 		const program = gl.createProgram()!;
 		gl.attachShader(program, vertexShader);
 		gl.attachShader(program, fragmentShader);
 		gl.linkProgram(program);
 		if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-			throw new Error(gl.getProgramInfoLog(program) ?? 'Program linking failed');
+			throw new Error(
+				`WebGLApp: ${gl.getProgramInfoLog(program) ?? 'Program linking failed'}`
+			);
 		}
 		gl.useProgram(program);
-
-		// Quad geometry
-		const positions = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
-		const texCoords = new Float32Array([0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0]);
-
 		const vao = gl.createVertexArray();
 		gl.bindVertexArray(vao);
 
-		const positionBuffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-		const posLoc = gl.getAttribLocation(program, 'a_position');
-		gl.enableVertexAttribArray(posLoc);
-		gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-		const texCoordBuffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, texCoords, gl.STATIC_DRAW);
-
-		const texCoordLoc = gl.getAttribLocation(program, 'a_texCoord');
-		gl.enableVertexAttribArray(texCoordLoc);
-		gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-		gl.useProgram(program);
+		// Quad geometry
+		{
+			const datas = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
+			const buffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+			gl.bufferData(gl.ARRAY_BUFFER, datas, gl.STATIC_DRAW);
+			const location = gl.getAttribLocation(program, 'position');
+			gl.enableVertexAttribArray(location);
+			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+		}
 
 		{
-			const name = 'u_texture_a';
+			const datas = new Float32Array([0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0]);
+			const buffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+			gl.bufferData(gl.ARRAY_BUFFER, datas, gl.STATIC_DRAW);
+			const location = gl.getAttribLocation(program, 'uv');
+			gl.enableVertexAttribArray(location);
+			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+		}
+
+		{
+			const name = 'textureA';
 			const index = gl.TEXTURE0;
 			const location = gl.createTexture()!;
 			gl.activeTexture(index);
@@ -104,9 +114,10 @@ class WebGLApp {
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			gl.uniform1i(gl.getUniformLocation(program, name), 0);
 			this.textures[name] = { location, index, name, value: null };
+			this.uniforms[name] = (v) => (this.textures[name].value = v);
 		}
 		{
-			const name = 'u_texture_b';
+			const name = 'textureB';
 			const index = gl.TEXTURE1;
 			const location = gl.createTexture()!;
 			gl.activeTexture(index);
@@ -116,38 +127,45 @@ class WebGLApp {
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			gl.uniform1i(gl.getUniformLocation(program, name), 1);
 			this.textures[name] = { location, index, name, value: null };
+			this.uniforms[name] = (v) => (this.textures[name].value = v);
 		}
 
 		{
-			const name = 'u_blend';
-			const value = 0.5;
-			const location = gl.getUniformLocation(program, name) as WebGLUniformLocation;
-			gl.uniform1f(location, value);
-			this.uniforms[name] = { location, name, value };
+			const name = 'resolution';
+			const location = gl.getUniformLocation(program, name);
+			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
+			this.uniforms[name] = (...value) => {
+				gl.uniform2f(location, ...value);
+			};
+			this.uniforms[name](200, 200);
+		}
+		{
+			const name = 'pixelSize';
+			const location = gl.getUniformLocation(program, name);
+			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
+			this.uniforms[name] = (value) => gl.uniform1f(location, value);
+			this.uniforms[name](0.1);
+		}
+		{
+			const name = 'blend';
+			const location = gl.getUniformLocation(program, name);
+			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
+			this.uniforms[name] = (value) => gl.uniform1f(location, value);
+			this.uniforms[name](0);
 		}
 	}
 
 	update = () => {
-		// let t = 0;
 		const { gl } = this;
 
 		gl.clear(gl.COLOR_BUFFER_BIT);
-		// gl.bindVertexArray(vao);
-		// t += 0.01;
-		// const blend = 0.5 + 0.5 * Math.sin(t); // oscillates from 0 to 1
-		// gl.uniform1f(blendLocation, blend);
 
 		for (const key in this.textures) {
-			//@ts-ignore
 			const uni = this.textures[key];
 			if (!uni.value) continue;
 			gl.activeTexture(uni.index);
 			gl.bindTexture(gl.TEXTURE_2D, uni.location);
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, uni.value);
-		}
-		for (const key in this.uniforms) {
-			const uni = this.uniforms[key];
-			gl.uniform1f(uni.location, uni.value);
 		}
 
 		gl.drawArrays(gl.TRIANGLES, 0, 6);

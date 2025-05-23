@@ -5,6 +5,8 @@ import now from '../utils/now';
 
 const execute = (fn?: () => void) => fn && fn();
 
+type InterpolateCallback = (it: { value: number; time: number; deltaTime: number }) => void;
+
 class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 	#rafID: undefined | number = undefined;
 	#paused = true;
@@ -84,24 +86,24 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		onUpdate?: InterpolateCallback;
 		// onComplete?: InterpolateCallback
 	}) => {
-		return new Promise<number>((res) => {
-			let value = from;
-			const sign = from < to ? 1 : -1;
+		// return new Promise<number>((res) => {
+		let value = from;
+		const sign = from < to ? 1 : -1;
 
-			const tick = (o: { time: number; deltaTime: number }) => {
-				const deltaTime = o.deltaTime * sign;
-				value += deltaTime;
+		const tick = (o: { time: number; deltaTime: number }) => {
+			const deltaTime = o.deltaTime * sign;
+			value += deltaTime;
 
-				if ((sign > 0 && value > to) || (sign < 0 && value < to)) {
-					this.remove(tick);
-					res(value);
-					return;
-				} else if (typeof onUpdate === 'function') onUpdate({ value, ...o });
-			};
+			if ((sign > 0 && value > to) || (sign < 0 && value < to)) {
+				this.remove(tick);
+				// res(value);
+				return;
+			} else if (typeof onUpdate === 'function') onUpdate({ value, ...o });
+		};
 
-			if (typeof onStart === 'function') onStart({ value, time: 0, deltaTime: 0.08 });
-			this.add(tick);
-		});
+		if (typeof onStart === 'function') onStart({ value, time: 0, deltaTime: 0.08 });
+		this.add(tick);
+		// });
 	};
 
 	wait = (delay = 0) => new Promise((res) => setTimeout(res, delay));
@@ -169,7 +171,5 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		return () => this.remove(tick);
 	};
 }
-
-type InterpolateCallback = (it: { value: number; time: number; deltaTime: number }) => void;
 
 export default Frames;
