@@ -1,3 +1,5 @@
+import BatchFunction from '../utils/BatchFunction';
+
 type Texture = {
 	readonly location: WebGLTexture;
 	readonly index: number;
@@ -11,7 +13,6 @@ void main() { gl_Position = vec4(position, 0, 1); v_uv = uv;}`;
 
 const fragmentShaderSource = /*glsl*/ `#version 300 es
 precision lowp float;
-
 uniform sampler2D textureA;
 uniform sampler2D textureB;
 uniform vec2 resolution;
@@ -51,8 +52,8 @@ const compileShader = (gl: WebGL2RenderingContext, source: string, type: number)
 class WebGLApp {
 	gl: WebGL2RenderingContext;
 	canvas: HTMLCanvasElement;
-	textures: Record<Texture['name'], Texture> = {};
-
+	private bin = new BatchFunction<[]>();
+	private textures: Record<Texture['name'], Texture> = {};
 	uniforms = {
 		textureA: (v: HTMLVideoElement) => {},
 		textureB: (v: HTMLVideoElement) => {},
@@ -82,6 +83,16 @@ class WebGLApp {
 		const vao = gl.createVertexArray();
 		gl.bindVertexArray(vao);
 
+		this.bin.add(() => {
+			gl.deleteShader(vertexShader);
+		});
+		this.bin.add(() => {
+			gl.deleteShader(fragmentShader);
+		});
+		this.bin.add(() => {
+			gl.deleteProgram(program);
+		});
+
 		// Quad geometry
 		{
 			const datas = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
@@ -91,6 +102,9 @@ class WebGLApp {
 			const location = gl.getAttribLocation(program, 'position');
 			gl.enableVertexAttribArray(location);
 			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+			this.bin.add(() => {
+				gl.deleteBuffer(buffer);
+			});
 		}
 
 		{
@@ -101,8 +115,12 @@ class WebGLApp {
 			const location = gl.getAttribLocation(program, 'uv');
 			gl.enableVertexAttribArray(location);
 			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+			this.bin.add(() => {
+				gl.deleteBuffer(buffer);
+			});
 		}
 
+		// Textures
 		{
 			const name = 'textureA';
 			const index = gl.TEXTURE0;
@@ -115,6 +133,9 @@ class WebGLApp {
 			gl.uniform1i(gl.getUniformLocation(program, name), 0);
 			this.textures[name] = { location, index, name, value: null };
 			this.uniforms[name] = (v) => (this.textures[name].value = v);
+			this.bin.add(() => {
+				gl.deleteTexture(location);
+			});
 		}
 		{
 			const name = 'textureB';
@@ -128,8 +149,12 @@ class WebGLApp {
 			gl.uniform1i(gl.getUniformLocation(program, name), 1);
 			this.textures[name] = { location, index, name, value: null };
 			this.uniforms[name] = (v) => (this.textures[name].value = v);
+			this.bin.add(() => {
+				gl.deleteTexture(location);
+			});
 		}
 
+		// Uniforms
 		{
 			const name = 'resolution';
 			const location = gl.getUniformLocation(program, name);
@@ -183,6 +208,11 @@ class WebGLApp {
 
 		// Update WebGL viewport
 		gl.viewport(0, 0, width, height);
+	};
+
+	dispose = () => {
+		this.bin.run();
+		this.bin.dispose();
 	};
 }
 
