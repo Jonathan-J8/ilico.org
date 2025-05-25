@@ -10,7 +10,6 @@ const animateHeader = () => {
 	const h2Top = document.getElementById('js-header-top') as ScrambleText;
 	const h2Bottom = document.getElementById('js-header-bottom') as ScrambleText;
 	const h2Video = document.getElementById('js-header-video') as VideoPixelate;
-	console.dir(h2Video);
 
 	const anim = async () => {
 		const { value, question } = headerTexts[inc];

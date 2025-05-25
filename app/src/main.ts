@@ -6,6 +6,7 @@ import './style.css';
 const frames = new Frames();
 VideoPixelate.frames = frames;
 ScrambleText.frames = frames;
+frames.play();
 
 customElements.define(ScrambleText.name, ScrambleText);
 customElements.define(VideoPixelate.name, VideoPixelate);
