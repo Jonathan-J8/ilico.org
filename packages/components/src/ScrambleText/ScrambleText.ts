@@ -45,19 +45,6 @@ class ScrambleText extends HTMLElement {
 		}
 	};
 
-	// private scramble = async (text = '') => {
-	// 	this.bin.run();
-	// 	this.bin.dispose();
-	// 	const kills = this.animate({
-	// 		element: this,
-	// 		text,
-	// 		onComplete: () => {
-	// 			if (this.innerText !== text) this.innerText = text;
-	// 		},
-	// 	});
-	// 	this.bin.add(...kills);
-	// };
-
 	private animeIn = () => {
 		const text = this.innerText;
 		this.innerText = '';

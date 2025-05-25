@@ -37,7 +37,7 @@ const html = `
 
 class VideoPixelate extends HTMLElement {
 	static readonly name = 'video-pixelate';
-	static observedAttributes = ['videoIndex'];
+	static observedAttributes = ['video'];
 	static frames = new Frames();
 	readonly shadowRoot: ShadowRoot;
 	private webgl: WebGLApp;
@@ -51,9 +51,14 @@ class VideoPixelate extends HTMLElement {
 		template.innerHTML = html;
 		this.shadowRoot = this.attachShadow({ mode: 'open' });
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
-		const canvas = this.shadowRoot.querySelector('canvas') as HTMLCanvasElement;
+		const canvas = this.shadowRoot.querySelector('canvas');
+		if (!canvas) throw new Error('VideoPixelate: no canvas found');
 		this.webgl = new WebGLApp(canvas);
 	}
+
+	private getVideoElements = () => {
+		return this.shadowRoot.querySelector('slot')?.assignedElements() as HTMLVideoElement[];
+	};
 
 	private customAnimation = (index: number) => {
 		if (!this.webgl) return;
@@ -74,7 +79,8 @@ class VideoPixelate extends HTMLElement {
 
 		VideoPixelate.frames.animation({
 			steps: 20,
-			duration: 1000,
+			duration: 1500,
+			delay: 500,
 			iterations: 1,
 			onUpdate: () => {
 				if (pixelSize === 100) {
@@ -90,22 +96,16 @@ class VideoPixelate extends HTMLElement {
 		this.shiftTexture = !this.shiftTexture;
 	};
 
-	private getVideoElements = () => {
-		return this.shadowRoot.querySelector('slot')?.assignedElements() as HTMLVideoElement[];
-	};
+	connectedCallback() {
+		VideoPixelate.frames.add(this.webgl.update);
+	}
 
 	disconnectedCallback() {
 		this.webgl.dispose();
 	}
 
-	connectedCallback() {
-		VideoPixelate.frames.add(this.webgl.update);
-	}
-
 	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-		console.log(newValue);
-
-		if (name === 'videoIndex') {
+		if (name === 'video') {
 			this.customAnimation(parseInt(newValue || '0'));
 			return;
 		}

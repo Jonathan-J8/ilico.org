@@ -13,9 +13,11 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 	#deltaTime = 0.16;
 
 	debug = false;
+	id = 0;
 
 	constructor() {
 		super();
+		this.id = Math.random();
 	}
 
 	get paused() {

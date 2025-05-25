@@ -19,11 +19,12 @@ const animateHeader = () => {
 
 		h2Top.setAttribute('value', value);
 		h2Bottom.setAttribute('value', question);
-		h2Video.setAttribute('videoIndex', `${inc}`);
+		h2Video.setAttribute('video', `${inc}`);
 
 		++inc;
 		inc = inc % headerTexts.length;
 	};
+	h2Video.setAttribute('video', `${inc - 1}`);
 
 	if (observer) return; // preventing hot-reload cleaning
 

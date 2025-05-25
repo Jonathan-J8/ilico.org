@@ -1,9 +1,8 @@
 import { ScrambleText, VideoPixelate } from 'pkg-components';
-import { Frames } from 'pkg-utils';
 import animateHeader from './animateHeader';
+import { frames } from './globals';
 import './style.css';
 
-const frames = new Frames();
 VideoPixelate.frames = frames;
 ScrambleText.frames = frames;
 frames.play();
