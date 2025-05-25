@@ -5,17 +5,17 @@ const html = `
 <style>
 	.container {
 		position: relative;
-		min-width: 250px;
-		min-height: 250px;
-		width: 500px;
+
 		background-color: yellow;
+		outline: solid 2px black;
+		min-width: 500px;
+		aspect-ratio: 16/9;
 	}
 
 	.video {
 		position: absolute;
 		top: 0;
 		left: 0;
-		/* display: none; */
 	}
 
 	canvas {
