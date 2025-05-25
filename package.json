@@ -14,7 +14,7 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "npm run dev --workspace=packages/webgl",
+		"dev": "npm run dev --workspace=app",
 		"start": "concurrently -n webgl,app -c blue,green \"npm run dev:build --workspace=packages/webgl\" \"npm run dev --workspace=app\" ",
 		"build": "npm run build --workspace=packages/webgl && npm run build --workspace=app",
 		"preview": "npm run preview --workspace=app"

@@ -17,6 +17,8 @@
 	},
 	"dependencies": {
 		"gsap": "^3.13.0",
-		"webgl": "*"
+		"webgl": "*",
+		"pkg-components": "*",
+		"pkg-utils": "*"
 	}
 }

@@ -1,0 +1,15 @@
+{
+	"devDependencies": {
+		"@types/node": "^22.15.3",
+		"typescript": "~5.7.2"
+	},
+	"type": "module",
+	"main": "./src/index.ts",
+	"files": [
+		"src"
+	],
+	"scripts": {},
+	"name": "pkg-utils",
+	"private": true,
+	"version": "1.0.0"
+}

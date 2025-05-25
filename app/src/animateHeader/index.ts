@@ -1,29 +1,34 @@
-import type ScrambleText from '../ScrambleText/ScrambleText';
+import { VideoPixelate, type ScrambleText } from 'pkg-components';
 import headerTexts from './texts.json';
 
 let observer: IntersectionObserver | undefined;
+
 const animateHeader = () => {
 	let inc = 1;
 	let id: undefined | ReturnType<typeof setInterval>;
 
-	const h2 = document.getElementById('js-h2') as HTMLElement;
-	const h2Top = document.getElementById('js-h2-top') as ScrambleText;
-	const h2Bottom = document.getElementById('js-h2-bottom') as ScrambleText;
+	const h2Top = document.getElementById('js-header-top') as ScrambleText;
+	const h2Bottom = document.getElementById('js-header-bottom') as ScrambleText;
+	const h2Video = document.getElementById('js-header-video') as VideoPixelate;
+	console.dir(h2Video);
 
 	const anim = async () => {
 		const { value, question } = headerTexts[inc];
 
 		h2Top.delay = 0;
 		h2Bottom.delay = 300;
-		h2.ariaLabel = `${value} ${question}`;
+
 		h2Top.setAttribute('value', value);
 		h2Bottom.setAttribute('value', question);
+		h2Video.setAttribute('videoIndex', `${inc}`);
 
 		++inc;
 		inc = inc % headerTexts.length;
 	};
 
 	if (observer) return; // preventing hot-reload cleaning
+
+	const h2 = document.getElementById('js-h2') as HTMLElement;
 	observer = new IntersectionObserver(
 		(entries) => {
 			const { intersectionRatio } = entries[0];
