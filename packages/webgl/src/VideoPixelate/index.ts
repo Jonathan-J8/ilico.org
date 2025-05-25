@@ -1,1 +1,3 @@
-export { default as VideoPixelate } from './VideoPixelate';
+import VideoPixelate from './VideoPixelate';
+
+export default VideoPixelate;

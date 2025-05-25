@@ -1,3 +1,4 @@
+import { clamp } from 'three/src/math/MathUtils.js';
 import Frames from '../three/Frames';
 import html from './template.html?raw';
 import WebGLApp from './WebGLApp';
@@ -41,7 +42,7 @@ class VideoPixelate extends HTMLElement {
 			++index;
 
 			this.next({ index });
-		}, 2000);
+		}, 4000);
 	}
 
 	next = ({ index }: { index: number }) => {
@@ -55,25 +56,26 @@ class VideoPixelate extends HTMLElement {
 		if (this.shiftTexture) uniforms.textureB(nextVideo);
 		else uniforms.textureA(nextVideo);
 
-		const from = this.shiftTexture ? 0 : 1;
-		const to = 1 - from;
-
-		uniforms.blend(to);
+		// uniforms.blend(to);
 		this.shiftTexture = !this.shiftTexture;
 
-		// let blend = shift? 0:1;
-		// this.frames.animation({duration:200,onUpdate:()=>{
-		// 	// blend += 0.01;
-
-		// }})
-		// this.frames.interpolate({
-		// 	from,
-		// 	to,
-		// 	onUpdate: ({ value }) => {
-		// 		console.log(nextIndex, value);
-
-		// 	},
-		// });
+		let pixelSize = 0;
+		const max = 100;
+		const min = 0.01;
+		const gap = 10;
+		let inverse = false;
+		VideoPixelate.frames.animation({
+			steps: 20,
+			duration: 1000,
+			iterations: 1,
+			onUpdate: () => {
+				if (pixelSize === 100) inverse = true;
+				pixelSize = inverse ? pixelSize - gap : pixelSize + gap;
+				pixelSize = clamp(pixelSize, min, max);
+				console.log(pixelSize);
+				uniforms.pixelSize(pixelSize);
+			},
+		});
 	};
 }
 

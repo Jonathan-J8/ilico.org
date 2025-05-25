@@ -78,13 +78,13 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		to = 1,
 		onStart,
 		onUpdate,
-	}: // onComplete
-	{
+		onComplete,
+	}: {
 		from: number;
 		to: number;
 		onStart?: InterpolateCallback;
 		onUpdate?: InterpolateCallback;
-		// onComplete?: InterpolateCallback
+		onComplete?: InterpolateCallback;
 	}) => {
 		// return new Promise<number>((res) => {
 		let value = from;
@@ -92,9 +92,10 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 
 		const tick = (o: { time: number; deltaTime: number }) => {
 			const deltaTime = o.deltaTime * sign;
-			value += deltaTime;
+			value += deltaTime * 0.0001;
 
 			if ((sign > 0 && value > to) || (sign < 0 && value < to)) {
+				if (typeof onComplete === 'function') onComplete({ value, ...o });
 				this.remove(tick);
 				// res(value);
 				return;
@@ -130,10 +131,11 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		let currentStep = 0;
 		let currentIteration = 0;
 
-		const tick = ({ time }: { time: number; deltaTime: number }) => {
-			const elapsed = time - startTime;
+		const tick = ({ time }: { time: number }) => {
+			const elapsed = Math.abs(time - startTime);
 			if (steps > 0) {
 				const step = Math.min(Math.floor((elapsed / duration) * steps), steps - 1);
+
 				if (step !== currentStep) {
 					currentStep = step;
 					execute(onUpdate);
@@ -142,6 +144,7 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 
 			if (elapsed >= duration) {
 				this.remove(tick);
+				execute(onUpdate);
 				execute(onComplete);
 
 				currentIteration++;
