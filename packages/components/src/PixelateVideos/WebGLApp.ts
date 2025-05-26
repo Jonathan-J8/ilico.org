@@ -24,12 +24,11 @@ out vec4 outColor;
 
 void main() {
 
-	vec2 uv = v_uv  * resolution;
+	vec2 uv = v_uv * resolution;
 
 	// Shift origin to center before flooring
 	vec2 centered = uv - 0.5 * resolution;
 	centered = floor(centered / pixelSize) * pixelSize + 0.5 * pixelSize;
-
 	// Shift back
 	uv = ( centered + 0.5 * resolution ) / resolution;
     vec4 colorA = texture(textureA, uv);
@@ -162,7 +161,7 @@ class WebGLApp {
 			this.uniforms[name] = (...value) => {
 				gl.uniform2f(location, ...value);
 			};
-			this.uniforms[name](200, 200);
+			this.uniforms[name](1000 / (9 / 16), 1000);
 		}
 		{
 			const name = 'pixelSize';

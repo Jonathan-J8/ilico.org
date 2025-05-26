@@ -35,13 +35,13 @@ const html = `
 
 `;
 
-class VideoPixelate extends HTMLElement {
-	static readonly name = 'video-pixelate';
+class PixelateVideos extends HTMLElement {
+	static readonly name = 'pixelate-videos';
 	static observedAttributes = ['video'];
 	static frames = new Frames();
 	readonly shadowRoot: ShadowRoot;
 	private webgl: WebGLApp;
-	private shiftTexture = false;
+	private shiftTexture = true;
 	delay = 0;
 
 	constructor() {
@@ -52,7 +52,7 @@ class VideoPixelate extends HTMLElement {
 		this.shadowRoot = this.attachShadow({ mode: 'open' });
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
 		const canvas = this.shadowRoot.querySelector('canvas');
-		if (!canvas) throw new Error('VideoPixelate: no canvas found');
+		if (!canvas) throw new Error('PixelateVideos: no canvas found');
 		this.webgl = new WebGLApp(canvas);
 	}
 
@@ -78,13 +78,13 @@ class VideoPixelate extends HTMLElement {
 		const gap = 10;
 		let inverse = false;
 
-		VideoPixelate.frames.animation({
-			steps: 20,
+		PixelateVideos.frames.animation({
+			steps: (max / gap) * 2,
 			duration: 1500,
-			delay: 500,
+			delay: 0,
 			iterations: 1,
 			onUpdate: () => {
-				if (pixelSize === 100) {
+				if (pixelSize === max) {
 					inverse = true;
 					uniforms.blend(+!this.shiftTexture);
 				}
@@ -98,7 +98,33 @@ class VideoPixelate extends HTMLElement {
 	};
 
 	connectedCallback() {
-		VideoPixelate.frames.add(this.webgl.update);
+		PixelateVideos.frames.add(this.webgl.update);
+
+		let pixelSize = 50;
+		const max = pixelSize;
+		const min = 0.01;
+		const gap = 10;
+		const { uniforms } = this.webgl;
+		const videos = this.getVideoElements();
+
+		const firstVideo = videos[0];
+		firstVideo.currentTime = 0;
+
+		uniforms.textureA(firstVideo);
+		uniforms.pixelSize(pixelSize);
+		uniforms.blend(0);
+
+		PixelateVideos.frames.animation({
+			steps: max / gap,
+			duration: 500,
+			delay: 300,
+			iterations: 1,
+			onUpdate: () => {
+				pixelSize -= gap;
+				pixelSize = clamp(pixelSize, min, max);
+				uniforms.pixelSize(pixelSize);
+			},
+		});
 	}
 
 	disconnectedCallback() {
@@ -117,4 +143,4 @@ class VideoPixelate extends HTMLElement {
 	}
 }
 
-export default VideoPixelate;
+export default PixelateVideos;

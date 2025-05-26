@@ -11,7 +11,7 @@
 	"main": "./src/index.ts",
 	"files": [
 		"src",
-		"src/VideoPixelate/template.html"
+		"src/PixelateVideos/template.html"
 	],
 	"scripts": {},
 	"name": "pkg-components",

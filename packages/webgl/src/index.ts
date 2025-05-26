@@ -2,7 +2,6 @@ import { initComponents } from './components';
 import { initThree } from './three';
 import { initUniforms } from './uniforms';
 export { frames } from './three';
-export { default as VideoPixelate } from './VideoPixelate';
 
 export const initWebglApp = ({
 	canvas,

@@ -9,6 +9,7 @@
 	</head>
 	<body class="relative">
 		<canvas id="canvas" class="fixed top-0 left-0 -z-1 h-screen w-full"></canvas>
+
 		<!-- NAVIGATION -->
 		<nav
 			class="bg-base-100 z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between items-center p-6"
@@ -38,10 +39,11 @@
 			</div>
 		</nav>
 		<!-- HEADER -->
+
 		<header
-			class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-6 relative"
+			class="container mx-auto w-full h-[calc(100vh-9rem)] mb-10 overflow-clip rounded-t-xl relative flex flex-col"
 		>
-			<video-pixelate id="js-header-video" class="w-full h-full">
+			<pixelate-videos id="js-header-video">
 				<video
 					src="/ilico_fai.mp4"
 					muted
@@ -132,36 +134,87 @@
 					preload="auto"
 					class="invisible absolute inset-0"
 				></video>
-			</video-pixelate>
+			</pixelate-videos>
 			<h2
 				id="js-h2"
 				aria-label="Fournisseur d'Accès à Internet libre et associatif en Corrèze."
-				class="relative min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-start gap-2"
+				class="text-4xl md:text-6xl tracking-wide text-left flex flex-col items-start justify-start gap-2"
 			>
 				<scramble-text id="js-header-top" delay="600" class="relative bg-secondary p-6"
 					>Fournisseur d'Accès à Internet libre et associatif en Corrèze.</scramble-text
 				>
 
-				<div class="relative overflow-hidden">
-					<div class="absolute top-0 left-0 h-full w-full"></div>
-					<p>
-						<scramble-text
-							id="js-header-bottom"
-							class="relative bg-primary p-6"
-							delay="900"
-						>
-						</scramble-text>
-					</p>
-				</div>
+				<scramble-text
+					id="js-header-bottom"
+					class="relative color-white bg-primary p-6"
+					delay="900"
+				>
+				</scramble-text>
 			</h2>
 
-			<p>
+			<!-- <p>
 				<scramble-text delay="1200">
 					Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet
 					de promouvoir l’utilisation et le développement d'un réseau Internet libre et de
 					défendre sa neutralité.
 				</scramble-text>
-			</p>
+			</p> -->
+
+			<fieldset
+				id="js-header-buttons"
+				class="grow mt-2 inline-flex items-end justify-start gap-2"
+			>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" checked class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+				<label
+					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				>
+					<input type="radio" name="choice" class="invisible" />
+				</label>
+			</fieldset>
 		</header>
 
 		<main class="container mx-auto px-4">
