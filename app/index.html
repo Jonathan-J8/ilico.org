@@ -41,39 +41,115 @@
 		<header
 			class="container mx-auto w-full h-[calc(100vh-1.5rem-39px)] overflow-clip pt-48 relative"
 		>
+			<video-pixelate id="js-header-video" class="absolute right-0 -bottom-0 w-full h-full">
+				<video
+					src="/ilico_fai.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_spy_3.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_filter.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_neutrality.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_cheers.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_liberty.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_election.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_mail.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_friends.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+				<video
+					src="/ilico_over.mp4"
+					muted
+					playsinline
+					loop
+					autoplay
+					preload="auto"
+					class="invisible absolute inset-0"
+				></video>
+			</video-pixelate>
 			<h2
 				id="js-h2"
 				aria-label="Fournisseur d'Accès à Internet libre et associatif en Corrèze."
 				class="relative mb-30 min-h-[350px] text-4xl md:text-6xl lg:text-7xl tracking-wide text-left flex flex-col items-start justify-between"
 			>
-				<scramble-text id="js-header-top" delay="600" class="relative"
+				<scramble-text id="js-header-top" delay="600" class="relative bg-secondary p-6"
 					>Fournisseur d'Accès à Internet libre et associatif en Corrèze.</scramble-text
 				>
 
-				<video-pixelate id="js-header-video" class="absolute right-0 -bottom-32">
-					<video
-						src="/video_512_A.mp4"
-						muted
-						playsinline
-						loop
-						autoplay
-						preload="auto"
-						class="invisible absolute inset-0"
-					></video>
-					<video
-						src="/video_512_B.mp4"
-						muted
-						playsinline
-						loop
-						autoplay
-						preload="auto"
-						class="invisible absolute inset-0"
-					></video>
-				</video-pixelate>
-				<div class="p-6 relative overflow-hidden">
-					<div class="absolute top-0 left-0 bg-primary h-full w-full"></div>
+				<div class="relative overflow-hidden">
+					<div class="absolute top-0 left-0 h-full w-full"></div>
 					<p>
-						<scramble-text id="js-header-bottom" class="relative" delay="900">
+						<scramble-text
+							id="js-header-bottom"
+							class="relative bg-primary p-6"
+							delay="900"
+						>
 						</scramble-text>
 					</p>
 				</div>
