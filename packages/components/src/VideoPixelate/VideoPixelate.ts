@@ -6,8 +6,8 @@ const html = `
 	.container {
 		position: relative;
 
-		background-color: yellow;
-		outline: solid 2px black;
+		// background-color: yellow;
+		// outline: solid 2px black;
 		min-width: 500px;
 		aspect-ratio: 16/9;
 	}
@@ -67,6 +67,7 @@ class VideoPixelate extends HTMLElement {
 		const videos = this.getVideoElements();
 		const nextIndex = index % videos.length;
 		const nextVideo = videos[nextIndex];
+		nextVideo.currentTime = 0;
 
 		if (this.shiftTexture) uniforms.textureB(nextVideo);
 		else uniforms.textureA(nextVideo);

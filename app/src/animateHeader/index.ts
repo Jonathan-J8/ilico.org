@@ -28,7 +28,7 @@ const animateHeader = () => {
 
 	if (observer) return; // preventing hot-reload cleaning
 
-	const h2 = document.getElementById('js-h2') as HTMLElement;
+	const el = document.querySelector('header') as HTMLElement;
 	observer = new IntersectionObserver(
 		(entries) => {
 			const { intersectionRatio } = entries[0];
@@ -42,7 +42,7 @@ const animateHeader = () => {
 		{ threshold: 0 }
 	);
 
-	observer.observe(h2);
+	observer.observe(el);
 };
 
 export default animateHeader;
