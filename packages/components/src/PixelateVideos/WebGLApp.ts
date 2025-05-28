@@ -54,10 +54,15 @@ class WebGLApp {
 	private bin = new BatchFunction<[]>();
 	private textures: Record<Texture['name'], Texture> = {};
 	uniforms = {
+		//@ts-ignore
 		textureA: (v: HTMLVideoElement) => {},
+		//@ts-ignore
 		textureB: (v: HTMLVideoElement) => {},
+		//@ts-ignore
 		resolution: (x: number, y: number) => {},
+		//@ts-ignore
 		blend: (v: number) => {},
+		//@ts-ignore
 		pixelSize: (v: number) => {},
 	};
 

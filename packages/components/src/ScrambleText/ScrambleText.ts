@@ -75,6 +75,7 @@ class ScrambleText extends HTMLElement {
 		observer.observe(this);
 	}
 
+	//@ts-ignore
 	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
 		if (name === 'value') {
 			this.customAnimation(newValue);

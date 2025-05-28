@@ -131,6 +131,7 @@ class PixelateVideos extends HTMLElement {
 		this.webgl.dispose();
 	}
 
+	// @ts-ignore
 	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
 		if (name === 'video') {
 			this.customAnimation(parseInt(newValue || '0'));

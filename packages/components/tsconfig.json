@@ -13,7 +13,7 @@
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"noEmit": true,
-		// "noUnusedParameters": true,
+		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true,
 		"noUnusedLocals": true,
