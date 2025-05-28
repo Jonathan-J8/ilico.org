@@ -1,9 +1,8 @@
 import { initComponents } from './components';
 import { initThree } from './three';
 import { initUniforms } from './uniforms';
-export { frames } from './three';
 
-export const initWebglApp = ({
+const init = ({
 	canvas,
 	debug,
 	controls,
@@ -21,3 +20,5 @@ export const initWebglApp = ({
 		disposeUni();
 	};
 };
+
+export default init;

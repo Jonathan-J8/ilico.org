@@ -13,12 +13,10 @@ customElements.define(PixelateVideos.name, PixelateVideos);
 animateHeader();
 
 (async () => {
-	// const url = new URL(window.location.href);
-	// const debug = url.searchParams.has('debug') ? true : false;
-	// const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-	// const { PixelateVideos } = await import('webgl');
-	// const dispose = webgl({ canvas, debug, controls: false });
-	// import.meta.hot?.dispose(() => {
-	// 	dispose();
-	// });
+	const url = new URL(window.location.href);
+	const debug = url.searchParams.has('debug') ? true : false;
+	const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+	const webgl = (await import('pkg-webgl')).default;
+	const dispose = webgl({ canvas, debug, controls: false });
+	import.meta.hot?.dispose(dispose);
 })();
