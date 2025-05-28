@@ -84,7 +84,6 @@ export const initThree = ({
 	renderer.instance.compile(scene, camera);
 
 	frames.add(update);
-	// frames.attachRenderer(renderer.instance);
 	frames.play(renderer.instance);
 
 	const axis = new AxesHelper(100);

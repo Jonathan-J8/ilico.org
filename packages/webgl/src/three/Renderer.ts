@@ -73,7 +73,8 @@ class Renderer {
 
 		this.instance = new WebGLRenderer({
 			canvas,
-			alpha: false,
+			alpha: true,
+			premultipliedAlpha: false,
 			antialias: true,
 			powerPreference: 'default',
 			failIfMajorPerformanceCaveat: false,

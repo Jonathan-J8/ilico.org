@@ -24,18 +24,18 @@ class Frames extends BatchFunction<[{ time: number; deltaTime: number }]> {
 		return this.#paused;
 	}
 
-	private tick = (time: number) => {
+	_tick = (time: number) => {
 		this.#deltaTime = Math.abs(time - this.#previousTime);
 		this.#previousTime = time;
 		super.run({ time, deltaTime: this.#deltaTime });
-		this.#rafID = requestAnimationFrame(this.tick);
+		this.#rafID = requestAnimationFrame(this._tick);
 	};
 
 	play = () => {
 		if (!this.#paused) return;
 		this.#paused = false;
 		this.#previousTime = now();
-		this.#rafID = requestAnimationFrame(this.tick);
+		this.#rafID = requestAnimationFrame(this._tick);
 	};
 
 	pause = () => {
