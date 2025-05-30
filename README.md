@@ -1,6 +1,7 @@
 # ilico.org
 
 ilico.org - new webiste made with typescript + vite + threejs + tailwindcss.
+Previous website at https://www.ilico.org/
 
 ## npm workspaces
 
