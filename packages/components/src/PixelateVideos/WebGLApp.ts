@@ -18,6 +18,7 @@ uniform sampler2D textureB;
 uniform vec2 resolution;
 uniform float pixelSize;
 uniform float blend;
+uniform vec2 mouse;
 
 in vec2 v_uv;
 out vec4 outColor;
@@ -31,9 +32,9 @@ void main() {
 	centered = floor(centered / pixelSize) * pixelSize + 0.5 * pixelSize;
 	// Shift back
 	uv = ( centered + 0.5 * resolution ) / resolution;
+
     vec4 colorA = texture(textureA, uv);
     vec4 colorB = texture(textureB, uv);
-
     outColor = mix(colorA, colorB, blend);
 }
 `;
@@ -60,6 +61,8 @@ class WebGLApp {
 		textureB: (v: HTMLVideoElement) => {},
 		//@ts-ignore
 		resolution: (x: number, y: number) => {},
+		//@ts-ignore
+		mouse: (x: number, y: number) => {},
 		//@ts-ignore
 		blend: (v: number) => {},
 		//@ts-ignore
@@ -182,7 +185,25 @@ class WebGLApp {
 			this.uniforms[name] = (value) => gl.uniform1f(location, value);
 			this.uniforms[name](0);
 		}
+		{
+			const name = 'mouse';
+			const location = gl.getUniformLocation(program, name);
+			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
+			this.uniforms[name] = (...value) => gl.uniform2f(location, ...value);
+			this.uniforms[name](0, 0);
+		}
+
+		canvas.addEventListener('pointermove', this.mouseMove, false);
 	}
+
+	mouseMove = (e: PointerEvent) => {
+		const { clientWidth, clientHeight } = this.canvas;
+
+		const x = ((e.offsetX / clientWidth) * 2 - 1) * 0.5;
+		const y = (-(e.offsetY / clientHeight) * 2 + 1) * 0.5;
+
+		this.uniforms.mouse(x, y);
+	};
 
 	update = () => {
 		const { gl } = this;
@@ -217,6 +238,7 @@ class WebGLApp {
 	dispose = () => {
 		this.bin.run();
 		this.bin.dispose();
+		this.canvas.addEventListener('pointermove', this.mouseMove, false);
 	};
 }
 

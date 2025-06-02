@@ -1,11 +1,17 @@
 import { PixelateVideos, type ScrambleText } from 'pkg-components';
 import headerTexts from './texts.json';
 
-let observer: IntersectionObserver | undefined;
-
 const animateHeader = () => {
 	let inc = 1;
 	let id: undefined | ReturnType<typeof setInterval>;
+
+	const resize = () => {
+		const min = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+		const h2Container = document.getElementById('js-header-container') as HTMLDivElement;
+		h2Container.style.transform = `scale(${min})`;
+	};
+	resize();
+	window.addEventListener('resize', resize);
 
 	const h2Top = document.getElementById('js-header-top') as ScrambleText;
 	const h2Bottom = document.getElementById('js-header-bottom') as ScrambleText;
@@ -17,7 +23,6 @@ const animateHeader = () => {
 
 		h2Top.delay = 0;
 		h2Bottom.delay = 300;
-
 		h2Top.setAttribute('value', value);
 		h2Bottom.setAttribute('value', question);
 		h2Video.setAttribute('video', `${inc}`);
@@ -43,10 +48,8 @@ const animateHeader = () => {
 		next();
 	};
 
-	if (observer) return; // preventing hot-reload cleaning
-
 	const el = document.querySelector('header') as HTMLElement;
-	observer = new IntersectionObserver(
+	const observer = new IntersectionObserver(
 		(entries) => {
 			const { intersectionRatio } = entries[0];
 			if (intersectionRatio === 0) {
@@ -60,6 +63,11 @@ const animateHeader = () => {
 	);
 
 	observer.observe(el);
+
+	import.meta.hot?.on('vite:beforeUpdate', () => {
+		observer.unobserve(el);
+		window.removeEventListener('resize', resize);
+	});
 };
 
 export default animateHeader;

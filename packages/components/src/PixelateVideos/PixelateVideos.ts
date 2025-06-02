@@ -5,10 +5,7 @@ const html = `
 <style>
 	.container {
 		position: relative;
-
-		// background-color: yellow;
-		// outline: solid 2px black;
-		min-width: 500px;
+		width:100%;
 		aspect-ratio: 16/9;
 	}
 

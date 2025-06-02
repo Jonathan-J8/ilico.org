@@ -2,7 +2,7 @@
 <html lang="fr" data-theme="light">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<title>ilico</title>
@@ -20,7 +20,7 @@
 				</h1>
 				<p class="text-xs"><b>I</b>nternet <b>Li</b>bre en <b>Co</b>rrèze</p>
 			</a>
-			<div class="inline-flex justify-end gap-6 items-center text-sm">
+			<div class="justify-end gap-6 items-center text-sm hidden md:inline-flex">
 				<ul>
 					<li>
 						<a href="#services"> Services et offres </a>
@@ -40,119 +40,128 @@
 		</nav>
 		<!-- HEADER -->
 
-		<header
-			class="container px-6 mx-auto mb-80 w-full min-h-[calc(100vh-9rem)] overflow-hidden rounded-t-xl relative flex flex-col"
-		>
-			<pixelate-videos id="js-header-video">
-				<video
-					src="/ilico_fai.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_spy_3.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_filter.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_neutrality.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_cheers.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_liberty.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_election.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_mail.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_friends.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-				<video
-					src="/ilico_over.mp4"
-					muted
-					playsinline
-					loop
-					autoplay
-					preload="auto"
-					class="invisible absolute inset-0"
-				></video>
-			</pixelate-videos>
+		<header class="container px-6 mx-auto mb-80 w-full">
 			<h2
-				id="js-h2"
 				aria-label="Fournisseur d'Accès à Internet libre et associatif en Corrèze."
-				class="text-4xl tracking-wide text-left flex flex-col items-start justify-start gap-2"
-			>
-				<scramble-text id="js-header-top" delay="600" class="relative bg-secondary p-6"
-					>Fournisseur d'Accès à Internet libre et associatif en Corrèze.</scramble-text
+				class="sr-only"
+			></h2>
+			<div class="relative min-h-[calc(100vh-8rem)] flex flex-col items-center">
+				<div
+					id="js-header-container"
+					class="aspect-video absolute mt-6 top-1/2 left-1/2 -translate-1/2 flex flex-col items-start w-[1280px]"
 				>
+					<pixelate-videos id="js-header-video" class="w-9/12 block">
+						<video
+							src="/ilico_fai.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_spy_3.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_filter.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_neutrality.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_cheers.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_liberty.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_election.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_mail.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_friends.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+						<video
+							src="/ilico_over.mp4"
+							muted
+							playsinline
+							loop
+							autoplay
+							preload="auto"
+							class="invisible absolute inset-0"
+						></video>
+					</pixelate-videos>
 
-				<scramble-text
-					id="js-header-bottom"
-					class="relative color-white bg-primary p-6"
-					delay="900"
-				>
-				</scramble-text>
-			</h2>
+					<!-- class="text-4xl tracking-wide text-left flex flex-col items-start justify-start gap-2" -->
 
-			<!-- <p>
+					<scramble-text
+						id="js-header-top"
+						delay="600"
+						class="relative self-end -top-16 right-0 bg-secondary p-12 block text-6xl tracking-wide h-80 w-[1000px]"
+						>Fournisseur d'Accès à Internet libre et associatif en
+						Corrèze.</scramble-text
+					>
+
+					<scramble-text
+						id="js-header-bottom"
+						class="relative -top-28 left-64 text-white bg-primary p-12 text-6xl tracking-wide"
+						delay="900"
+					>
+					</scramble-text>
+				</div>
+
+				<!-- <p>
 				<scramble-text delay="1200">
 					Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet
 					de promouvoir l’utilisation et le développement d'un réseau Internet libre et de
@@ -160,61 +169,62 @@
 				</scramble-text>
 			</p> -->
 
-			<fieldset
-				id="js-header-buttons"
-				class="grow mt-2 inline-flex items-end justify-start gap-2"
-			>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+				<fieldset
+					id="js-header-buttons"
+					class="mt-auto w-full inline-flex items-center justify-center gap-2"
 				>
-					<input type="radio" name="choice" checked class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-				<label
-					class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
-				>
-					<input type="radio" name="choice" class="invisible" />
-				</label>
-			</fieldset>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" checked class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+					<label
+						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+					>
+						<input type="radio" name="choice" class="invisible" />
+					</label>
+				</fieldset>
+			</div>
 		</header>
 
 		<main class="container mx-auto max-w-5xl px-6">
@@ -223,7 +233,7 @@
 					<scramble-text intersection="true"> Services et offres </scramble-text>
 				</h3>
 
-				<ul class="flex flex-row gap-6">
+				<ul class="flex flex-row gap-6 flex-wrap">
 					<li class="card w-full bg-base-100 shadow-sm">
 						<div class="card-body">
 							<div class="flex justify-between">
