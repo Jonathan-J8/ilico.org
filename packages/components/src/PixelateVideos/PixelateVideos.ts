@@ -40,7 +40,7 @@ class PixelateVideos extends HTMLElement {
 	private webgl: WebGLApp;
 	private shiftTexture = true;
 	delay = 0;
-
+	#canvas: HTMLCanvasElement;
 	constructor() {
 		super();
 
@@ -48,9 +48,9 @@ class PixelateVideos extends HTMLElement {
 		template.innerHTML = html;
 		this.shadowRoot = this.attachShadow({ mode: 'open' });
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
-		const canvas = this.shadowRoot.querySelector('canvas');
-		if (!canvas) throw new Error('PixelateVideos: no canvas found');
-		this.webgl = new WebGLApp(canvas);
+		this.#canvas = this.shadowRoot.querySelector('canvas') as HTMLCanvasElement;
+		if (!this.#canvas) throw new Error('PixelateVideos: no canvas found');
+		this.webgl = new WebGLApp(this.#canvas);
 	}
 
 	private getVideoElements = () => {
@@ -94,8 +94,21 @@ class PixelateVideos extends HTMLElement {
 		this.shiftTexture = !this.shiftTexture;
 	};
 
+	onPointerMove = (e: PointerEvent) => {
+		if (!this.webgl) return;
+		const { uniforms } = this.webgl;
+		const { clientWidth, clientHeight } = this.#canvas;
+		const x = ((e.offsetX / clientWidth) * 2 - 1) * 0.5;
+		const y = (-(e.offsetY / clientHeight) * 2 + 1) * 0.5;
+		const velX = e.movementX; //* 0.1;
+		const velY = e.movementY; //* 0.1;
+		uniforms.mousePosition(x, y);
+		uniforms.mouseVelocity(velX, velY);
+	};
+
 	connectedCallback() {
 		PixelateVideos.frames.add(this.webgl.update);
+		this.#canvas.addEventListener('pointermove', this.onPointerMove, false);
 
 		let pixelSize = 50;
 		const max = pixelSize;
@@ -125,6 +138,7 @@ class PixelateVideos extends HTMLElement {
 	}
 
 	disconnectedCallback() {
+		this.#canvas.removeEventListener('pointermove', this.onPointerMove, false);
 		this.webgl.dispose();
 	}
 

@@ -18,22 +18,39 @@ uniform sampler2D textureB;
 uniform vec2 resolution;
 uniform float pixelSize;
 uniform float blend;
-uniform vec2 mouse;
+uniform vec2 mousePosition;
+uniform vec2 mouseVelocity;
 
 in vec2 v_uv;
 out vec4 outColor;
 
 void main() {
 
+	
+	// TODO: pixelate based on mouse position;
+	vec2 uv_screen = v_uv * resolution;
+	vec2 position =  vec2( mousePosition.x + 0.5, mousePosition.y * -1. + 0.5 );
+   	position = position * resolution;
+	vec2 diff = abs(uv_screen - position);
+	float velocity = length(mouseVelocity);
+	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
+	vec2 boxStrength = smoothstep(boxSize, vec2(0.0), diff); // 0 to 1 fade per axis
+	float strength = step(max(diff.x, diff.y), boxSize.x);
+	float mousePixelSize = mix(1.0, 50. , strength) * clamp(velocity, 0., 1.);
+	
+	
+	
 	vec2 uv = v_uv * resolution;
-
-	// Shift origin to center before flooring
 	vec2 centered = uv - 0.5 * resolution;
-	centered = floor(centered / pixelSize) * pixelSize + 0.5 * pixelSize;
+    float localPixelSize = mousePixelSize + pixelSize;
+	centered = floor(centered / localPixelSize) * localPixelSize + 0.5 * localPixelSize;
+
+	
+
 	// Shift back
 	uv = ( centered + 0.5 * resolution ) / resolution;
-
-    vec4 colorA = texture(textureA, uv);
+    
+	vec4 colorA = texture(textureA, uv);
     vec4 colorB = texture(textureB, uv);
     outColor = mix(colorA, colorB, blend);
 }
@@ -62,11 +79,13 @@ class WebGLApp {
 		//@ts-ignore
 		resolution: (x: number, y: number) => {},
 		//@ts-ignore
-		mouse: (x: number, y: number) => {},
-		//@ts-ignore
 		blend: (v: number) => {},
 		//@ts-ignore
 		pixelSize: (v: number) => {},
+		//@ts-ignore
+		mousePosition: (x: number, y: number) => {},
+		//@ts-ignore
+		mouseVelocity: (x: number, y: number) => {},
 	};
 
 	constructor(canvas: HTMLCanvasElement) {
@@ -186,24 +205,20 @@ class WebGLApp {
 			this.uniforms[name](0);
 		}
 		{
-			const name = 'mouse';
+			const name = 'mousePosition';
 			const location = gl.getUniformLocation(program, name);
 			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
 			this.uniforms[name] = (...value) => gl.uniform2f(location, ...value);
 			this.uniforms[name](0, 0);
 		}
-
-		canvas.addEventListener('pointermove', this.mouseMove, false);
+		{
+			const name = 'mouseVelocity';
+			const location = gl.getUniformLocation(program, name);
+			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
+			this.uniforms[name] = (...value) => gl.uniform2f(location, ...value);
+			this.uniforms[name](0, 0);
+		}
 	}
-
-	mouseMove = (e: PointerEvent) => {
-		const { clientWidth, clientHeight } = this.canvas;
-
-		const x = ((e.offsetX / clientWidth) * 2 - 1) * 0.5;
-		const y = (-(e.offsetY / clientHeight) * 2 + 1) * 0.5;
-
-		this.uniforms.mouse(x, y);
-	};
 
 	update = () => {
 		const { gl } = this;
@@ -238,7 +253,6 @@ class WebGLApp {
 	dispose = () => {
 		this.bin.run();
 		this.bin.dispose();
-		this.canvas.addEventListener('pointermove', this.mouseMove, false);
 	};
 }
 
