@@ -29,11 +29,11 @@ npm run preview
 
 ## todos
 
--   ui: header
+-   feat: pixelate-img component
+    Display an image on scroll (lazy load) like the PixelateVideos component.
+-   ui: mailing template
 -   ui: news section
 -   ui: about section
--   ui: mailing template
--   ui: <pixelate-img/> component
 -   ui: threejs/webgl background
 -   feat: sso
 -   feat: stripe.js payment
