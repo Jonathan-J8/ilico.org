@@ -29,8 +29,7 @@ npm run preview
 
 ## todos
 
--   feat: pixelate-img component
-    Display an image on scroll (lazy load) like the PixelateVideos component.
+-   feat: pixelate-img component - Display an image on scroll (lazy load) like the PixelateVideos component.
 -   ui: mailing template
 -   ui: news section
 -   ui: about section
