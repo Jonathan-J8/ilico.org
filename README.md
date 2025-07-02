@@ -17,7 +17,7 @@ Previous website at https://www.ilico.org/
 
 ```
 npm i
-npm run dev
+npm start
 ```
 
 ### preview
