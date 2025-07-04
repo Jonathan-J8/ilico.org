@@ -6,9 +6,7 @@ const html = `
 	}
 	
 	.img {
-		position: absolute;
-		top: 0;
-		left: 0;
+		position: absolute;	
 	}
 	canvas {
 		width: 100%;
@@ -25,10 +23,9 @@ const html = `
     <canvas></canvas>
 </div>
 `
-class PixalatePictures extends HTMLElement {
+class PixelatePictures extends HTMLElement {
     static readonly name = 'pixelate-pictures';
     readonly shadowRoot: ShadowRoot;
-    #canvas: HTMLCanvasElement;
     constructor() {
         super();
 
@@ -36,8 +33,7 @@ class PixalatePictures extends HTMLElement {
         template.innerHTML = html;
         this.shadowRoot = this.attachShadow({mode: "open"});
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.#canvas = this.shadowRoot.querySelector('canvas') as HTMLCanvasElement;
     }
 }
 
-export default PixalatePictures;
+export default PixelatePictures;
