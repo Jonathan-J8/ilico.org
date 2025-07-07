@@ -23,16 +23,53 @@ const html = `
     <canvas></canvas>
 </div>
 `
+
 class PixelatePictures extends HTMLElement {
     static readonly name = 'pixelate-pictures';
     readonly shadowRoot: ShadowRoot;
+    readonly element: Element | null;
+    readonly imagePath = './public/ilico_fine.jpg';
+    readonly image = new Image;
+
     constructor() {
         super();
 
         let template = document.createElement('template');
         template.innerHTML = html;
-        this.shadowRoot = this.attachShadow({mode: "open"});
+        this.shadowRoot = this.attachShadow({mode: 'open'});
         this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.element = document.querySelector('#lazy')
+        this.image.src = this.imagePath;
+        this.initiateLazyLoading();
+    }
+
+    initiateLazyLoading() {
+        let observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        let imageElement = entry.target as HTMLImageElement;
+                        this.lazyLoad(imageElement);
+                        console.log('Image loaded');
+                        if (this.element !== null) {
+                            observer.unobserve(this.element);
+                            console.log('IntersectionObserver detached');
+                        }
+                    }
+                });
+            }
+        );
+        if (this.element !== null) {
+            observer.observe(this.element);
+            console.log('IntersectionObserver attached');
+        } else console.log(this.element);
+    }
+
+    lazyLoad(imageElement: HTMLImageElement): void {
+        if (imageElement instanceof HTMLImageElement) {
+            let i = imageElement as HTMLImageElement;
+            i.src = this.image.src;
+            console.log('image property src has been edited');
+        } else console.log('entry.target is not instance of HTMLImageElement');
     }
 }
 

@@ -9,7 +9,7 @@ frames.play();
 
 customElements.define(ScrambleText.name, ScrambleText);
 customElements.define(PixelateVideos.name, PixelateVideos);
-customElements.define(PixelatePictures.name,PixelatePictures );
+customElements.define(PixelatePictures.name,PixelatePictures);
 animateHeader();
 
 (async () => {
