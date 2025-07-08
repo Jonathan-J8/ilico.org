@@ -24,8 +24,8 @@ const html = `
 </div>
 `
 
-class PixelatePictures extends HTMLElement {
-    static readonly name = 'pixelate-pictures';
+class PixelateImage extends HTMLElement {
+    static readonly name = 'pixelate-img';
     readonly shadowRoot: ShadowRoot;
     readonly element: Element | null;
     readonly imagePath = './public/ilico_fine.jpg';
@@ -46,6 +46,7 @@ class PixelatePictures extends HTMLElement {
     initiateLazyLoading() {
         let observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
+                    console.log(entry.target);
                     if (entry.isIntersecting) {
                         let imageElement = entry.target as HTMLImageElement;
                         this.lazyLoad(imageElement);
@@ -73,4 +74,4 @@ class PixelatePictures extends HTMLElement {
     }
 }
 
-export default PixelatePictures;
+export default PixelateImage;
