@@ -1,3 +1,5 @@
+import WebGLApp from "./WebGLApp.ts";
+
 const html = `
 <style>
 	.container {
@@ -20,57 +22,67 @@ const html = `
     <div class="img">
         <slot></slot>
     </div>
-    <canvas></canvas>
+    <canvas class="webgl-canva"></canvas>
 </div>
 `
+
 
 class PixelateImage extends HTMLElement {
     static readonly name = 'pixelate-img';
     readonly shadowRoot: ShadowRoot;
-    readonly element: Element | null;
-    readonly imagePath = './public/ilico_fine.jpg';
-    readonly image = new Image;
+    imagePath: string = '';
+    static observedAttributes = ['src'];
+    private readonly image = new Image;
+    private readonly canvas: HTMLCanvasElement | null;
 
     constructor() {
         super();
 
+        // Web component
         let template = document.createElement('template');
         template.innerHTML = html;
         this.shadowRoot = this.attachShadow({mode: 'open'});
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.element = document.querySelector('#lazy')
-        this.image.src = this.imagePath;
+        this.shadowRoot.appendChild(this.image);
+        this.shadowRoot.querySelector('.img')?.appendChild(this.image);
+
+
+
+        // Lazy loading
+
+        this.canvas = this.shadowRoot.querySelector('canvas');
+        if (!this.canvas) throw new Error('PixelateImages: no canvas found');
+        new WebGLApp(this.canvas);
+    }
+
+    connectedCallback() {
         this.initiateLazyLoading();
     }
 
-    initiateLazyLoading() {
-        let observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    console.log(entry.target);
-                    if (entry.isIntersecting) {
-                        let imageElement = entry.target as HTMLImageElement;
-                        this.lazyLoad(imageElement);
-                        console.log('Image loaded');
-                        if (this.element !== null) {
-                            observer.unobserve(this.element);
-                            console.log('IntersectionObserver detached');
-                        }
-                    }
-                });
-            }
-        );
-        if (this.element !== null) {
-            observer.observe(this.element);
-            console.log('IntersectionObserver attached');
-        } else console.log(this.element);
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        if (name === 'src') {
+            this.imagePath = newValue;
+            return;
+        }
     }
 
-    lazyLoad(imageElement: HTMLImageElement): void {
-        if (imageElement instanceof HTMLImageElement) {
-            let i = imageElement as HTMLImageElement;
-            i.src = this.image.src;
-            console.log('image property src has been edited');
-        } else console.log('entry.target is not instance of HTMLImageElement');
+    private initiateLazyLoading() {
+        let observer = new IntersectionObserver((entries, observer) => {
+                const entry = entries[0];
+                console.log(entry);
+                if (entry.isIntersecting) {
+                    this.image.src = this.imagePath;
+                    console.log('Image loaded');
+
+                    observer.unobserve(this);
+                    console.log('IntersectionObserver detached');
+
+                }
+            }, {threshold: 0}
+        );
+        observer.observe(this);
+        console.log('IntersectionObserver attached');
+
     }
 }
 
