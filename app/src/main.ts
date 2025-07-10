@@ -1,4 +1,4 @@
-import {PixelatePictures, PixelateVideos, ScrambleText} from 'pkg-components';
+import {PixelateImage, PixelateVideos, ScrambleText} from 'pkg-components';
 import animateHeader from './animateHeader';
 import { frames } from './globals';
 import './style.css';
@@ -9,7 +9,7 @@ frames.play();
 
 customElements.define(ScrambleText.name, ScrambleText);
 customElements.define(PixelateVideos.name, PixelateVideos);
-customElements.define(PixelatePictures.name,PixelatePictures );
+customElements.define(PixelateImage.name,PixelateImage);
 animateHeader();
 
 (async () => {
