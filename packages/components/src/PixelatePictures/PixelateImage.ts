@@ -44,9 +44,7 @@ class PixelateImage extends HTMLElement {
         this.shadowRoot = this.attachShadow({mode: 'open'});
         this.shadowRoot.appendChild(template.content.cloneNode(true));
         this.shadowRoot.appendChild(this.image);
-        this.shadowRoot.querySelector('.img')?.appendChild(this.image);
-
-
+        // this.shadowRoot.querySelector('.img')?.appendChild(this.image);
 
         // Lazy loading
 
@@ -59,6 +57,7 @@ class PixelateImage extends HTMLElement {
         this.initiateLazyLoading();
     }
 
+    // @ts-ignore
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
         if (name === 'src') {
             this.imagePath = newValue;
