@@ -34,6 +34,7 @@ class PixelateImage extends HTMLElement {
     static observedAttributes = ['src'];
     private readonly image = new Image;
     private readonly canvas: HTMLCanvasElement | null;
+    private readonly webGLApp: WebGLApp;
 
     constructor() {
         super();
@@ -50,7 +51,7 @@ class PixelateImage extends HTMLElement {
 
         this.canvas = this.shadowRoot.querySelector('canvas');
         if (!this.canvas) throw new Error('PixelateImages: no canvas found');
-        new WebGLApp(this.canvas);
+        this.webGLApp = new WebGLApp(this.canvas);
     }
 
     connectedCallback() {
@@ -71,6 +72,10 @@ class PixelateImage extends HTMLElement {
                 console.log(entry);
                 if (entry.isIntersecting) {
                     this.image.src = this.imagePath;
+                    this.image.onload = () => {
+                        this.webGLApp.render(this.image);
+                    }
+
                     console.log('Image loaded');
 
                     observer.unobserve(this);
