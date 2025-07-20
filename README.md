@@ -5,11 +5,11 @@ Previous website at https://www.ilico.org/
 
 ## npm workspaces
 
--   app (app)
--   packages/\*
-    -   components (pkg-components)
-    -   utils (pkg-utils)
-    -   webgl (pkg-webgl)
+- app (app)
+- packages/\*
+    - components (pkg-components)
+    - utils (pkg-utils)
+    - webgl (pkg-webgl)
 
 ## scripts
 
@@ -29,10 +29,14 @@ npm run preview
 
 ## todos
 
--   feat: pixelate-img component - Display an image on scroll (lazy load) like the PixelateVideos component.
--   ui: mailing template
--   ui: news section
--   ui: about section
--   ui: threejs/webgl background
--   feat: sso
--   feat: stripe.js payment
+- feat: pixelate-img component - Display an image on scroll (lazy load) like the PixelateVideos component.
+- pass texture in canva
+- display gl.drawArray...
+- implement other uniforms
+- fragment shader...
+- ui: mailing template
+- ui: news section
+- ui: about section
+- ui: threejs/webgl background
+- feat: sso
+- feat: stripe.js payment
