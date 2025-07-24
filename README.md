@@ -29,11 +29,6 @@ npm run preview
 
 ## todos
 
-- feat: pixelate-img component - Display an image on scroll (lazy load) like the PixelateVideos component.
-- pass texture in canva
-- display gl.drawArray...
-- implement other uniforms
-- fragment shader...
 - ui: mailing template
 - ui: news section
 - ui: about section

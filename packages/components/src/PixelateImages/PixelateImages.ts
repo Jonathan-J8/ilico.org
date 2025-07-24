@@ -35,7 +35,6 @@ class PixelateImages extends HTMLElement {
 
     constructor() {
         super();
-
         // Web component
         let template = document.createElement('template');
         template.innerHTML = html;
@@ -70,7 +69,6 @@ class PixelateImages extends HTMLElement {
                 const entry = entries[0];
                 if (entry.isIntersecting) {
                     this.image.onload = () => {
-                        console.log(this.canvas?.clientWidth);
                         this.webGLApp.resize();
                         this.webGLApp.update(this.image);
 
