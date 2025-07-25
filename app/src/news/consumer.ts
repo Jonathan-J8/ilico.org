@@ -45,12 +45,11 @@ class Consumer {
     constructor() {
         this.isDev = import.meta.env.DEV;
         this.baseUrl = this.isDev ? 'https://www.ilico.org/wp-json/wp/v2' : '/wp-json/wp/v2';
-        console.log('devMode : ' + this.isDev);
-        console.log('API to be fetched : ' + this.baseUrl);
     }
 
-    async getData() {
-        if (!localStorage.getItem('posts')) {
+    async getData(): Promise<Post[]> {
+        const storage = localStorage.getItem('posts');
+        if (storage == null) {
             let datas: Response = await fetch(`${this.baseUrl}/posts`);
             const json = (await datas.clone().json()) as WpPost[];
             const datasParsed: Post[] = json
@@ -73,8 +72,7 @@ class Consumer {
             localStorage.setItem('posts', JSON.stringify(datasParsed));
             return datasParsed;
 
-        }
-        return localStorage.getItem('posts');
+        } else return (JSON.parse(storage)) as Post[];
     }
 
 }
