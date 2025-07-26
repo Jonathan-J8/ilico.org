@@ -100,13 +100,11 @@ class WebGLApp {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 
         gl.uniform1i(gl.getUniformLocation(this.program, "textureA"), 0);
-
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
 
-    render(image: HTMLImageElement) {
-        if (!this.canvas) return;
-        if (!this.gl) return;
+    update(image: HTMLImageElement) {
+        if (!this.gl || !this.canvas) return;
         this.gl.texImage2D(
             this.gl.TEXTURE_2D,
             0,
@@ -116,6 +114,18 @@ class WebGLApp {
             image
         );
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+    }
+
+    resize() {
+        if (!this.gl || !this.canvas) return;
+        //  Set the canvas’s pixel size to the CSS size multiplied by the device pixel ratio.
+        const dpr = window.devicePixelRatio || 1;
+        const rect = this.canvas.getBoundingClientRect();
+        this.canvas.width = rect.width * dpr;
+        this.canvas.height = rect.height * dpr;
+
+        // Update WebGL viewport:
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
