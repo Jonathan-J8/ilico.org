@@ -1,5 +1,6 @@
 import { clamp, Frames } from 'pkg-utils';
 import WebGLApp from './WebGLApp';
+import * as mouse from './mouse';
 
 const html = `
 <style>
@@ -37,10 +38,10 @@ class PixelateVideos extends HTMLElement {
 	static observedAttributes = ['video'];
 	static frames = new Frames();
 	readonly shadowRoot: ShadowRoot;
+	private canvas: HTMLCanvasElement;
 	private webgl: WebGLApp;
 	private shiftTexture = true;
 	delay = 0;
-	#canvas: HTMLCanvasElement;
 	constructor() {
 		super();
 
@@ -48,9 +49,9 @@ class PixelateVideos extends HTMLElement {
 		template.innerHTML = html;
 		this.shadowRoot = this.attachShadow({ mode: 'open' });
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
-		this.#canvas = this.shadowRoot.querySelector('canvas') as HTMLCanvasElement;
-		if (!this.#canvas) throw new Error('PixelateVideos: no canvas found');
-		this.webgl = new WebGLApp(this.#canvas);
+		this.canvas = this.shadowRoot.querySelector('canvas') as HTMLCanvasElement;
+		if (!this.canvas) throw new Error('PixelateVideos: no canvas found');
+		this.webgl = new WebGLApp(this.canvas);
 	}
 
 	private getVideoElements = () => {
@@ -94,21 +95,30 @@ class PixelateVideos extends HTMLElement {
 		this.shiftTexture = !this.shiftTexture;
 	};
 
-	onPointerMove = (e: PointerEvent) => {
+	update = () => {
 		if (!this.webgl) return;
 		const { uniforms } = this.webgl;
-		const { clientWidth, clientHeight } = this.#canvas;
-		const x = ((e.offsetX / clientWidth) * 2 - 1) * 0.5;
-		const y = (-(e.offsetY / clientHeight) * 2 + 1) * 0.5;
-		const velX = e.movementX; //* 0.1;
-		const velY = e.movementY; //* 0.1;
+		const { position, velocity } = mouse.data;
+		const { clientWidth, clientHeight } = this.canvas;
+		// const x = ((e.offsetX / clientWidth) * 2 - 1) * 0.5;
+		// const y = (-(e.offsetY / clientHeight) * 2 + 1) * 0.5;
+		// const velX = e.movementX; //* 0.1;
+		// const velY = e.movementY; //* 0.1;
+		const x = ((position.current.x / clientWidth) * 2 - 1) * 0.5;
+		const y = (-(position.current.y / clientHeight) * 2 + 1) * 0.5;
+		const velX = velocity.current.y; //* 0.1;
+		const velY = velocity.current.y; //* 0.1;
 		uniforms.mousePosition(x, y);
 		uniforms.mouseVelocity(velX, velY);
+
+		this.webgl.update();
 	};
 
 	connectedCallback() {
-		PixelateVideos.frames.add(this.webgl.update);
-		this.#canvas.addEventListener('pointermove', this.onPointerMove, false);
+		PixelateVideos.frames.add(mouse.onUpdate);
+		PixelateVideos.frames.add(this.update);
+		this.canvas.addEventListener('pointermove', mouse.onPointerMove, false);
+		this.canvas.addEventListener('pointerout', mouse.onPointerOut, false);
 
 		let pixelSize = 50;
 		const max = pixelSize;
@@ -138,7 +148,10 @@ class PixelateVideos extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		this.#canvas.removeEventListener('pointermove', this.onPointerMove, false);
+		PixelateVideos.frames.remove(mouse.onUpdate);
+		PixelateVideos.frames.remove(this.update);
+		this.canvas.removeEventListener('pointermove', mouse.onPointerMove, false);
+		this.canvas.removeEventListener('pointerout', mouse.onPointerOut, false);
 		this.webgl.dispose();
 	}
 

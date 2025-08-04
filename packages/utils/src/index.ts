@@ -1,5 +1,6 @@
 export { default as BatchFunction } from './BatchFunction';
 export { default as clamp } from './clamp';
+export { default as damp2 } from './damp2';
 export { default as Frames } from './Frames';
 export { default as isDifferent } from './isDifferent';
 export { default as now } from './now';
