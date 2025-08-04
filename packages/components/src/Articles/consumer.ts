@@ -39,20 +39,15 @@ type Post = {
 };
 
 class Consumer {
-    readonly isDev;
-    readonly baseUrl
 
     constructor() {
-        this.isDev = import.meta.env.DEV;
-        this.baseUrl = this.isDev ? 'https://www.ilico.org/wp-json/wp/v2' : '/wp-json/wp/v2';
+
     }
 
-    async getData(): Promise<Post[]> {
-        const storage = localStorage.getItem('posts');
-        if (storage == null) {
-            let datas: Response = await fetch(`${this.baseUrl}/posts`);
+    async getData(baseUrl: string): Promise<Post[]> {
+            let datas: Response = await fetch(`${baseUrl}/posts`);
             const json = (await datas.clone().json()) as WpPost[];
-            const datasParsed: Post[] = json
+        return json
                 .filter((o) => o.status === 'publish')
                 .map((o) => {
                     return {
@@ -69,10 +64,7 @@ class Consumer {
                         tags: o.tags,
                     };
                 });
-            localStorage.setItem('posts', JSON.stringify(datasParsed));
-            return datasParsed;
 
-        } else return (JSON.parse(storage)) as Post[];
     }
 
 }

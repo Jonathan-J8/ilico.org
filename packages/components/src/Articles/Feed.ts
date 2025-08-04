@@ -1,4 +1,4 @@
-import Consumer from "app/src/news/consumer.ts";
+import Consumer from './consumer.ts';
 
 const html = `
 <style>
@@ -20,6 +20,8 @@ class Feed extends HTMLElement {
     static readonly name = 'news-feed';
     readonly shadowRoot: ShadowRoot;
     readonly consumer: Consumer;
+    baseUrl: string = '';
+    static observedAttributes = ['src'];
 
 
     constructor() {
@@ -31,24 +33,28 @@ class Feed extends HTMLElement {
         this.consumer = new Consumer();
     }
 
-    async connectedCallback() {
-        const posts = await this.consumer.getData();
-
-        // Create a list element
+    async connectedCallback(){
+        const posts = await this.consumer.getData(this.baseUrl);
         const list = document.createElement('ul');
-
-        // For each post, create a list item with title and excerpt
         posts.slice(0, 3).forEach(post => {
             const item = document.createElement('li');
             item.innerHTML = `
-        <h5><a href="${post.link}" target="_blank" rel="noopener noreferrer">${post.title}</a></h5>
-        <div>${post.excerpt}</div>
+        <h5>
+            <a href="${post.link}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+        </h5>
+        <p>${post.excerpt}</p>
       `;
             list.appendChild(item);
         });
-
-        // Clear any old content and append the list
         this.shadowRoot.append(list);
+    }
+
+    // @ts-ignore
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        if (name === 'src') {
+            this.baseUrl = newValue;
+            return;
+        }
     }
 }
 
