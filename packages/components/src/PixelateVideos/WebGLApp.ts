@@ -32,12 +32,11 @@ void main() {
 	vec2 position =  vec2( mousePosition.x + 0.5, mousePosition.y * -1. + 0.5 );
    	position = position * resolution;
 	vec2 diff = abs(uv_screen - position);
-	float velocity = length(mouseVelocity);
+	float velocity = length(mouseVelocity * 5.);
 	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
 	vec2 boxStrength = smoothstep(boxSize, vec2(0.0), diff); // 0 to 1 fade per axis
 	float strength = step(max(diff.x, diff.y), boxSize.x);
 	float mousePixelSize = mix(1.0, 50. , strength) * clamp(velocity, 0., 1.);
-	
 	
 	
 	vec2 uv = v_uv * resolution;

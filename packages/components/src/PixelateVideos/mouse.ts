@@ -14,8 +14,8 @@ export const data = {
 export const onPointerMove = (e: PointerEvent) => {
 	data.position.next.x = e.offsetX;
 	data.position.next.y = e.offsetY;
-	data.velocity.next.x = e.movementX;
-	data.velocity.next.y = e.movementY;
+	data.velocity.next.x = e.movementX || 1;
+	data.velocity.next.y = e.movementY || 1;
 };
 
 export const onPointerOut = () => {
