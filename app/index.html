@@ -11,6 +11,7 @@
 		<canvas id="canvas" class="fixed top-0 left-0 -z-1 h-screen w-full bg-transparent"></canvas>
 
 		<!-- NAVIGATION -->
+
 		<nav
 			class="bg-base-100 z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between items-center p-6"
 		>
@@ -43,6 +44,7 @@
 				</ul>
 			</div>
 		</nav>
+
 		<!-- HEADER -->
 
 		<header class="container px-6 mx-auto mb-80 w-full">
@@ -179,52 +181,52 @@
 					class="mt-auto w-full inline-flex items-center justify-center gap-2"
 				>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" checked class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
 					<label
-						class="bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
+						class="cursor-pointer bg-secondary w-4 h-4 rounded-full has-checked:rounded-none has-checked:bg-primary"
 					>
 						<input type="radio" name="choice" class="invisible" />
 					</label>
@@ -232,14 +234,16 @@
 			</div>
 		</header>
 
-		<main class="container mx-auto max-w-5xl px-6">
+		<main class="container mx-auto px-6">
+			<!-- SERVICES -->
+
 			<section id="services" class="mb-80">
 				<h3>
 					<scramble-text intersection="true"> Services et offres </scramble-text>
 				</h3>
 
-				<ul class="flex flex-row gap-6 flex-wrap">
-					<li class="card w-full bg-base-100 shadow-sm">
+				<ul class="flex flex-row gap-6 flex-wrap md:flex-nowrap mb-6 justify-between">
+					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
 							<div class="flex justify-between">
 								<h2 class="text-3xl font-bold">Nuage + Email</h2>
@@ -290,45 +294,13 @@
 						</div>
 					</li>
 
-					<li class="card w-full bg-base-100 shadow-sm">
-						<div class="card-body">
-							<div class="flex justify-between">
-								<h2 class="text-3xl font-bold">Fibre</h2>
-								<span class="text-xl">30$/mois</span>
-							</div>
-
-							<div class="mt-auto">
-								<div class="mt-6">
-									<a
-										class="btn btn-warning btn-block"
-										href="https://eligibilite.rezine.org/#45.47265,2.17667,9z"
-										target="_blank"
-									>
-										Vérifier votre éligibiliter
-									</a>
-								</div>
-								<div class="mt-2">
-									<button class="btn btn-primary btn-block">Souscrire</button>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li class="card w-full bg-base-100 shadow-sm">
+					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
 							<div class="flex justify-between">
 								<h2 class="text-3xl font-bold">Adsl</h2>
 								<span class="text-xl">30$/mois</span>
 							</div>
 							<div class="mt-auto">
-								<div class="mt-6">
-									<a
-										class="btn btn-warning btn-block"
-										href="https://eligibilite.rezine.org/#45.47265,2.17667,9z"
-										target="_blank"
-									>
-										Vérifier votre éligibiliter
-									</a>
-								</div>
 								<div class="mt-2">
 									<button class="btn btn-primary btn-block">Souscrire</button>
 								</div>
@@ -336,22 +308,99 @@
 						</div>
 					</li>
 				</ul>
+				<ul class="flex flex-row gap-6 flex-wrap lg:flex-nowrap justify-evenly">
+					<li class="w-full card bg-base-100 shadow-sm">
+						<div class="card-body">
+							<div class="flex justify-between">
+								<h2 class="text-3xl font-bold">
+									Fibre
+									<br />
+									<span class="text-lg font-medium">Tarif solidaire</span>
+								</h2>
+
+								<span class="text-xl">25$/mois</span>
+							</div>
+
+							<div class="mt-auto">
+								<div class="mt-2">
+									<button class="btn btn-primary btn-block">Souscrire</button>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li class="w-full card bg-base-100 shadow-sm">
+						<div class="card-body">
+							<div class="flex justify-between">
+								<h2 class="text-3xl font-bold">
+									Fibre
+
+									<br />
+									<span class="text-lg font-medium">Tarif normal</span>
+								</h2>
+								<span class="text-xl">35$/mois</span>
+							</div>
+
+							<div class="mt-auto">
+								<div class="mt-2">
+									<button class="btn btn-primary btn-block">Souscrire</button>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li class="w-full card bg-base-100 shadow-sm">
+						<div class="card-body">
+							<div class="flex justify-between">
+								<h2 class="text-3xl font-bold">
+									Fibre
+									<br />
+									<span class="text-lg font-medium">Tarif grosse structure</span>
+								</h2>
+								<span class="text-xl">45$/mois</span>
+							</div>
+
+							<div class="mt-auto">
+								<div class="mt-2">
+									<button class="btn btn-primary btn-block">Souscrire</button>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="mt-6">
+					<a
+						class="btn btn-warning btn-block"
+						href="https://eligibilite.rezine.org/#45.47265,2.17667,9z"
+						target="_blank"
+					>
+						Vérifier votre éligibiliter
+					</a>
+				</div>
 			</section>
+
+			<!-- NEWS -->
+
 			<section id="news" class="mb-80">
 				<h3>
 					<scramble-text intersection="true"> News </scramble-text>
 				</h3>
 
 				<news-feed src="https://www.ilico.org/wp-json/wp/v2"></news-feed>
-
 			</section>
-			<section id="about" class="mb-80">
 
+			<!-- ABOUT -->
+
+			<section id="about" class="mb-80">
 				<h3>
 					<scramble-text intersection="true"> À propos </scramble-text>
 				</h3>
 
-				<pixelate-img id="js-header-picture" class="block overflow-hidden" src="/ilico_fine.jpg">
+				<pixelate-img
+					id="js-header-picture"
+					class="block overflow-hidden"
+					src="/ilico_fine.jpg"
+				>
 				</pixelate-img>
 
 				<p class="text-justify">
@@ -391,6 +440,9 @@
 					<br />
 				</p>
 			</section>
+
+			<!-- JOIN -->
+
 			<section id="join" class="mb-80">
 				<h3>
 					<scramble-text intersection="true"> Adhérer </scramble-text>
@@ -408,6 +460,8 @@
 				</form>
 			</section>
 		</main>
+
+		<!-- FOOTER -->
 
 		<footer
 			class="w-full min-h-32 bg-primary p-6 flex justify-end items-center gap-6 text-primary-content"
