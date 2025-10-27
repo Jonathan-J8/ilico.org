@@ -1,4 +1,5 @@
 import { MonoEventEmitter } from 'joeat-utils';
+import { debugWebGL, testShaders } from './debug';
 
 type Texture = {
 	readonly location: WebGLTexture;
@@ -7,11 +8,17 @@ type Texture = {
 	value: HTMLVideoElement | null;
 };
 
-const vertexShaderSource = /*glsl*/ `#version 300 es
-in vec2 position; in vec2 uv; out vec2 v_uv;
-void main() { gl_Position = vec4(position, 0, 1); v_uv = uv;}`;
+// WebGL2 shaders
+const vertexShaderSourceWebGL2 = /*glsl*/ `#version 300 es
+in vec2 position; 
+in vec2 uv; 
+out vec2 v_uv;
+void main() { 
+	gl_Position = vec4(position, 0.0, 1.0); 
+	v_uv = uv;
+}`;
 
-const fragmentShaderSource = /*glsl*/ `#version 300 es
+const fragmentShaderSourceWebGL2 = /*glsl*/ `#version 300 es
 precision lowp float;
 uniform sampler2D textureA;
 uniform sampler2D textureB;
@@ -25,42 +32,88 @@ in vec2 v_uv;
 out vec4 outColor;
 
 void main() {
-
-	
 	// TODO: pixelate based on mouse position;
 	vec2 uv_screen = v_uv * resolution;
-	vec2 position =  vec2( mousePosition.x + 0.5, mousePosition.y * -1. + 0.5 );
-   	position = position * resolution;
+	vec2 position = vec2(mousePosition.x + 0.5, mousePosition.y * -1.0 + 0.5);
+	position = position * resolution;
 	vec2 diff = abs(uv_screen - position);
-	float velocity = length(mouseVelocity * 5.);
+	float velocity = length(mouseVelocity * 5.0);
 	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
-	vec2 boxStrength = smoothstep(boxSize, vec2(0.0), diff); // 0 to 1 fade per axis
 	float strength = step(max(diff.x, diff.y), boxSize.x);
-	float mousePixelSize = mix(1.0, 50. , strength) * clamp(velocity, 0., 1.);
-	
+	float mousePixelSize = mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
 	
 	vec2 uv = v_uv * resolution;
 	vec2 centered = uv - 0.5 * resolution;
-    float localPixelSize = mousePixelSize + pixelSize;
+	float localPixelSize = mousePixelSize + pixelSize;
 	centered = floor(centered / localPixelSize) * localPixelSize + 0.5 * localPixelSize;
 
+	// Shift back
+	uv = (centered + 0.5 * resolution) / resolution;
 	
+	vec4 colorA = texture(textureA, uv);
+	vec4 colorB = texture(textureB, uv);
+	outColor = mix(colorA, colorB, blend);
+}`;
+
+// WebGL1 fallback shaders
+const vertexShaderSourceWebGL1 = /*glsl*/ `
+attribute vec2 position; 
+attribute vec2 uv; 
+varying vec2 v_uv;
+void main() { 
+	gl_Position = vec4(position, 0.0, 1.0); 
+	v_uv = uv;
+}`;
+
+const fragmentShaderSourceWebGL1 = /*glsl*/ `
+precision lowp float;
+uniform sampler2D textureA;
+uniform sampler2D textureB;
+uniform vec2 resolution;
+uniform float pixelSize;
+uniform float blend;
+uniform vec2 mousePosition;
+uniform vec2 mouseVelocity;
+
+varying vec2 v_uv;
+
+void main() {
+	// TODO: pixelate based on mouse position;
+	vec2 uv_screen = v_uv * resolution;
+	vec2 position = vec2(mousePosition.x + 0.5, mousePosition.y * -1.0 + 0.5);
+	position = position * resolution;
+	vec2 diff = abs(uv_screen - position);
+	float velocity = length(mouseVelocity * 5.0);
+	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
+	float strength = step(max(diff.x, diff.y), boxSize.x);
+	float mousePixelSize = mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
+	
+	vec2 uv = v_uv * resolution;
+	vec2 centered = uv - 0.5 * resolution;
+	float localPixelSize = mousePixelSize + pixelSize;
+	centered = floor(centered / localPixelSize) * localPixelSize + 0.5 * localPixelSize;
 
 	// Shift back
-	uv = ( centered + 0.5 * resolution ) / resolution;
-    
-	vec4 colorA = texture(textureA, uv);
-    vec4 colorB = texture(textureB, uv);
-    outColor = mix(colorA, colorB, blend);
-}
-`;
+	uv = (centered + 0.5 * resolution) / resolution;
+	
+	vec4 colorA = texture2D(textureA, uv);
+	vec4 colorB = texture2D(textureB, uv);
+	gl_FragColor = mix(colorA, colorB, blend);
+}`;
 
 const compileShader = (gl: WebGL2RenderingContext, source: string, type: number): WebGLShader => {
-	const shader = gl.createShader(type)!;
+	const shader = gl.createShader(type);
+	if (!shader) {
+		throw new Error(`Failed to create shader of type ${type}`);
+	}
+
 	gl.shaderSource(shader, source);
 	gl.compileShader(shader);
+
 	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-		throw new Error(gl.getShaderInfoLog(shader) ?? 'Shader compilation failed');
+		const info = gl.getShaderInfoLog(shader);
+		gl.deleteShader(shader);
+		throw new Error(`Shader compilation failed: ${info}`);
 	}
 	return shader;
 };
@@ -87,34 +140,83 @@ class WebGLApp {
 		mouseVelocity: (x: number, y: number) => {},
 	};
 
+	contextLost = (e: Event) => {
+		console.warn('WebGLApp: context lost', e);
+		this.bin.clear();
+	};
+
 	constructor(canvas: HTMLCanvasElement) {
-		const gl = canvas.getContext('webgl2') as WebGL2RenderingContext;
-		if (!gl) throw new Error('WebGLApp: WebGL2RenderingContext not found');
+		let gl = canvas.getContext('webgl2', {
+			preserveDrawingBuffer: false,
+			antialias: false,
+			alpha: true,
+			premultipliedAlpha: true,
+		}) as WebGL2RenderingContext;
+
+		if (!gl) {
+			gl = canvas.getContext('webgl', {
+				preserveDrawingBuffer: false,
+				antialias: false,
+				alpha: true,
+				premultipliedAlpha: true,
+			}) as WebGL2RenderingContext;
+		}
+
+		canvas.addEventListener('webglcontextlost', this.contextLost, false);
+		this.bin.addListener(() => {
+			canvas.removeEventListener('webglcontextlost', this.contextLost, false);
+		});
+
+		if (!gl) throw new Error('WebGLApp: WebGL context not available');
+
+		if (import.meta.env.DEV) {
+			debugWebGL(canvas);
+			testShaders(gl);
+		}
+
+		// Check for required extensions
+		if (!gl.getExtension('OES_texture_float_linear')) {
+			console.warn('OES_texture_float_linear not available');
+		}
+
 		this.gl = gl;
 		this.canvas = canvas;
 
-		const vertexShader = compileShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
-		const fragmentShader = compileShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
-		const program = gl.createProgram()!;
+		// Choose appropriate shaders based on WebGL version
+		const isWebGL2 = gl instanceof WebGL2RenderingContext;
+		const vertexSource = isWebGL2 ? vertexShaderSourceWebGL2 : vertexShaderSourceWebGL1;
+		const fragmentSource = isWebGL2 ? fragmentShaderSourceWebGL2 : fragmentShaderSourceWebGL1;
+
+		const vertexShader = compileShader(gl, vertexSource, gl.VERTEX_SHADER);
+		const fragmentShader = compileShader(gl, fragmentSource, gl.FRAGMENT_SHADER);
+
+		const program = gl.createProgram();
+		if (!program) {
+			throw new Error('Failed to create WebGL program');
+		}
+
 		gl.attachShader(program, vertexShader);
 		gl.attachShader(program, fragmentShader);
 		gl.linkProgram(program);
+
 		if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-			throw new Error(
-				`WebGLApp: ${gl.getProgramInfoLog(program) ?? 'Program linking failed'}`
-			);
+			const info = gl.getProgramInfoLog(program);
+			gl.deleteProgram(program);
+			throw new Error(`WebGLApp: Program linking failed: ${info}`);
 		}
+
 		gl.useProgram(program);
-		const vao = gl.createVertexArray();
-		gl.bindVertexArray(vao);
+
+		// Create and bind VAO (Vertex Array Object) - may not be available in WebGL1
+		let vao: WebGLVertexArrayObject | null = null;
+		if (gl.createVertexArray) {
+			vao = gl.createVertexArray();
+			gl.bindVertexArray(vao);
+		}
 
 		this.bin.addListener(() => {
 			gl.deleteShader(vertexShader);
-		});
-		this.bin.addListener(() => {
 			gl.deleteShader(fragmentShader);
-		});
-		this.bin.addListener(() => {
 			gl.deleteProgram(program);
 		});
 
@@ -122,26 +224,38 @@ class WebGLApp {
 		{
 			const datas = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
 			const buffer = gl.createBuffer();
+			if (!buffer) throw new Error('Failed to create position buffer');
+
 			gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 			gl.bufferData(gl.ARRAY_BUFFER, datas, gl.STATIC_DRAW);
 			const location = gl.getAttribLocation(program, 'position');
-			gl.enableVertexAttribArray(location);
-			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+
+			if (location >= 0) {
+				gl.enableVertexAttribArray(location);
+				gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+			}
+
 			this.bin.addListener(() => {
-				gl.deleteBuffer(buffer);
+				if (buffer) gl.deleteBuffer(buffer);
 			});
 		}
 
 		{
 			const datas = new Float32Array([0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0]);
 			const buffer = gl.createBuffer();
+			if (!buffer) throw new Error('Failed to create UV buffer');
+
 			gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 			gl.bufferData(gl.ARRAY_BUFFER, datas, gl.STATIC_DRAW);
 			const location = gl.getAttribLocation(program, 'uv');
-			gl.enableVertexAttribArray(location);
-			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+
+			if (location >= 0) {
+				gl.enableVertexAttribArray(location);
+				gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+			}
+
 			this.bin.addListener(() => {
-				gl.deleteBuffer(buffer);
+				if (buffer) gl.deleteBuffer(buffer);
 			});
 		}
 
@@ -149,33 +263,49 @@ class WebGLApp {
 		{
 			const name = 'textureA';
 			const index = gl.TEXTURE0;
-			const location = gl.createTexture()!;
+			const location = gl.createTexture();
+			if (!location) throw new Error(`Failed to create ${name}`);
+
 			gl.activeTexture(index);
 			gl.bindTexture(gl.TEXTURE_2D, location);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-			gl.uniform1i(gl.getUniformLocation(program, name), 0);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+			const uniformLocation = gl.getUniformLocation(program, name);
+			if (uniformLocation) {
+				gl.uniform1i(uniformLocation, 0);
+			}
+
 			this.textures[name] = { location, index, name, value: null };
 			this.uniforms[name] = (v) => (this.textures[name].value = v);
 			this.bin.addListener(() => {
-				gl.deleteTexture(location);
+				if (location) gl.deleteTexture(location);
 			});
 		}
 		{
 			const name = 'textureB';
 			const index = gl.TEXTURE1;
-			const location = gl.createTexture()!;
+			const location = gl.createTexture();
+			if (!location) throw new Error(`Failed to create ${name}`);
+
 			gl.activeTexture(index);
 			gl.bindTexture(gl.TEXTURE_2D, location);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-			gl.uniform1i(gl.getUniformLocation(program, name), 1);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+			const uniformLocation = gl.getUniformLocation(program, name);
+			if (uniformLocation) {
+				gl.uniform1i(uniformLocation, 1);
+			}
+
 			this.textures[name] = { location, index, name, value: null };
 			this.uniforms[name] = (v) => (this.textures[name].value = v);
 			this.bin.addListener(() => {
-				gl.deleteTexture(location);
+				if (location) gl.deleteTexture(location);
 			});
 		}
 
@@ -219,20 +349,52 @@ class WebGLApp {
 		}
 	}
 
+	private checkGLError(operation: string) {
+		const { gl } = this;
+		const error = gl.getError();
+		if (error !== gl.NO_ERROR) {
+			console.error(`WebGL error after ${operation}: ${error}`);
+			return false;
+		}
+		return true;
+	}
+
 	update = () => {
 		const { gl } = this;
 
-		gl.clear(gl.COLOR_BUFFER_BIT);
-
-		for (const key in this.textures) {
-			const uni = this.textures[key];
-			if (!uni.value) continue;
-			gl.activeTexture(uni.index);
-			gl.bindTexture(gl.TEXTURE_2D, uni.location);
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, uni.value);
+		// Check if context is lost
+		if (gl.isContextLost()) {
+			console.warn('WebGL context is lost');
+			return;
 		}
 
-		gl.drawArrays(gl.TRIANGLES, 0, 6);
+		gl.clear(gl.COLOR_BUFFER_BIT);
+
+		try {
+			for (const key in this.textures) {
+				const uni = this.textures[key];
+				if (!uni.value) continue;
+
+				// Check if video is ready
+				if (uni.value.readyState < 2) continue;
+
+				gl.activeTexture(uni.index);
+				gl.bindTexture(gl.TEXTURE_2D, uni.location);
+
+				// Use try-catch for texImage2D as it can fail with video elements
+				try {
+					gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, uni.value);
+				} catch (e) {
+					console.warn(`Failed to update texture ${key}:`, e);
+					continue;
+				}
+			}
+
+			gl.drawArrays(gl.TRIANGLES, 0, 6);
+			this.checkGLError('draw');
+		} catch (error) {
+			console.error('Error in WebGL update:', error);
+		}
 	};
 
 	resize = (width = 250, height = 250) => {

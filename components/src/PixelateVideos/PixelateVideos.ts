@@ -55,14 +55,25 @@ class PixelateVideos extends HTMLElement {
 	}
 
 	private getVideoElements = () => {
-		return this.shadowRoot.querySelector('slot')?.assignedElements() as HTMLVideoElement[];
+		const videos = this.shadowRoot
+			.querySelector('slot')
+			?.assignedElements() as HTMLVideoElement[];
+
+		videos?.forEach((video) => {
+			video.onerror = (e) => {
+				console.error('Video error:', e, video.src);
+			};
+		});
+
+		return videos;
 	};
 
-	private customAnimation = (index: number) => {
+	private onVideoChange = (index: number) => {
 		if (!this.webgl) return;
 
 		const { uniforms } = this.webgl;
 		const videos = this.getVideoElements();
+
 		const nextIndex = index % videos.length;
 		const nextVideo = videos[nextIndex];
 		nextVideo.currentTime = 0;
@@ -158,7 +169,7 @@ class PixelateVideos extends HTMLElement {
 	// @ts-ignore
 	attributeChangedCallback(name: string, oldValue: string, newValue: string) {
 		if (name === 'video') {
-			this.customAnimation(parseInt(newValue || '0'));
+			this.onVideoChange(parseInt(newValue || '0'));
 			return;
 		}
 		if (name === 'delay') {
