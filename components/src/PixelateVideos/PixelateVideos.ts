@@ -61,8 +61,9 @@ class PixelateVideos extends HTMLElement {
 
 		videos?.forEach((video) => {
 			video.onerror = (e) => {
-				console.error('Video error:', e, video.src);
+				console.error('Video error:', e, video.src, video.error);
 			};
+			if (video.paused) video.play().catch(console.error);
 		});
 
 		return videos;
