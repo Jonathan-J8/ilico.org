@@ -17,6 +17,7 @@ class ScrambleText extends HTMLElement {
 		this.bin.clear();
 		const animation = prepareAnimation(this, text);
 		let current = this.innerText.split('');
+
 		let inc = 0;
 
 		for (let i = 0, len = animation.length; i < len; ++i) {

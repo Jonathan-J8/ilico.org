@@ -13,6 +13,16 @@ customElements.define(PixelateImage.name, PixelateImage);
 customElements.define(Feed.name, Feed);
 animateHeader();
 
+document.querySelector('#theme-controller > input')?.addEventListener('change', (e) => {
+	// const el = document.querySelector('#theme-controller > span') as HTMLElement;
+	// if (!el) return;
+	const { checked } = e.target as HTMLInputElement;
+
+	const theme = checked ? 'dark' : 'light';
+	document.documentElement.setAttribute('data-theme', theme);
+
+	// el.innerText = toggle.checked ? 'Dark' : 'Light';
+});
 // (async () => {
 //     const url = new URL(window.location.href);
 //     const debug = url.searchParams.has('debug') ? true : false;

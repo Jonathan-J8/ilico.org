@@ -2,7 +2,9 @@
 @plugin "daisyui"{
 	/* themes: all; */
 	themes: light pastel, dark dim;
-	/* themes: light --default, pastel, dark --prefersdark, dim; */
+	root: ":root";
+	exclude: rootscrollgutter, rootcolor;
+
 }
 
 
@@ -10,13 +12,14 @@
 
 
 @layer components {
-	/* .btn {
+	.btn {
 		text-transform: uppercase;
-
-	} */
+		
+	}
 
 	h3 {
 		text-transform: uppercase;
+		min-height:calc(var(--spacing) * 10);
 		margin-bottom: calc(var(--spacing) * 20);
 		--tw-font-weight: var(--font-weight-extralight) 
 		font-weight: var(--font-weight-extralight) 

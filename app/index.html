@@ -2,11 +2,10 @@
 <html lang="fr" data-theme="light">
 	<head>
 		<meta charset="UTF-8" />
-		<!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 		<title>ilico</title>
 	</head>
+
 	<body class="relative">
 		<canvas
 			id="canvas"
@@ -16,38 +15,88 @@
 		<!-- NAVIGATION -->
 
 		<nav
-			class="bg-base-100 z-40 sticky top-0 left-0 shrink w-full inline-flex flex-nowrap justify-between items-center p-6"
+			class="bg-base-100 z-40 sticky top-0 left-0 w-full inline-flex flex-nowrap justify-between items-center p-6 navbar"
 		>
-			<a href="/" target="_self">
+			<a href="/" target="_self" class="w-full">
 				<h1 class="font-extrabold text-xl uppercase h-7">
 					<scramble-text duration="300">ilico.org</scramble-text>
 				</h1>
-				<scramble-text delay="300" duration="500" class="text-xs">
-					Internet Libre en Corrèze
-				</scramble-text>
+				<p class="text-xs h-4">
+					<scramble-text delay="300" duration="500">
+						Internet Libre en Corrèze
+					</scramble-text>
+				</p>
 			</a>
-			<div class="justify-end gap-6 items-center text-sm hidden md:inline-flex">
-				<ul>
-					<li>
-						<a href="#services">Services et offres</a>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<a href="#news">News</a>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<a href="#about">À propos</a>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<a href="#join">Adhérer</a>
-					</li>
-				</ul>
-			</div>
+
+			<ul class="justify-start gap-6 items-center text-sm hidden md:inline-flex text-nowrap">
+				<li>
+					<a href="#services">
+						<scramble-text delay="500">Services et offres</scramble-text>
+					</a>
+				</li>
+
+				<!-- <li>
+					<a href="#news">
+						<scramble-text delay="400">News</scramble-text>
+					</a>
+				</li> -->
+
+				<li>
+					<a href="#about">
+						<scramble-text delay="300">À propos</scramble-text>
+					</a>
+				</li>
+
+				<li>
+					<a href="#join">
+						<scramble-text delay="200">Adhérer</scramble-text>
+					</a>
+				</li>
+			</ul>
+			<!-- 
+			<label
+				id="theme-controller"
+				class="inline-flex justify-between gap-1 items-center cursor-pointer min-w-23 ml-6"
+			>
+				<span class="select-none">Light</span>
+				<input type="checkbox" value="synthwave" class="toggle theme-controller" />
+			</label> -->
+
+			<label id="theme-controller" class="toggle text-base-content ml-6">
+				<input type="checkbox" value="synthwave" class="theme-controller" />
+
+				<svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					<g
+						stroke-linejoin="round"
+						stroke-linecap="round"
+						stroke-width="2"
+						fill="none"
+						stroke="currentColor"
+					>
+						<circle cx="12" cy="12" r="4"></circle>
+						<path d="M12 2v2"></path>
+						<path d="M12 20v2"></path>
+						<path d="m4.93 4.93 1.41 1.41"></path>
+						<path d="m17.66 17.66 1.41 1.41"></path>
+						<path d="M2 12h2"></path>
+						<path d="M20 12h2"></path>
+						<path d="m6.34 17.66-1.41 1.41"></path>
+						<path d="m19.07 4.93-1.41 1.41"></path>
+					</g>
+				</svg>
+
+				<svg aria-label="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					<g
+						stroke-linejoin="round"
+						stroke-linecap="round"
+						stroke-width="2"
+						fill="none"
+						stroke="currentColor"
+					>
+						<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+					</g>
+				</svg>
+			</label>
 		</nav>
 
 		<!-- HEADER -->
@@ -60,7 +109,7 @@
 			<div class="relative min-h-[calc(100vh-8rem)] flex flex-col items-center">
 				<div
 					id="js-header-container"
-					class="aspect-video absolute mt-6 top-1/2 left-1/2 -translate-1/2 flex flex-col items-start w-[1280px]"
+					class="aspect-video absolute mt-6 top-1/2 left-1/2 -translate-1/2 flex flex-col items-start w-[1700px]"
 				>
 					<pixelate-videos id="js-header-video" class="w-9/12 block overflow-hidden">
 						<video
@@ -160,25 +209,17 @@
 					<scramble-text
 						id="js-header-top"
 						delay="600"
-						class="relative self-end -top-16 right-0 bg-secondary p-12 block text-6xl tracking-wide h-80 w-[1000px]"
+						class="relative -top-16 left-[30%] bg-secondary p-12 block text-6xl tracking-wide h-80 w-[1000px]"
 					>
 						Fournisseur d'Accès à Internet libre et associatif en Corrèze.
 					</scramble-text>
 
 					<scramble-text
 						id="js-header-bottom"
-						class="relative -top-28 left-64 text-white bg-primary p-12 text-6xl tracking-wide"
+						class="relative -top-28 left-[100%] -translate-x-[100%] text-white bg-primary p-12 text-6xl tracking-wide"
 						delay="900"
 					></scramble-text>
 				</div>
-
-				<!-- <p>
-				<scramble-text delay="1200">
-					Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour objet
-					de promouvoir l’utilisation et le développement d'un réseau Internet libre et de
-					défendre sa neutralité.
-				</scramble-text>
-			</p> -->
 
 				<fieldset
 					id="js-header-buttons"
@@ -242,7 +283,7 @@
 			<!-- SERVICES -->
 
 			<section id="services" class="mb-80">
-				<h3>
+				<h3 class="min-h-5">
 					<scramble-text intersection="true">Services et offres</scramble-text>
 				</h3>
 
@@ -384,13 +425,13 @@
 
 			<!-- NEWS -->
 
-			<section id="news" class="mb-80">
+			<!-- <section id="news" class="mb-80">
 				<h3>
 					<scramble-text intersection="true">News</scramble-text>
 				</h3>
 
 				<news-feed src="https://www.ilico.org/wp-json/wp/v2"></news-feed>
-			</section>
+			</section> -->
 
 			<!-- ABOUT -->
 
@@ -399,18 +440,48 @@
 					<scramble-text intersection="true">À propos</scramble-text>
 				</h3>
 
-				<pixelate-img
+				<!-- <pixelate-img
 					id="js-header-picture"
 					class="block overflow-hidden"
 					src="/ilico_fine.jpg"
-				></pixelate-img>
+				></pixelate-img> -->
 
-				<p class="text-justify">
-					Ilico est un Fournisseur d’Accès à Internet. En effet nous pensons que le
-					meilleur moyen de promouvoir le réseau Internet et son utilisation est tout
-					simplement de faire partie de ce réseau et de participer à son fonctionnement.
-					<br />
-					<br />
+				<p class="text-pretty">
+					<span>
+						Ilico est une association loi 1901 créée le 23 juillet 2010. Elle a pour
+						objet de promouvoir l'utilisation et le développement du réseau Internet; de
+						favoriser les utilisations de ce réseau à des fins de recherche et
+						d'éducation sans volonté commerciale et enfin, de défendre la neutralité de
+						ce réseau.
+					</span>
+				</p>
+
+				<p class="text-pretty">
+					<strong>Ilico est un Fournisseur d'Accès à Internet</strong>
+					. En effet nous pensons que le meilleur moyen de promouvoir le réseau Internet
+					et son utilisation est tout simplement de faire partie de ce réseau et de
+					participer à son fonctionnement.
+				</p>
+
+				<p class="text-pretty">
+					<strong>
+						Ilico fournit actuellement
+						<a href="https://www.ilico.org/offres-internet/">
+							des connexions internet par fibre, ADSL ou VPN
+						</a>
+						.
+					</strong>
+				</p>
+
+				<p class="text-pretty">
+					<strong>
+						Ilico fournit également à ses
+						<a href="https://www.ilico.org/adherer/">adhérent·es</a>
+						des services en ligne (mail, nuage de fichiers, liste de diffusion).
+					</strong>
+				</p>
+
+				<p class="text-pretty">
 					Une des raisons qui nous poussent à entreprendre cette démarche est que nous
 					constatons une évolution inquiétante dans la forme que prend le réseau Internet.
 					Ce réseau devient de plus en plus centré autour de quelques gros acteurs, sa
@@ -418,28 +489,128 @@
 					par le législateur avec des lois comme HADOPI, LOPPSI ou la loi sur les jeux en
 					ligne qui introduisent le filtrage sur Internet. Le filtrage pose de nombreux
 					problèmes que ce soit sur le plan technique ou sur le plan de nos libertés
-					individuelles. (Voir à ce sujet l’excellent dossier de La Quadrature du Net )
-					<br />
-					<br />
+					individuelles. (Voir à ce sujet l'excellent
+					<a
+						title="Dossier filtrage La Quadrature Du Net"
+						href="http://www.laquadrature.net/fr/filtrage-du-net"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						dossier de La Quadrature du Net
+					</a>
+					)
+				</p>
 
-					La centralisation du réseau, quant à elle, transforme la nature même d’Internet
-					en déportant l’intelligence de l’extrémité du réseau vers son cœur. Cela pose de
+				<p class="text-pretty">
+					La centralisation du réseau, quant à elle, transforme la nature même d'Internet
+					en déportant l'intelligence de l'extrémité du réseau vers son cœur. Cela pose de
 					nombreux problèmes quant aux données personnelles et à la vie privée des
-					utilisateurs et créé des points névralgiques qui mettent en péril l’équilibre du
+					utilisateurs et créé des points névralgiques qui mettent en péril l'équilibre du
 					réseau.
-					<br />
-					<br />
+				</p>
 
+				<p class="text-pretty">
 					Avoir un réseau qui fonctionne, qui soit neutre, acentré avec la possibilité de
-					s’y raccorder librement sont des conditions fondamentales à l’exercice de nos
-					droits les plus fondamentaux comme la liberté d’opinion et de communication.
-					C’est d’ailleurs tout le sens de la décision du Conseil Constitutionnel du 10
-					juin 2009 censurant le projet de loi HADOPI qui donnait le pouvoir à une
-					autorité administrative de couper l’accès à Internet. Pour justifier sa décision
-					le Conseil Constitutionnel cite l’article 11 de la Déclaration des droits de
-					l’homme et du citoyen de 1789 :
-					<br />
-					<br />
+					s'y raccorder librement sont des conditions fondamentales à l'exercice de nos
+					droits les plus fondamentaux comme la liberté d'opinion et de communication.
+					C'est d'ailleurs tout le sens de la
+					<a
+						title="Décision CC"
+						href="http://www.conseil-constitutionnel.fr/decision//2009/decisions-par-date/2009/2009-580-dc/decision-n-2009-580-dc-du-10-juin-2009.42666.html"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						décision du Conseil Constitutionnel du 10 juin 2009
+					</a>
+					censurant le projet de loi HADOPI qui donnait le pouvoir à une autorité
+					administrative de couper l'accès à Internet. Pour justifier sa décision le
+					Conseil Constitutionnel cite l'article 11 de la Déclaration des droits de
+					l'homme et du citoyen de 1789 :
+				</p>
+
+				<blockquote>
+					<p>
+						« La libre communication des pensées et des opinions est un des droits les
+						plus précieux de l'homme : tout citoyen peut donc parler, écrire, imprimer
+						librement, sauf à répondre de l'abus de cette liberté dans les cas
+						déterminés par la loi » ; […] en l'état actuel des moyens de communication
+						et eu égard au développement généralisé des services de communication au
+						public en ligne ainsi qu'à l'importance prise par ces services pour la
+						participation à la vie démocratique et l'expression des idées et des
+						opinions, ce droit implique la liberté d'accéder à ces services […]
+					</p>
+				</blockquote>
+
+				<p class="text-pretty">
+					Les enjeux qui se cachent derrière les questions de qualité d'accès à Internet
+					et de préservation de sa neutralité sont des sujets au cœur des préoccupations
+					de l'association.
+				</p>
+
+				<p class="text-pretty">
+					Notre projet a répondu répond également à l'appel à l'essaimage lancé par l'
+					<a
+						title="Association FDN"
+						href="http://www.fdn.fr/"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						association FDN
+					</a>
+					(plus vieux FAI de France encore en activité) qui souhaite voir émerger d'autres
+					associations à taille humaine plutôt que de grossir indéfiniment.
+				</p>
+
+				<p class="text-pretty">
+					Sous son impulsion et avec cinq autres FAI associatifs (
+					<a href="http://www.aquilenet.fr/" target="_blank" rel="noopener noreferrer">
+						Aquilenet
+					</a>
+					,
+					<a href="http://www.franciliens.net/" target="_blank" rel="noopener noreferrer">
+						Franciliens.net
+					</a>
+					, LDN,
+					<a
+						href="http://www.sameswireless.fr/"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						SamesWireless
+					</a>
+					,
+					<a href="http://tetaneutral.net/" target="_blank" rel="noopener noreferrer">
+						Tetaneutral.net
+					</a>
+					), Ilico a participé à la création de la
+					<strong>Fédération des fournisseurs d'accès à Internet associatifs</strong>
+					(
+					<a href="https://www.ffdn.org/fr" target="_blank" rel="noopener noreferrer">
+						FFDN
+					</a>
+					), en vue de mutualiser les moyens et les actions.
+				</p>
+
+				<p class="text-pretty">
+					<span>
+						En parallèle des services que nous mettons en place, une des volontés fortes
+						des adhérents d’Ilico est également de participer aux réflexions sur les
+						questions de qualité d’accès à Internet et de défense de la Neutralité du
+						Net, que ce soit au niveau local, national, voire international.
+					</span>
+					<span>
+						Si notre démarche vous intéresse, n’hésitez pas à
+						<a
+							title="Contact"
+							href="http://www.ilico.org/contact/"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							prendre contact avec nous
+						</a>
+						.
+					</span>
+					<span>A bientôt 😉</span>
 				</p>
 			</section>
 
@@ -447,7 +618,7 @@
 
 			<section id="join" class="mb-80">
 				<h3>
-					<scramble-text intersection="true">Adhérer</scramble-text>
+					<scramble-text intersection="true">Contact & Adhésion</scramble-text>
 				</h3>
 
 				<form class="flex flex-row justify-between items-center w-full gap-6">
@@ -457,6 +628,7 @@
 						<option>Adhésion</option>
 						<option>Fibre</option>
 						<option>ADLS</option>
+						<option>Informations</option>
 					</select>
 					<button type="submit" class="btn btn-primary grow">Envoyer</button>
 				</form>
@@ -472,9 +644,7 @@
 				made by
 				<a class="link" target="_blank" href="https://joeat.xyz">joeat.xyz</a>
 			</p>
-			<a class="btn" target="_blank" href="https://github.com/Jonathan-J8/ilico.org">
-				contribute
-			</a>
+			<a class="btn" target="_blank" href="https://github.com/Jonathan-J8/ilico.org">repo</a>
 		</footer>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
