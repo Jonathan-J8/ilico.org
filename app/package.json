@@ -17,8 +17,7 @@
 	},
 	"dependencies": {
 		"gsap": "^3.13.0",
-		"pkg-webgl": "*",
-		"pkg-components": "*",
-		"pkg-utils": "*"
+		"joeat-utils": "github:Jonathan-J8/joeat-utils#dist-only",
+		"ilico-components": "*"
 	}
 }

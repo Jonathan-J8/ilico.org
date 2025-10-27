@@ -1,4 +1,4 @@
-import { PixelateVideos, type ScrambleText } from 'pkg-components';
+import { PixelateVideos, type ScrambleText } from 'ilico-components';
 import headerTexts from './texts.json';
 
 const animateHeader = () => {

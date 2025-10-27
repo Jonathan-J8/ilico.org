@@ -1,3 +1,3 @@
-import { Frames } from 'pkg-utils';
+import { Animator } from 'joeat-utils';
 
-export const frames = new Frames();
+export const frames = new Animator();

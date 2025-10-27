@@ -8,7 +8,10 @@
 		<title>ilico</title>
 	</head>
 	<body class="relative">
-		<canvas id="canvas" class="fixed top-0 left-0 -z-1 h-screen w-full bg-transparent"></canvas>
+		<canvas
+			id="canvas"
+			class="fixed top-0 left-0 -z-1 h-screen w-full bg-transparent pointer-events-none"
+		></canvas>
 
 		<!-- NAVIGATION -->
 
@@ -17,29 +20,31 @@
 		>
 			<a href="/" target="_self">
 				<h1 class="font-extrabold text-xl uppercase h-7">
-					<scramble-text> ilico.org </scramble-text>
+					<scramble-text duration="300">ilico.org</scramble-text>
 				</h1>
-				<p class="text-xs"><b>I</b>nternet <b>Li</b>bre en <b>Co</b>rrèze</p>
+				<scramble-text delay="300" duration="500" class="text-xs">
+					Internet Libre en Corrèze
+				</scramble-text>
 			</a>
 			<div class="justify-end gap-6 items-center text-sm hidden md:inline-flex">
 				<ul>
 					<li>
-						<a href="#services"> Services et offres </a>
+						<a href="#services">Services et offres</a>
 					</li>
 				</ul>
 				<ul>
 					<li>
-						<a href="#news"> News </a>
+						<a href="#news">News</a>
 					</li>
 				</ul>
 				<ul>
 					<li>
-						<a href="#about"> À propos </a>
+						<a href="#about">À propos</a>
 					</li>
 				</ul>
 				<ul>
 					<li>
-						<a href="#join"> Adhérer </a>
+						<a href="#join">Adhérer</a>
 					</li>
 				</ul>
 			</div>
@@ -156,16 +161,15 @@
 						id="js-header-top"
 						delay="600"
 						class="relative self-end -top-16 right-0 bg-secondary p-12 block text-6xl tracking-wide h-80 w-[1000px]"
-						>Fournisseur d'Accès à Internet libre et associatif en
-						Corrèze.</scramble-text
 					>
+						Fournisseur d'Accès à Internet libre et associatif en Corrèze.
+					</scramble-text>
 
 					<scramble-text
 						id="js-header-bottom"
 						class="relative -top-28 left-64 text-white bg-primary p-12 text-6xl tracking-wide"
 						delay="900"
-					>
-					</scramble-text>
+					></scramble-text>
 				</div>
 
 				<!-- <p>
@@ -239,7 +243,7 @@
 
 			<section id="services" class="mb-80">
 				<h3>
-					<scramble-text intersection="true"> Services et offres </scramble-text>
+					<scramble-text intersection="true">Services et offres</scramble-text>
 				</h3>
 
 				<ul class="flex flex-row gap-6 flex-wrap md:flex-nowrap mb-6 justify-between">
@@ -249,9 +253,9 @@
 								<h2 class="text-3xl font-bold">Nuage + Email</h2>
 								<span class="text-xl">$libre</span>
 							</div>
-							<span class="badge badge-xs badge-warning"
-								>Pour tout nos adhérents</span
-							>
+							<span class="badge badge-xs badge-warning">
+								Pour tout nos adhérents
+							</span>
 							<ul class="mt-6 flex flex-col gap-2 text-xs">
 								<li>
 									<svg
@@ -293,7 +297,8 @@
 							</div>
 						</div>
 					</li>
-
+				</ul>
+				<ul class="flex flex-row gap-6 flex-wrap lg:flex-nowrap justify-evenly">
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
 							<div class="flex justify-between">
@@ -307,8 +312,6 @@
 							</div>
 						</div>
 					</li>
-				</ul>
-				<ul class="flex flex-row gap-6 flex-wrap lg:flex-nowrap justify-evenly">
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
 							<div class="flex justify-between">
@@ -383,7 +386,7 @@
 
 			<section id="news" class="mb-80">
 				<h3>
-					<scramble-text intersection="true"> News </scramble-text>
+					<scramble-text intersection="true">News</scramble-text>
 				</h3>
 
 				<news-feed src="https://www.ilico.org/wp-json/wp/v2"></news-feed>
@@ -393,15 +396,14 @@
 
 			<section id="about" class="mb-80">
 				<h3>
-					<scramble-text intersection="true"> À propos </scramble-text>
+					<scramble-text intersection="true">À propos</scramble-text>
 				</h3>
 
 				<pixelate-img
 					id="js-header-picture"
 					class="block overflow-hidden"
 					src="/ilico_fine.jpg"
-				>
-				</pixelate-img>
+				></pixelate-img>
 
 				<p class="text-justify">
 					Ilico est un Fournisseur d’Accès à Internet. En effet nous pensons que le
@@ -445,7 +447,7 @@
 
 			<section id="join" class="mb-80">
 				<h3>
-					<scramble-text intersection="true"> Adhérer </scramble-text>
+					<scramble-text intersection="true">Adhérer</scramble-text>
 				</h3>
 
 				<form class="flex flex-row justify-between items-center w-full gap-6">
@@ -470,9 +472,9 @@
 				made by
 				<a class="link" target="_blank" href="https://joeat.xyz">joeat.xyz</a>
 			</p>
-			<a class="btn" target="_blank" href="https://github.com/Jonathan-J8/ilico.org"
-				>contribute</a
-			>
+			<a class="btn" target="_blank" href="https://github.com/Jonathan-J8/ilico.org">
+				contribute
+			</a>
 		</footer>
 		<script type="module" src="/src/main.ts"></script>
 	</body>

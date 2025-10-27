@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @plugin "daisyui"{
-	themes: all;
+	/* themes: all; */
+	themes: light pastel, dark dim;
+	/* themes: light --default, pastel, dark --prefersdark, dim; */
 }
 
 
@@ -8,21 +10,14 @@
 
 
 @layer components {
-	.btn {
+	/* .btn {
 		text-transform: uppercase;
-		/* background-color: var(--color-blue-300);
-		border-radius: var(--radius-xl);
-		letter-spacing: var(--tracking-wide);
-		padding-block: calc(var(--spacing) * 4);
-		padding-inline: calc(var(--spacing) * 6);
-		font-size: var(--text-2xl);
-		min-height: calc(var(--spacing) * 14); */
-	}
+
+	} */
 
 	h3 {
 		text-transform: uppercase;
-		margin-bottom: calc(var(--spacing) * 4);
-		/* mix-blend-mode: soft-light; */
+		margin-bottom: calc(var(--spacing) * 20);
 		--tw-font-weight: var(--font-weight-extralight) 
 		font-weight: var(--font-weight-extralight) 
 		margin-block: calc(var(--spacing) * 12);
