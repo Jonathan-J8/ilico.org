@@ -27,7 +27,7 @@ export const prepareAnimation = (el: HTMLElement, text: string) => {
 		let delay = isNextBigger
 			? (index / len + 0.1) * factor
 			: ((len - index) / len + 0.1) * factor;
-		let steps = 8;
+		let steps = 5;
 		let duration = 10;
 
 		if (to === ' ' || !to) {
