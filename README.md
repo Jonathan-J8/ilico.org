@@ -1,15 +1,12 @@
 # ilico.org
 
-ilico.org - new webiste made with typescript + vite + threejs + tailwindcss.
+ilico.org - new webiste made with typescript + vite + threejs + tailwindcss + [joeat-utils](https://github.com/Jonathan-J8/joeat-utils).  
 Previous website at https://www.ilico.org/
 
 ## npm workspaces
 
-- app (app)
-- packages/\*
-    - components (pkg-components)
-    - utils (pkg-utils)
-    - webgl (pkg-webgl)
+-   app/\*
+-   components/\*
 
 ## scripts
 
@@ -17,7 +14,7 @@ Previous website at https://www.ilico.org/
 
 ```
 npm i
-npm start
+npm run dev
 ```
 
 ### preview
@@ -29,9 +26,8 @@ npm run preview
 
 ## todos
 
-- ui: mailing template
-- ui: news section
-- ui: about section
-- ui: threejs/webgl background
-- feat: sso
-- feat: stripe.js payment
+-   ui: mailing template
+-   ui: improve about section
+-   ui: webgl background
+-   feat: sso
+-   feat: stripe.js payment

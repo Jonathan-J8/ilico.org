@@ -40,7 +40,7 @@ void main() {
 	float velocity = length(mouseVelocity * 5.0);
 	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
 	float strength = step(max(diff.x, diff.y), boxSize.x);
-	float mousePixelSize = mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
+	float mousePixelSize = 1.0; // mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
 	
 	vec2 uv = v_uv * resolution;
 	vec2 centered = uv - 0.5 * resolution;
@@ -86,7 +86,7 @@ void main() {
 	float velocity = length(mouseVelocity * 5.0);
 	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
 	float strength = step(max(diff.x, diff.y), boxSize.x);
-	float mousePixelSize = mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
+	float mousePixelSize = 1.0;//mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
 	
 	vec2 uv = v_uv * resolution;
 	vec2 centered = uv - 0.5 * resolution;
