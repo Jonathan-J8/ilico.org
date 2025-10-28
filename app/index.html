@@ -15,7 +15,7 @@
 		<!-- NAVIGATION -->
 
 		<nav
-			class="bg-base-100 z-40 sticky top-0 left-0 w-full inline-flex flex-nowrap justify-between items-center p-6 navbar"
+			class="bg-base-300 z-40 sticky top-0 left-0 w-full inline-flex flex-nowrap justify-between items-center p-6 navbar"
 		>
 			<a href="/" target="_self" class="w-full">
 				<h1 class="font-extrabold text-xl uppercase h-7">
@@ -304,12 +304,14 @@
 						<div class="card-body">
 							<div class="flex justify-between">
 								<h2 class="text-3xl font-bold">Nuage + Email</h2>
-								<span class="text-xl">$libre</span>
+								<span class="text-xl">Prix libre €</span>
 							</div>
-							<span class="badge badge-xs badge-warning">
+							<span class="badge badge-xs badge-warning pt-1 pb-0.5 rounded-full">
 								Pour tout nos adhérents
 							</span>
-							<ul class="mt-6 flex flex-col gap-2 text-xs">
+							<hr class="h-1 my-2 w-full border-gray-300" />
+
+							<ul class="flex flex-col gap-2 text-xs">
 								<li>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -325,7 +327,7 @@
 											d="M5 13l4 4L19 7"
 										/>
 									</svg>
-									<span>5Go de stockage en ligne</span>
+									<span>1Go de stockage en ligne</span>
 								</li>
 								<li>
 									<svg
@@ -356,10 +358,10 @@
 				<ul class="flex flex-row gap-6 flex-wrap lg:flex-nowrap justify-evenly">
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
-							<div class="flex justify-between">
+							<div class="flex justify-between flex-wrap gap2">
 								<h2 class="text-3xl font-bold">ADSL</h2>
-								<span class="text-xl">30$/mois</span>
 							</div>
+							<span class="text-xl">30€/mois</span>
 							<div class="mt-auto">
 								<div class="mt-2">
 									<button data-form="3" class="btn btn-primary btn-block">
@@ -371,14 +373,11 @@
 					</li>
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
-							<div class="flex justify-between">
-								<h2 class="text-3xl font-bold">
-									Fibre
-									<br />
-									<span class="text-lg font-medium">Tarif solidaire</span>
-								</h2>
-
-								<span class="text-xl">25$/mois</span>
+							<div class="flex justify-between flex-wrap gap-2">
+								<h2 class="text-3xl font-bold">Fibre</h2>
+								<span class="text-xl">25€/mois</span>
+								<hr class="h-1 w-full border-gray-300" />
+								<span class="text-xs font-medium">Tarif solidaire</span>
 							</div>
 
 							<div class="mt-auto">
@@ -393,16 +392,12 @@
 
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
-							<div class="flex justify-between">
-								<h2 class="text-3xl font-bold">
-									Fibre
-
-									<br />
-									<span class="text-lg font-medium">Tarif normal</span>
-								</h2>
-								<span class="text-xl">35$/mois</span>
+							<div class="flex justify-between flex-wrap gap-2">
+								<h2 class="text-3xl font-bold">Fibre</h2>
+								<span class="text-xl">35€/mois</span>
+								<hr class="h-1 w-full border-gray-300" />
+								<span class="text-xs font-medium">Tarif normal</span>
 							</div>
-
 							<div class="mt-auto">
 								<div class="mt-2">
 									<button data-form="2" class="btn btn-primary btn-block">
@@ -415,13 +410,11 @@
 
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
-							<div class="flex justify-between">
-								<h2 class="text-3xl font-bold">
-									Fibre
-									<br />
-									<span class="text-lg font-medium">Tarif grosse structure</span>
-								</h2>
-								<span class="text-xl">45$/mois</span>
+							<div class="flex justify-between flex-wrap gap-2">
+								<h2 class="text-3xl font-bold">Fibre</h2>
+								<span class="text-xl">45€/mois</span>
+								<hr class="h-1 w-full border-gray-300" />
+								<span class="text-xs font-medium">Tarif grosse structure</span>
 							</div>
 
 							<div class="mt-auto">
@@ -620,16 +613,11 @@
 						Net, que ce soit au niveau local, national, voire international.
 					</span>
 					<span>
-						Si notre démarche vous intéresse, n’hésitez pas à
-						<a
-							title="Contact"
-							href="http://www.ilico.org/contact/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							prendre contact avec nous
-						</a>
-						.
+						Si notre démarche vous intéresse, n’hésitez pas à prendre
+						<button class="underline cursor-pointer" title="Contact" data-form="4">
+							contact
+						</button>
+						avec nous .
 					</span>
 					<span>A bientôt 😉</span>
 				</p>
@@ -645,7 +633,7 @@
 				<form
 					method="post"
 					action="https://todo/"
-					class="flex flex-row justify-between items-center w-full gap-6"
+					class="flex flex-wrap flex-row justify-between items-center w-full gap-6"
 				>
 					<input
 						type="email"
@@ -662,6 +650,7 @@
 					</select>
 					<button type="submit" class="btn btn-primary grow">Envoyer</button>
 				</form>
+				<p data-form="output" class="my-4"></p>
 			</section>
 		</main>
 
@@ -670,11 +659,12 @@
 		<footer
 			class="w-full min-h-32 bg-primary p-6 flex justify-end items-center gap-6 text-primary-content"
 		>
-			<p>
-				made by
-				<a class="link" target="_blank" href="https://joeat.xyz">joeat.xyz</a>
-			</p>
-			<a class="btn" target="_blank" href="https://github.com/Jonathan-J8/ilico.org">repo</a>
+			<a class="link" target="_blank" href="https://github.com/Jonathan-J8/ilico.org">
+				repository
+			</a>
+			-
+
+			<a class="link" target="_blank" href="https://joeat.xyz">Made by joeat.xyz</a>
 		</footer>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
