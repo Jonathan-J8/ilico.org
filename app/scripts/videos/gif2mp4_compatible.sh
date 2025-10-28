@@ -4,7 +4,7 @@
 # Specifically addresses Arc browser decoder issues
 
 from=./src
-to=./src
+to=../../../public
 List=(
 "ilico_cheers" 
 "ilico_election" 
