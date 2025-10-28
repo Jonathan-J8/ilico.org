@@ -346,7 +346,9 @@
 								</li>
 							</ul>
 							<div class="mt-6">
-								<button class="btn btn-primary btn-block">Adhérer</button>
+								<button data-form="1" class="btn btn-primary btn-block">
+									Adhérer
+								</button>
 							</div>
 						</div>
 					</li>
@@ -355,12 +357,14 @@
 					<li class="w-full card bg-base-100 shadow-sm">
 						<div class="card-body">
 							<div class="flex justify-between">
-								<h2 class="text-3xl font-bold">Adsl</h2>
+								<h2 class="text-3xl font-bold">ADSL</h2>
 								<span class="text-xl">30$/mois</span>
 							</div>
 							<div class="mt-auto">
 								<div class="mt-2">
-									<button class="btn btn-primary btn-block">Souscrire</button>
+									<button data-form="3" class="btn btn-primary btn-block">
+										Souscrire
+									</button>
 								</div>
 							</div>
 						</div>
@@ -379,7 +383,9 @@
 
 							<div class="mt-auto">
 								<div class="mt-2">
-									<button class="btn btn-primary btn-block">Souscrire</button>
+									<button data-form="2" class="btn btn-primary btn-block">
+										Souscrire
+									</button>
 								</div>
 							</div>
 						</div>
@@ -399,7 +405,9 @@
 
 							<div class="mt-auto">
 								<div class="mt-2">
-									<button class="btn btn-primary btn-block">Souscrire</button>
+									<button data-form="2" class="btn btn-primary btn-block">
+										Souscrire
+									</button>
 								</div>
 							</div>
 						</div>
@@ -418,7 +426,9 @@
 
 							<div class="mt-auto">
 								<div class="mt-2">
-									<button class="btn btn-primary btn-block">Souscrire</button>
+									<button data-form="2" class="btn btn-primary btn-block">
+										Souscrire
+									</button>
 								</div>
 							</div>
 						</div>
@@ -441,7 +451,6 @@
 				<h3>
 					<scramble-text intersection="true">News</scramble-text>
 				</h3>
-
 				<news-feed src="https://www.ilico.org/wp-json/wp/v2"></news-feed>
 			</section> -->
 
@@ -633,14 +642,23 @@
 					<scramble-text intersection="true">Contact & Adhésion</scramble-text>
 				</h3>
 
-				<form class="flex flex-row justify-between items-center w-full gap-6">
-					<input type="text" placeholder="email" class="input input-neutral grow" />
-					<select class="select select-neutral grow">
-						<option disabled selected>Choissez votre offre</option>
-						<option>Adhésion</option>
-						<option>Fibre</option>
-						<option>ADLS</option>
-						<option>Informations</option>
+				<form
+					method="post"
+					action="https://todo/"
+					class="flex flex-row justify-between items-center w-full gap-6"
+				>
+					<input
+						type="email"
+						placeholder="email"
+						class="input input-neutral grow"
+						required
+					/>
+					<select class="select select-neutral grow" required>
+						<option value="" disabled selected>Choissez votre offre</option>
+						<option value="adhesion">Adhésion</option>
+						<option value="fibre">Fibre</option>
+						<option value="adsl">ADSL</option>
+						<option value="informations">Informations</option>
 					</select>
 					<button type="submit" class="btn btn-primary grow">Envoyer</button>
 				</form>
