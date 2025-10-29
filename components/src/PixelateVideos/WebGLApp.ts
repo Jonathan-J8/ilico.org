@@ -1,5 +1,7 @@
 import { MonoEventEmitter } from 'joeat-utils';
 import { debugWebGL, testShaders } from './debug';
+import fragmentShaderSource from './prgm_frag.glsl';
+import vertexShaderSource from './prgm_vert.glsl';
 
 type Texture = {
 	readonly location: WebGLTexture;
@@ -7,99 +9,6 @@ type Texture = {
 	readonly name: string;
 	value: HTMLVideoElement | null;
 };
-
-// WebGL2 shaders
-const vertexShaderSourceWebGL2 = /*glsl*/ `#version 300 es
-in vec2 position; 
-in vec2 uv; 
-out vec2 v_uv;
-void main() { 
-	gl_Position = vec4(position, 0.0, 1.0); 
-	v_uv = uv;
-}`;
-
-const fragmentShaderSourceWebGL2 = /*glsl*/ `#version 300 es
-precision lowp float;
-uniform sampler2D textureA;
-uniform sampler2D textureB;
-uniform vec2 resolution;
-uniform float pixelSize;
-uniform float blend;
-uniform vec2 mousePosition;
-uniform vec2 mouseVelocity;
-
-in vec2 v_uv;
-out vec4 outColor;
-
-void main() {
-	// TODO: pixelate based on mouse position;
-	vec2 uv_screen = v_uv * resolution;
-	vec2 position = vec2(mousePosition.x + 0.5, mousePosition.y * -1.0 + 0.5);
-	position = position * resolution;
-	vec2 diff = abs(uv_screen - position);
-	float velocity = length(mouseVelocity * 5.0);
-	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
-	float strength = step(max(diff.x, diff.y), boxSize.x);
-	float mousePixelSize = 1.0; // mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
-	
-	vec2 uv = v_uv * resolution;
-	vec2 centered = uv - 0.5 * resolution;
-	float localPixelSize = mousePixelSize + pixelSize;
-	centered = floor(centered / localPixelSize) * localPixelSize + 0.5 * localPixelSize;
-
-	// Shift back
-	uv = (centered + 0.5 * resolution) / resolution;
-	
-	vec4 colorA = texture(textureA, uv);
-	vec4 colorB = texture(textureB, uv);
-	outColor = mix(colorA, colorB, blend);
-}`;
-
-// WebGL1 fallback shaders
-const vertexShaderSourceWebGL1 = /*glsl*/ `
-attribute vec2 position; 
-attribute vec2 uv; 
-varying vec2 v_uv;
-void main() { 
-	gl_Position = vec4(position, 0.0, 1.0); 
-	v_uv = uv;
-}`;
-
-const fragmentShaderSourceWebGL1 = /*glsl*/ `
-precision lowp float;
-uniform sampler2D textureA;
-uniform sampler2D textureB;
-uniform vec2 resolution;
-uniform float pixelSize;
-uniform float blend;
-uniform vec2 mousePosition;
-uniform vec2 mouseVelocity;
-
-varying vec2 v_uv;
-
-void main() {
-	// TODO: pixelate based on mouse position;
-	vec2 uv_screen = v_uv * resolution;
-	vec2 position = vec2(mousePosition.x + 0.5, mousePosition.y * -1.0 + 0.5);
-	position = position * resolution;
-	vec2 diff = abs(uv_screen - position);
-	float velocity = length(mouseVelocity * 5.0);
-	vec2 boxSize = vec2(100.0) * velocity; // square region size in pixels
-	float strength = step(max(diff.x, diff.y), boxSize.x);
-	float mousePixelSize = 1.0;//mix(1.0, 50.0, strength) * clamp(velocity, 0.0, 1.0);
-	
-	vec2 uv = v_uv * resolution;
-	vec2 centered = uv - 0.5 * resolution;
-	float localPixelSize = mousePixelSize + pixelSize;
-	centered = floor(centered / localPixelSize) * localPixelSize + 0.5 * localPixelSize;
-
-	// Shift back
-	uv = (centered + 0.5 * resolution) / resolution;
-	
-	vec4 colorA = texture2D(textureA, uv);
-	vec4 colorB = texture2D(textureB, uv);
-	gl_FragColor = mix(colorA, colorB, blend);
-}`;
 
 const compileShader = (gl: WebGL2RenderingContext, source: string, type: number): WebGLShader => {
 	const shader = gl.createShader(type);
@@ -182,13 +91,8 @@ class WebGLApp {
 		this.gl = gl;
 		this.canvas = canvas;
 
-		// Choose appropriate shaders based on WebGL version
-		const isWebGL2 = gl instanceof WebGL2RenderingContext;
-		const vertexSource = isWebGL2 ? vertexShaderSourceWebGL2 : vertexShaderSourceWebGL1;
-		const fragmentSource = isWebGL2 ? fragmentShaderSourceWebGL2 : fragmentShaderSourceWebGL1;
-
-		const vertexShader = compileShader(gl, vertexSource, gl.VERTEX_SHADER);
-		const fragmentShader = compileShader(gl, fragmentSource, gl.FRAGMENT_SHADER);
+		const vertexShader = compileShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
+		const fragmentShader = compileShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
 
 		const program = gl.createProgram();
 		if (!program) {
@@ -361,13 +265,7 @@ class WebGLApp {
 
 	update = () => {
 		const { gl } = this;
-
-		// Check if context is lost
-		if (gl.isContextLost()) {
-			console.warn('WebGL context is lost');
-			return;
-		}
-
+		if (gl.isContextLost()) return console.warn('WebGL context is lost');
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
 		try {
@@ -404,8 +302,8 @@ class WebGLApp {
 		canvas.height = height;
 
 		// Optional: Set CSS size (to match drawing buffer size)
-		// canvas.style.width = `${width}px`;
-		// canvas.style.height = `${height}px`;
+		canvas.style.width = `${width}px`;
+		canvas.style.height = `${height}px`;
 
 		// Update WebGL viewport
 		gl.viewport(0, 0, width, height);
