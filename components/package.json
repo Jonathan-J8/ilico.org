@@ -1,7 +1,9 @@
 {
 	"devDependencies": {
 		"@types/node": "^22.15.3",
-		"typescript": "~5.7.2"
+		"typescript": "~5.7.2",
+		"vite": "^7.1.12",
+		"vite-plugin-glsl": "^1.5.4"
 	},
 	"dependencies": {
 		"joeat-utils": "github:Jonathan-J8/joeat-utils#dist-only"
@@ -9,8 +11,7 @@
 	"type": "module",
 	"main": "./src/index.ts",
 	"files": [
-		"src",
-		"src/PixelateVideos/template.html"
+		"src"
 	],
 	"scripts": {},
 	"name": "ilico-components",
