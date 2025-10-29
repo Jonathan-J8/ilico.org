@@ -1,8 +1,8 @@
 #!/bin/bash
 # Enhanced video conversion script for maximum browser compatibility
 
-from=./src
-to=../../public
+from=./videos
+to=../app/public
 List=(
 "ilico_cheers" 
 "ilico_election" 
