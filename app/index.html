@@ -4,6 +4,19 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>ilico</title>
+
+		<description>Fournisseur d'Accès à Internet libre et associatif en Corrèze.</description>
+
+		<meta property="og:title" content="ilico" />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://jonathan-j8.github.io/ilico.org/" />
+		<meta
+			property="og:description"
+			content="ilico - Fournisseur d'Accès à Internet libre et associatif en Corrèze."
+		/>
+		<meta property="og:image" content="https://jonathan-j8.github.io/ilico.org/banner.png" />
+		<meta property="og:video" content="https://jonathan-j8.github.io/ilico.org/showcase.mp4" />
 	</head>
 
 	<body class="relative">
@@ -14,7 +27,7 @@
 		<nav
 			class="bg-base-300 z-40 sticky top-0 left-0 w-full inline-flex flex-nowrap justify-between items-center p-6 navbar"
 		>
-			<a href="/" target="_self" class="w-full">
+			<a href="/ilico.org" target="_self">
 				<h1 class="font-extrabold text-xl uppercase h-7">
 					<scramble-text duration="300">ilico.org</scramble-text>
 				</h1>
@@ -25,67 +38,71 @@
 				</p>
 			</a>
 
-			<ul class="justify-start gap-6 items-center text-sm hidden md:inline-flex text-nowrap">
-				<li>
-					<a href="#services">
-						<scramble-text delay="500">Services et offres</scramble-text>
-					</a>
-				</li>
+			<div>
+				<ul
+					class="justify-start gap-6 items-center text-sm hidden md:inline-flex text-nowrap"
+				>
+					<li>
+						<a href="#services">
+							<scramble-text delay="500">Services et offres</scramble-text>
+						</a>
+					</li>
 
-				<!-- <li>
-					<a href="#news">
-						<scramble-text delay="400">News</scramble-text>
-					</a>
-				</li> -->
+					<!-- <li>
+						<a href="#news">
+							<scramble-text delay="400">News</scramble-text>
+						</a>
+					</li> -->
 
-				<li>
-					<a href="#about">
-						<scramble-text delay="300">À propos</scramble-text>
-					</a>
-				</li>
+					<li>
+						<a href="#about">
+							<scramble-text delay="300">À propos</scramble-text>
+						</a>
+					</li>
 
-				<li>
-					<a href="#join">
-						<scramble-text delay="200">Adhérer</scramble-text>
-					</a>
-				</li>
-			</ul>
+					<li>
+						<a href="#join">
+							<scramble-text delay="200">Adhérer</scramble-text>
+						</a>
+					</li>
+				</ul>
 
-			<label id="theme-controller" class="toggle text-base-content ml-6">
-				<input type="checkbox" value="synthwave" class="theme-controller" />
+				<label id="theme-controller" class="toggle text-base-content ml-6">
+					<input type="checkbox" value="synthwave" class="theme-controller" />
 
-				<svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-					<g
-						stroke-linejoin="round"
-						stroke-linecap="round"
-						stroke-width="2"
-						fill="none"
-						stroke="currentColor"
-					>
-						<circle cx="12" cy="12" r="4"></circle>
-						<path d="M12 2v2"></path>
-						<path d="M12 20v2"></path>
-						<path d="m4.93 4.93 1.41 1.41"></path>
-						<path d="m17.66 17.66 1.41 1.41"></path>
-						<path d="M2 12h2"></path>
-						<path d="M20 12h2"></path>
-						<path d="m6.34 17.66-1.41 1.41"></path>
-						<path d="m19.07 4.93-1.41 1.41"></path>
-					</g>
-				</svg>
+					<svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<g
+							stroke-linejoin="round"
+							stroke-linecap="round"
+							stroke-width="2"
+							fill="none"
+							stroke="currentColor"
+						>
+							<circle cx="12" cy="12" r="4"></circle>
+							<path d="M12 2v2"></path>
+							<path d="M12 20v2"></path>
+							<path d="m4.93 4.93 1.41 1.41"></path>
+							<path d="m17.66 17.66 1.41 1.41"></path>
+							<path d="M2 12h2"></path>
+							<path d="M20 12h2"></path>
+							<path d="m6.34 17.66-1.41 1.41"></path>
+							<path d="m19.07 4.93-1.41 1.41"></path>
+						</g>
+					</svg>
 
-				<svg aria-label="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-					<g
-						stroke-linejoin="round"
-						stroke-linecap="round"
-						stroke-width="2"
-						fill="none"
-						stroke="currentColor"
-					>
-						<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-					</g>
-				</svg>
-			</label>
+					<svg aria-label="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<g
+							stroke-linejoin="round"
+							stroke-linecap="round"
+							stroke-width="2"
+							fill="none"
+							stroke="currentColor"
+						>
+							<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+						</g>
+					</svg>
+				</label>
+			</div>
 		</nav>
 
 		<!-- HEADER -->
@@ -96,6 +113,7 @@
 				class="sr-only"
 			></h2>
 			<div class="relative min-h-[calc(100vh-8rem)] flex flex-col items-center">
+				<!-- class="aspect-video relative flex flex-col items-start w-full" -->
 				<div
 					id="js-header-container"
 					class="aspect-video absolute mt-6 top-1/2 left-1/2 -translate-1/2 flex flex-col items-start w-[1700px]"
