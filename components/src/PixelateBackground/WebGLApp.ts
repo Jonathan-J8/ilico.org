@@ -1,45 +1,23 @@
 import { MonoEventEmitter } from 'joeat-utils';
-import type { Texture } from '../types';
+import compileShader from '../compileShader';
 import fragmentShaderSource from './prgm_frag.glsl';
 import vertexShaderSource from './prgm_vert.glsl';
-
-const compileShader = (gl: WebGL2RenderingContext, source: string, type: number): WebGLShader => {
-	const shader = gl.createShader(type);
-	if (!shader) {
-		throw new Error(`Failed to create shader of type ${type}`);
-	}
-
-	gl.shaderSource(shader, source);
-	gl.compileShader(shader);
-
-	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-		const info = gl.getShaderInfoLog(shader);
-		gl.deleteShader(shader);
-		throw new Error(`Shader compilation failed: ${info}`);
-	}
-	return shader;
-};
 
 class WebGLApp {
 	gl: WebGL2RenderingContext;
 	canvas: HTMLCanvasElement;
 	private bin = new MonoEventEmitter<[]>();
-	private textures: Record<Texture['name'], Texture> = {};
 	uniforms = {
 		//@ts-ignore
-		textureA: (v: HTMLVideoElement) => {},
-		//@ts-ignore
-		textureB: (v: HTMLVideoElement) => {},
-		//@ts-ignore
 		resolution: (x: number, y: number) => {},
-		//@ts-ignore
-		blend: (v: number) => {},
 		//@ts-ignore
 		pixelSize: (v: number) => {},
 		//@ts-ignore
 		mousePosition: (x: number, y: number) => {},
 		//@ts-ignore
 		mouseVelocity: (x: number, y: number) => {},
+		//@ts-ignore
+		scrollPosition: (x: number, y: number) => {},
 	};
 
 	contextLost = (e: Event) => {
@@ -70,11 +48,6 @@ class WebGLApp {
 		});
 
 		if (!gl) throw new Error('WebGLApp: WebGL context not available');
-
-		// if (import.meta.env.DEV) {
-		// 	debugWebGL(canvas);
-		// 	testShaders(gl);
-		// }
 
 		// Check for required extensions
 		if (!gl.getExtension('OES_texture_float_linear')) {
@@ -156,56 +129,6 @@ class WebGLApp {
 			});
 		}
 
-		// Textures
-		{
-			const name = 'textureA';
-			const index = gl.TEXTURE0;
-			const location = gl.createTexture();
-			if (!location) throw new Error(`Failed to create ${name}`);
-
-			gl.activeTexture(index);
-			gl.bindTexture(gl.TEXTURE_2D, location);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-			const uniformLocation = gl.getUniformLocation(program, name);
-			if (uniformLocation) {
-				gl.uniform1i(uniformLocation, 0);
-			}
-
-			this.textures[name] = { location, index, name, value: null };
-			this.uniforms[name] = (v) => (this.textures[name].value = v);
-			this.bin.addListener(() => {
-				if (location) gl.deleteTexture(location);
-			});
-		}
-		{
-			const name = 'textureB';
-			const index = gl.TEXTURE1;
-			const location = gl.createTexture();
-			if (!location) throw new Error(`Failed to create ${name}`);
-
-			gl.activeTexture(index);
-			gl.bindTexture(gl.TEXTURE_2D, location);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-			const uniformLocation = gl.getUniformLocation(program, name);
-			if (uniformLocation) {
-				gl.uniform1i(uniformLocation, 1);
-			}
-
-			this.textures[name] = { location, index, name, value: null };
-			this.uniforms[name] = (v) => (this.textures[name].value = v);
-			this.bin.addListener(() => {
-				if (location) gl.deleteTexture(location);
-			});
-		}
-
 		// Uniforms
 		{
 			const name = 'resolution';
@@ -223,13 +146,7 @@ class WebGLApp {
 			this.uniforms[name] = (value) => gl.uniform1f(location, value);
 			this.uniforms[name](0.1);
 		}
-		{
-			const name = 'blend';
-			const location = gl.getUniformLocation(program, name);
-			if (!location) console.warn(`WebGLApp: uniform ${name} not used`);
-			this.uniforms[name] = (value) => gl.uniform1f(location, value);
-			this.uniforms[name](0);
-		}
+
 		{
 			const name = 'mousePosition';
 			const location = gl.getUniformLocation(program, name);
@@ -262,25 +179,6 @@ class WebGLApp {
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
 		try {
-			for (const key in this.textures) {
-				const uni = this.textures[key];
-				if (!uni.value) continue;
-
-				// Check if video is ready
-				if (uni.value.readyState < 2) continue;
-
-				gl.activeTexture(uni.index);
-				gl.bindTexture(gl.TEXTURE_2D, uni.location);
-
-				// Use try-catch for texImage2D as it can fail with video elements
-				try {
-					gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, uni.value);
-				} catch (e) {
-					console.warn(`Failed to update texture ${key}:`, e);
-					continue;
-				}
-			}
-
 			gl.drawArrays(gl.TRIANGLES, 0, 6);
 			this.checkGLError('draw');
 		} catch (error) {
