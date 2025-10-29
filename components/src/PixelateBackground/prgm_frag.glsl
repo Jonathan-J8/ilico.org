@@ -1,10 +1,7 @@
 #version 300 es
 precision lowp float;
-uniform sampler2D textureA;
-uniform sampler2D textureB;
 uniform vec2 resolution;
 uniform float pixelSize;
-uniform float blend;
 uniform vec2 mousePosition;
 uniform vec2 mouseVelocity;
 in vec2 v_uv;
@@ -30,7 +27,6 @@ void main() {
 	// Shift back
 	uv = (centered + 0.5 * resolution) / resolution;
 	
-	vec4 colorA = texture(textureA, uv);
-	vec4 colorB = texture(textureB, uv);
-	outColor = mix(colorA, colorB, blend);
+	
+	outColor = vec4(.0);
 }

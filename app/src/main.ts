@@ -10,6 +10,7 @@ const animator = new Animator();
 			'ilico-components'
 		);
 		PixelateVideos.frames = animator;
+		PixelateBackground.frames = animator;
 		ScrambleText.frames = animator;
 		customElements.define(ScrambleText.name, ScrambleText);
 		customElements.define(PixelateVideos.name, PixelateVideos);

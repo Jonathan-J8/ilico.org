@@ -24,7 +24,6 @@ class WebGLApp {
 		console.warn('WebGLApp: context lost', e);
 		this.bin.clear();
 	};
-
 	constructor(canvas: HTMLCanvasElement) {
 		let gl = canvas.getContext('webgl2', {
 			preserveDrawingBuffer: false,

@@ -36,10 +36,13 @@ class PixelateBackground extends HTMLElement {
 		this.webgl = new WebGLApp(this.canvas);
 	}
 
-	update = () => {
+	update = ({ deltaMs }: { deltaMs: number }) => {
 		if (!this.webgl) return;
+
+		mouse.onUpdate(deltaMs);
+
 		const { uniforms } = this.webgl;
-		const { position, velocity } = mouse.data;
+		const { position, velocity, scroll } = mouse.data;
 		const { clientWidth, clientHeight } = this.canvas;
 		// const x = ((e.offsetX / clientWidth) * 2 - 1) * 0.5;
 		// const y = (-(e.offsetY / clientHeight) * 2 + 1) * 0.5;
@@ -49,13 +52,14 @@ class PixelateBackground extends HTMLElement {
 		const y = (-(position.current.y / clientHeight) * 2 + 1) * 0.5;
 		const velX = velocity.current.y; //* 0.1;
 		const velY = velocity.current.y; //* 0.1;
+
 		uniforms.mousePosition(x, y);
 		uniforms.mouseVelocity(velX, velY);
+		uniforms.scrollPosition(scroll.current.x, scroll.current.y);
 		this.webgl.update();
 	};
 
 	connectedCallback() {
-		PixelateBackground.frames.addListener(mouse.onUpdate);
 		PixelateBackground.frames.addListener(this.update);
 		window.addEventListener('scroll', mouse.onWindowScroll, false);
 		this.canvas.addEventListener('pointermove', mouse.onPointerMove, false);
@@ -63,7 +67,6 @@ class PixelateBackground extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		PixelateBackground.frames.removeListener(mouse.onUpdate);
 		PixelateBackground.frames.removeListener(this.update);
 		window.removeEventListener('scroll', mouse.onWindowScroll, false);
 		this.canvas.removeEventListener('pointermove', mouse.onPointerMove, false);

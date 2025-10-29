@@ -34,31 +34,11 @@ export const onWindowScroll = () => {
 	data.scroll.next.y = window.scrollY / (document.body.offsetHeight - window.innerHeight);
 };
 
-export const onUpdate = ({ deltaTime }: { deltaTime: number }) => {
-	data.position.current.x = dampThreshold(
-		data.position.current.x,
-		data.position.next.x,
-		0.01,
-		deltaTime
-	);
-	data.position.current.y = dampThreshold(
-		data.position.current.y,
-		data.position.next.y,
-		0.01,
-		deltaTime
-	);
-	data.velocity.current.x = dampThreshold(
-		data.velocity.current.x,
-		data.velocity.next.x,
-		0.01,
-		deltaTime,
-		0.001
-	);
-	data.velocity.current.y = dampThreshold(
-		data.velocity.current.y,
-		data.velocity.next.y,
-		0.01,
-		deltaTime,
-		0.001
-	);
+export const onUpdate = (d: number) => {
+	data.position.current.x = dampThreshold(data.position.current.x, data.position.next.x, 0.01, d);
+	data.position.current.y = dampThreshold(data.position.current.y, data.position.next.y, 0.01, d);
+	data.velocity.current.x = dampThreshold(data.velocity.current.x, data.velocity.next.x, 0.01, d);
+	data.velocity.current.y = dampThreshold(data.velocity.current.y, data.velocity.next.y, 0.01, d);
+	data.scroll.current.x = dampThreshold(data.scroll.current.x, data.scroll.next.x, 0.01, d);
+	data.scroll.current.y = dampThreshold(data.scroll.current.y, data.scroll.next.y, 0.01, d);
 };
